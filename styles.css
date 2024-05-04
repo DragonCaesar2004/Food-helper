@@ -1,0 +1,182 @@
+@font-face {
+    font-family: 'Myriad Pro Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Myriad Pro Bold'), url('fonts/MYRIADPRO-BOLD.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Myriad Pro Semibold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Myriad Pro Semibold'), url('fonts/MYRIADPRO-SEMIBOLD.woff') format('woff');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+
+*,
+*::before,
+*::after{
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #A7BB00;    ;
+  }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+    padding: 0;
+}
+
+h4 {
+    font-size: 2.8rem;
+    line-height: 120%;
+    letter-spacing: -0.05em;
+    text-align: center;
+    color: #415F02;
+}
+
+h5 {
+    font-size: 2rem;
+    line-height: 120%;
+    letter-spacing: -0.05em;
+    text-align: left;
+    color: #415F02;
+}
+
+p {
+    font-family: "Montserrat", sans-serif;
+    line-height: 105%;
+    letter-spacing: -0.05em;
+    text-align: center;
+}
+
+.container {
+    max-width: 1446px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+/*header*/
+
+.header {
+    background-image: url("img/header_backgroung.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.header__content {
+    padding-top: 340px;
+    margin-bottom: 161px;
+}
+
+.header_title {
+    font-family: 'Myriad Pro Bold';
+    font-size: 6.8rem;
+    line-height: 100%;
+    max-width: 600px;
+    max-height: 190px;
+    font-weight: 700;
+    margin-bottom: 50px;
+    color: #415F02;
+}
+
+.header_subtitle {
+    font-family: "Montserrat", sans-serif;
+    font-size: 2.7rem;
+    line-height: 120%;
+    max-width: 445px;
+    max-height: 92px;
+    font-weight: 600;
+    margin-bottom: 50px;
+    letter-spacing: -0.05em;
+    text-align: left;
+    color: #415F02;
+}
+
+.btn {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    overflow: hidden;
+    padding: 2rem 8.1rem;
+    font-family: 'Myriad Pro Semibold';
+    font-size: 2.5rem;
+    line-height: 120%;
+    max-width: 362px;
+    max-height: 117px;
+    letter-spacing: -0.05em;
+    color: #FFFFFF;
+    text-align: center;
+    background-color: #A7BB00;
+    cursor: pointer;
+    border-radius: 100px;
+}
+
+.more {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.more p {
+    margin-bottom: 5px;
+}
+
+.triangle-button {
+    cursor: pointer;
+}
+
+/*main*/
+.info {
+    background-image: url("img/cucumber.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: right;
+    align-items:self-end;
+}
+
+.info__block {
+    padding-top: 150px;
+    height: 100vh;
+    max-width: 750px;
+}
+
+.info__title {
+    margin-bottom: 50px;
+}
+
+/*footer*/
+
+.footer {
+    background-color: #FFFFFF;
+}
+
+.wrapper__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 114px;
+}
