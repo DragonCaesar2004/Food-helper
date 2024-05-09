@@ -2,9 +2,8 @@
 Web-site with nutrition AI-consultant 
 
 ## Установка:
-(можно без этого)
 
-``` virtualenv venv ``` 
+``` python -m venv venv ``` 
 
 ``` .\venv\Scripts\activate ```
 
