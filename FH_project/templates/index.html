@@ -1,10 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pohuisto</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="{% static "styles.css" %}">
 </head>
 <body>
     <header class="header">
@@ -17,7 +19,7 @@
             <div class="more">
                 <p>Подробнее</p>
                 <button href='#'class="triangle-button">
-                    <img src = "img/triangle.svg">
+                    <img src = "{% static "img/triangle.svg" %}">
                 </button>
             </div>
         </div>
