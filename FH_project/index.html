@@ -12,7 +12,7 @@
             <div class="header__content">
                 <h1 class="header_title">Помощник по питанию</h1>
                 <h3 class="header_subtitle">Улучши свое питание уже сейчас</h3>
-                <a href="#" class="btn">Войти</a>
+                <button class="btn" id='js-open-modal-btn'>Войти</button>
             </div>
             <div class="more">
                 <p>Подробнее</p>
@@ -59,5 +59,174 @@
             </div>
         </div>
     </footer>
+    <div class="modal" id="js-my-modal">
+        <div class="modal-box" id="js-my-modal-login">
+            <button class="modal-close-btn" id="js-close-my-modal">
+                <img src="img/close_btn.svg">
+            </button>
+            <div class="form-box">
+                <h2>Вход</h2>
+                <form action="">
+                    <div class="inputbox">
+                        <input type="text" required>
+                        <label for="">Логин</label>
+                    </div>
+                    <div class="inputbox">
+                        <input type="password" required>
+                        <label for="">Пароль</label>
+                    </div>
+                </form>
+                <div class="links_btns">
+                    <button type = "submit" class="signin-btn">Войти</button>
+                    <div class="forgot_password">
+                        <a href="" class="signin_link">Забыли пароль?</a>
+                    </div>
+                </div>
+                <div class="logreg-link">
+                    <p>Нет аккаунта? <button type="button" class="signin_link" id="js-register-btn">Зарегистрироваться</button></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-box-register" id="js-my-modal-register">
+            <button class="modal-close-btn" id="js-close-my-modal-register">
+                <img src="img/close_btn.svg">
+            </button>
+            <h2>Регистрация</h2>
+            <div class="form-box-register">
+                <div class="first_reg_page" id="js-first-reg-page">
+                    <div class="form-block">
+                        <form action="">
+                            <div class="inputbox">
+                                <input type="text" required>
+                                <label for="">Имя пользователя</label>
+                            </div>
+                            <div class="inputbox">
+                                <input type="email" required>
+                                <label for="">Адрес электронной почты</label>
+                            </div>
+                            <div class="inputbox">
+                                <input type="password" required>
+                                <label for="">Пароль</label>
+                            </div>
+                            <p>Пол</p>
+                            <div class="sex_list">
+                                <div>
+                                    <input type="radio" name="rb" id="rb1" checked> <label for="rb1">Мужской</label>
+                                </div>
+                                    
+                                <div>
+                                    <input type="radio" name="rb" id="rb2"> <label for="rb2">Женский</label>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="form-block">
+                        <form action="">
+                            <div class="date_of_birth">
+                                <p>Дата рождения</p>
+                                <input type="date" required>
+                            </div>
+                            <p>Цель</p>
+                            <div class="goals_list">
+                                <div>
+                                    <input type="radio" name="cb" id="cb1" checked> <label for="cb1">Набрать мышечную массу</label>
+                                </div>
+                                    
+                                <div>
+                                    <input type="radio" name="cb" id="cb2"> <label for="cb2">Сбросить вес</label>
+                                </div>
+                                    
+                                <div>
+                                    <input type="radio" name="cb" id="cb3"> <label for="cb3">Уменьшить массовую долю жира</label>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="links_btns_register">
+                            <button type="button" class="next_step_btn" id="js-next-step-btn">Следующий шаг</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="second_reg_page" id="js-second-reg-page">
+                    <div class="form-block">
+                        <form action="">
+                            <div class="question_lists">
+                                <p>Употребляете ли Вы продукты животного происхождения?</p>
+                                <div>
+                                    <input type="radio" name="bb" id="bb1" checked> <label for="bb1">Да</label>
+                                </div>
+                                    
+                                <div>
+                                    <input type="radio" name="bb" id="bb2"> <label for="bb2">Нет, я вегетарианец</label>
+                                </div>
+                                    
+                                <div>
+                                    <input type="radio" name="bb" id="bb3"> <label for="bb3">Нет, я веган</label>
+                                </div>
+                            </div>
+                            <div class="question_lists">
+                                <p>Есть ли продукты, которые для Вас нежелательны?</p>
+                                <div>
+                                    <input type="radio" name="choice" id="yes"> <label for="yes">Да</label>
+                                </div>
+                                    
+                                <div>
+                                    <input type="radio" name="choice" id="no" checked> <label for="no">Нет</label>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="links_btns_register">
+                            <button type="button" class="prev_step_btn" id="js-prev-step-btn">Предыдущий шаг</button>
+                        </div>
+                    </div>
+                    <div class="form-block">
+                        <div class="additional_info" id="additional-block">
+                            <div class="form-wrapper">
+                                <p>Укажите, употребление каких продуктов нежелательно для Вас</p>
+                                <div class="string-list" id="stringList"></div>                  
+                                <div class="input-area">
+                                    <button class = "list-add-btn" id="showInputButton"> <img src="img/addWord.svg" alt="">добавить продукт / группу
+                                        продуктов</button>
+                                    <div class="textInputContainer" id="textInputContainer">
+                                        <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
+                                        <button class="addButton" id = "newButton">Добавить</button>
+                                    </div>
+                                </div>      
+                            </div>
+                            <div class="height-weight-block">
+                                <p class="hw_title">Укажите текущие вес и рост</p>
+                                <div class="inputbox_wrapper">
+                                    <div class="inputbox_hw">
+                                        <input type="text" required>
+                                    </div>
+                                    <p>кг</p>
+                                </div>
+                                <div class="inputbox_wrapper">
+                                    <div class="inputbox_hw">
+                                        <input type="text" required>
+                                    </div>
+                                    <p>см</p>
+                                </div>
+                            </div>
+                            <div class="links_btns_register">
+                                <button type="button" class="next_step_btn" id="js-complete-reg-btn">Завершить регистрацию</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="step" id="js-step">
+                <img src="img/ellipse.svg" alt="">
+                <img src="img/ellipse1.svg" alt="">
+                <p>Шаг 1</p>
+            </div>
+            <div class="step2" id="js-step2">
+                <img src="img/ellipse1.svg" alt="">
+                <img src="img/ellipse.svg" alt="">
+                <p>Шаг 2</p>
+            </div>
+        </div>
+    </div>
 </body>
+<script src="script.js" defer></script>
 </html>

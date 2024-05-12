@@ -13,6 +13,7 @@
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
 *,
 *::before,
@@ -59,10 +60,10 @@ h5 {
 }
 
 p {
+    margin: 0;
+    padding: 0;
     font-family: "Montserrat", sans-serif;
     line-height: 105%;
-    letter-spacing: -0.05em;
-    text-align: center;
 }
 
 .container {
@@ -179,4 +180,590 @@ p {
     justify-content: center;
     align-items: center;
     margin-bottom: 114px;
+}
+
+/*modal*/
+
+.modal{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 10000;
+    background-color: rgba(0, 0 ,0 , .3);
+    display: grid;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+    visibility: hidden;
+    opacity: 0;
+    transition: opacity .4s, visibility .4s;
+}
+
+.modal-box{
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 1;
+    background-image: url("img/sign_modal.jpg");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    height:550px;
+    width: 750px;
+    padding-right: 72px;
+    transform: scale(0);
+    transition: transform .8s;
+}
+
+.form-box{
+    width: 390px;
+}
+
+.inputbox{
+    position: relative;
+    border-bottom: 1.5px solid #344000;
+}
+
+.modal-box .modal-close-btn{
+    position: absolute;
+    background: transparent;
+    right: 13px;
+    top: 13px;
+    border: none;
+    cursor: pointer;
+}
+
+.modal.open{
+    visibility: visible;
+    opacity: 1;
+}
+
+.modal.open .modal-box{
+    transform: scale(1);
+}
+
+.modal-box.close{
+    display: none;
+}
+
+.modal-box h2{
+    font-family: "Myriad Pro Bold";
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #415F02;
+    text-align: left;
+    margin-bottom: 35px;
+}
+
+.modal-box p{
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ACB659;
+    margin-bottom: 26px;
+}
+
+.inputbox label{
+    position: absolute;
+    top: 30%;
+    left: 0;
+    transform: translateY(20%);
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-align: left;
+    color: #A7BB00;
+    pointer-events: none;
+    transition: .5s;
+}
+
+.inputbox{
+    margin-bottom: 25px;
+}
+
+.inputbox + .inputbox{
+    margin-bottom: 37px;
+}
+
+input:focus + label, .input_filled + label {
+    top:-5px;
+}
+
+.inputbox input{
+    height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 0.75rem;
+    color: #000000;
+}
+
+.modal-box .signin-btn{
+    width: 100%;
+    height: 40px;
+    border-radius: 20px;
+    background-color: #647812;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    max-width: 250px;
+    font-size: 1em;
+    font-weight: 600;
+    transition: all .4s ease;
+}
+
+.modal-box .signin-btn:hover{
+    transform: scale(0.9);
+    background-color: #A7BB00;
+    box-shadow: 0 10px 90px rgba(109, 252, 13, 0.4);
+}
+
+.modal-box .signin_link {
+    font-family: "Montserrat", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-align: center;
+    color: #647812;
+    cursor: pointer;
+}
+
+.forgot_password{
+    text-align: right;
+}
+
+.links_btns{
+    display: flex;
+    justify-content: space-between;
+    align-items:baseline;
+    margin-bottom: 35px;
+}
+
+/*register*/
+.modal-box-register{
+    position: relative;
+    height: 650px;
+    width: 1050px;
+    background: #FFFFFF;
+    padding: 30px 97px 51px;
+    display: none;
+}
+
+.modal-box-register.open{
+    display: block;
+}
+
+.first_reg_page{
+    display: flex;
+    justify-content: space-between;
+}
+
+.first_reg_page.close{
+    display: none;
+}
+
+.second_reg_page{
+    display: flex;
+    justify-content: space-between;
+    display: none;
+}
+
+.second_reg_page.open{
+    display: flex;
+}
+
+.modal-box-register h2{
+    font-family: "Myriad Pro Bold";
+    font-size: 3.75rem;
+    font-weight: 700;
+    text-align: center;
+    color: #415F02;
+    margin-bottom: 38px;
+}
+
+.form-block{
+    width: 320px;
+}
+
+.form-block p{
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: left;
+    margin-bottom: 16px;
+    color: #647812;
+}
+
+.form-block label{
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 500;
+    text-align: left;
+    color: #A7BB00;
+}
+
+.sex_list input{
+    margin-bottom: 18px;
+}
+
+.date_of_birth{
+    margin-bottom: 34px;
+}
+
+.goals_list div{
+    margin-bottom: 30px;
+}
+
+.goals_list{
+    margin-bottom: 84px;
+}
+
+.modal-box-register .modal-close-btn{
+    position: absolute;
+    background: transparent;
+    right: 13px;
+    top: 13px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type="date"]{
+    background-color: #415F02;
+    padding: 15px;
+    color: #FFFFFF;
+    font-family: "Roboto Mono", monospace;
+    font-size: 1.125rem;
+    border: none;
+    outline: none;
+    border-radius: 5px;
+}
+::-webkit-calendar-picker-indicator{
+    background-color: #FFFFFF;
+    padding: 5px;
+    cursor: pointer;
+    border-radius: 3px;
+}
+
+.form-block a{
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.form-block .next_step_btn{
+    position: absolute;
+    right: 0;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: left;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 14px 151px 14px 25px;
+    background-color: #415F02;
+    border-radius: 7px 0px 0px 7px;
+    white-space: nowrap;
+}
+
+@keyframes arrow-1 {
+    0% {
+        left:0;
+    }
+    50% {
+        left:6px;
+    }
+    100% {
+        left:0;
+    }
+}
+
+input[type="radio"]:checked, 
+input[type="radio"]:not(:checked) 
+{
+    position: absolute;
+    left: -9999px;
+}
+
+input[type="radio"]:checked + label, 
+input[type="radio"]:not(:checked) + label {
+    display: inline-block;
+    position: relative;
+    padding-left: 28px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+input[type="radio"]:checked + label:before, 
+input[type="radio"]:not(:checked) + label:before {
+    content: "";
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    width: 18px;
+    height: 18px;
+    border: 3px solid #344000;
+    background-color: #ffffff;
+}
+
+input[type="radio"]:checked + label:before, 
+input[type="radio"]:not(:checked) + label:before {
+    border-radius: 6px;
+}
+
+input[type="radio"]:checked + label:before {
+    background-color: #344000;
+}
+
+
+input[type="radio"]:not(:checked) + label:after {
+    opacity: 0;
+}
+
+input[type="radio"]:checked + label:after {
+    opacity: 1;
+}
+
+.step{
+    display: flex;
+    position: absolute;
+    transform: translate(300%, 0);
+    bottom: 59px;
+}
+
+.step img{
+    margin-right: 14px;
+}
+
+.step p{
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.step.close{
+    display: none;
+}
+
+.question_lists{
+    margin-bottom: 46px;
+}
+
+.question_lists div{
+    margin-bottom: 18px;
+}
+
+.form-block .prev_step_btn{
+    position: absolute;
+    left: 0;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    text-align: left;
+    color: #FFFFFF;
+    cursor: pointer;
+    padding: 14px 25px 14px 136px;
+    background-color: #415F02;
+    border-radius: 0px 7px 7px 0px;
+    white-space: nowrap;
+}
+
+.question_lists:last-child{
+    margin-bottom: 40px;
+}
+
+.step2{
+    display: flex;
+    position: absolute;
+    display: none;
+}
+
+.step2 img{
+    margin-right: 14px;
+}
+
+.step2 p{
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+.step2.open{
+    display:flex;
+    position: absolute;
+    transform: translate(300%, 0);
+    bottom: 59px;
+}
+
+.form-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-height: 175px;
+    margin-bottom: 46px;
+}
+
+.string-list{
+    overflow-y: auto;
+    flex-grow: 1;
+}
+
+.string-item{
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: #A7BB00;
+}
+
+.string-item img{
+    cursor: pointer;
+    margin-left: 20px;
+}
+
+.string-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.string-list::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+.string-list::-webkit-scrollbar-thumb {
+    background: #415F02;
+    border-radius: 7px;
+}
+
+.height-weight-block{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 64px;
+}
+
+.height-weight-block p{
+    margin: 0;
+}
+
+.height-weight-block .hw_title{
+    margin-bottom: 12px;
+}
+
+.height-weight-block .inputbox_wrapper{
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    max-width: 110px;
+}
+
+.height-weight-block .inputbox_wrapper{
+    margin-bottom: 15px;
+}
+
+.height-weight-block .inputbox_wrapper:last-child{
+    margin-bottom: 0;
+}
+
+.height-weight-block .inputbox_hw{
+    width: 70px;
+    height: 30px;
+    border-bottom: 1.5px solid #647812;
+    overflow-x: hidden;
+}
+
+.height-weight-block .inputbox_hw input{
+    height: 25px;
+    background: transparent;
+    border: none;
+    outline: none;
+    font-size: 1.125rem;
+    color: #A7BB00;
+}
+
+.height-weight-block .inputbox_wrapper p{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+
+.additional_info{
+    display: none;
+}
+
+.additional_info .form-wrapper{
+    width: 337px;
+}
+
+.list-add-btn {
+    display: flex;
+    align-items: center;
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: #647812;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    background-color: transparent;
+    text-align: left;
+    margin-bottom: 10px;
+}
+
+.addButton{
+    display:none;
+}
+
+.addButton.open{
+    display: block;
+
+}
+
+.inputField{
+    display: none;
+}
+
+.inputField.open{
+    display: block;
+}
+
+.links_btns_register .next_step_btn{
+    position: absolute;
+    bottom: 51px;
+}
+
+.links_btns_register .prev_step_btn{
+    position: absolute;
+    bottom: 51px;
+}
+
+.textInputContainer {
+    display: flex;
+    align-items: center;
+}
+
+.textInputContainer input{
+    height: 30px;
+    background: transparent;
+    border: 1.5px solid #344000;
+    border-radius: 10px;
+    padding: 5px;
+    outline: none;
+    font-size: 0.75rem;
+    margin-right: 5px;
+    color: #000000;
+}
+
+.textInputContainer .addButton{
+    font-family: "Montserrat", sans-serif;
+    border-radius: 20px;
+    background-color: #647812;
+    color: #fff;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 10px;
+    font-weight: 600;
+    text-align: center;
 }
