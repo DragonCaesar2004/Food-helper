@@ -11,9 +11,9 @@ Web-site with nutrition AI-consultant
 
 Выбираем интерпретатор Python из виртуального окружения в FH_project
 
-```pip install djangorestframework djangorestframework-jwt```
-
 ``` pip install django ```
+```pip install djangorestframework djangorestframework-simplejwt```
+```pip install django-cors-headers```
 
 Миграции:
 
