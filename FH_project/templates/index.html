@@ -187,7 +187,7 @@
                                         <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">добавить продукт / группу
                                             продуктов</button>
                                         <div class="textInputContainer" id="textInputContainer">
-                                            <input type="text" name="allergies" class="inputField" id = "newInput" placeholder="Введите слово">
+                                            <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
                                             <button class="addButton" id = "newButton">Добавить</button>
                                         </div>
                                     </div>      
@@ -274,7 +274,7 @@
                 body: JSON.stringify(data)
             }).then(response => {
                 if (response.ok) {
-                    window.location.href = '';
+                    window.location.href = 'profile/';
                 } else {
                     response.json().then(data => {
                         console.error('Error:', data);
