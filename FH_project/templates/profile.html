@@ -1,0 +1,49 @@
+<!-- templates/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Profile</title>
+</head>
+<body>
+    <h1>Profile</h1>
+    <div id="profile">
+        <p><strong>Username:</strong> <span id="username"></span></p>
+        <p><strong>Email:</strong> <span id="email"></span></p>
+        <p><strong>Date of Birth:</strong> <span id="date_of_birth"></span></p>
+        <p><strong>Goal:</strong> <span id="goal"></span></p>
+        <p><strong>Gender:</strong> <span id="gender"></span></p>
+        <p><strong>Vegan/Vegetarian:</strong> <span id="vegan_vegetarian"></span></p>
+        <p><strong>Allergies:</strong> <span id="allergies"></span></p>
+        <p><strong>Weight:</strong> <span id="weight"></span></p>
+        <p><strong>Height:</strong> <span id="height"></span></p>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login/';
+                return;
+            }
+
+            fetch('/api/profile/', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('username').textContent = data.username;
+                  document.getElementById('email').textContent = data.email;
+                  document.getElementById('date_of_birth').textContent = data.date_of_birth;
+                  document.getElementById('goal').textContent = data.goal;
+                  document.getElementById('gender').textContent = data.gender;
+                  document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+                  document.getElementById('allergies').textContent = data.allergies;
+                  document.getElementById('weight').textContent = data.weight;
+                  document.getElementById('height').textContent = data.height;
+              });
+        });
+    </script>
+</body>
+</html>
