@@ -274,7 +274,7 @@
                 body: JSON.stringify(data)
             }).then(response => {
                 if (response.ok) {
-                    window.location.href = 'profile/';
+                    window.location.href = '';
                 } else {
                     response.json().then(data => {
                         console.error('Error:', data);
