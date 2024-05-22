@@ -62,33 +62,16 @@ function handleChoiceChange() {
 yesRadio.addEventListener('change', handleChoiceChange);
 noRadio.addEventListener('change', handleChoiceChange);
 
-
-function addString(inputValue) {
-    if (inputValue) {
-        const stringList = document.getElementById("stringList");
-        const newStringItem = document.createElement("div");
-        newStringItem.classList.add("string-item");
-        newStringItem.textContent = inputValue;
-
-        // Создаем элемент для изображения крестика (svg)
-        const newIcon = document.createElement("img");
-        newIcon.setAttribute("src", "img/close-btn-list.svg"); // Укажите путь к файлу с изображением крестика
-        newIcon.classList.add("cross-icon");
-        newIcon.addEventListener("click", function() {
-            stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
-        });
-        
-        newStringItem.appendChild(newIcon); // Добавляем иконку крестика к строке
-        stringList.insertBefore(newStringItem, stringList.firstChild);
-        document.getElementById("newInput").value = "";
-    }
+// Функция для обновления скрытого поля с продуктами
+function updateAllergiesInput() {
+    const stringItems = document.querySelectorAll(".string-item");
+    const allergies = Array.from(stringItems).map(item => item.textContent.trim());
+    document.getElementById("allergiesInput").value = allergies.join(", ");
 }
 
 // Функция для отображения поля ввода текста
 function showInput() {
-    // Создаем элемент input
     const inputField = document.getElementById("newInput");
-    // Создаем кнопку для добавления введенного текста
     const addButton = document.getElementById("newButton");
     inputField.classList.add("open");
     addButton.classList.add("open");
@@ -96,7 +79,6 @@ function showInput() {
 
 function closeInput() {
     const inputField = document.getElementById("newInput");
-    // Создаем кнопку для добавления введенного текста
     const addButton = document.getElementById("newButton");
     inputField.classList.remove("open");
     addButton.classList.remove("open");
@@ -105,15 +87,12 @@ function closeInput() {
 // Добавляем обработчик события click к контейнеру
 const container = document.getElementById("textInputContainer");
 container.addEventListener("click", function(event) {
-  // Проверяем, что клик произошел на кнопке "Добавить"
   if (event.target.id === "newButton") {
     const inputField = document.getElementById("newInput");
     const inputValue = inputField.value.trim();
     if (inputValue) {
       addString(inputValue);
-      // Очищаем поле ввода после добавления
       inputField.value = "";
-      // Скрываем поле ввода и кнопку
       closeInput(); 
     }
   }
