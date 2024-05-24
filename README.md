@@ -11,6 +11,8 @@ Web-site with nutrition AI-consultant
 
 Выбираем интерпретатор Python из виртуального окружения в FH_project
 
+Удалить в директории FH_project/users/migrations все файлы кроме ```__init__.py```
+
 ``` pip install django ```
 
 ```pip install djangorestframework djangorestframework-simplejwt```
