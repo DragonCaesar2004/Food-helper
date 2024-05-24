@@ -42,7 +42,7 @@ function addString(inputValue) {
 
         // Создаем элемент для изображения крестика (svg)
         const newIcon = document.createElement("img");
-        newIcon.setAttribute("src", "{% static 'img/close-btn-list.svg' %}"); // Укажите путь к файлу с изображением крестика
+        newIcon.setAttribute("src", "img/close-btn-list.svg"); // Укажите путь к файлу с изображением крестика
         newIcon.classList.add("cross-icon");
         newIcon.addEventListener("click", function() {
             stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
