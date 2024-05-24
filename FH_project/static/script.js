@@ -33,6 +33,30 @@ document.getElementById("js-prev-step-btn").addEventListener("click",function(){
     document.getElementById("js-step2").classList.remove("open");
 })
 
+function addString(inputValue) {
+    if (inputValue) {
+        const stringList = document.getElementById("stringList");
+        const newStringItem = document.createElement("div");
+        newStringItem.classList.add("string-item");
+        newStringItem.textContent = inputValue;
+
+        // Создаем элемент для изображения крестика (svg)
+        const newIcon = document.createElement("img");
+        newIcon.setAttribute("src", "{% static 'img/close-btn-list.svg' %}"); // Укажите путь к файлу с изображением крестика
+        newIcon.classList.add("cross-icon");
+        newIcon.addEventListener("click", function() {
+            stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
+            updateAllergiesInput(); // Обновляем значение скрытого поля
+        });
+        
+        newStringItem.appendChild(newIcon); // Добавляем иконку крестика к строке
+        stringList.insertBefore(newStringItem, stringList.firstChild);
+
+        updateAllergiesInput();
+
+        document.getElementById("newInput").value = "";
+    }
+}
 
 const input = document.querySelectorAll('input');
 for (let elem of input)
@@ -101,3 +125,49 @@ container.addEventListener("click", function(event) {
 // Добавляем обработчик события click для кнопки "добавить продукт / группу продуктов"
 const showInputButton = document.getElementById("showInputButton");
 showInputButton.addEventListener("click", showInput);
+
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    fetch('/api/login/', {
+        method: 'POST',
+        body: JSON.stringify({
+            username: formData.get('username'),
+            password: formData.get('password')
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+          if (data.access) {
+              localStorage.setItem('token', data.access);
+              window.location.href = '/profile/';
+          }
+      });
+});
+
+document.getElementById('register-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const data = {};
+    formData.forEach((value, key) => { data[key] = value });
+    
+    fetch('/api/register/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    }).then(response => {
+        if (response.ok) {
+            window.location.href = '';
+        } else {
+            response.json().then(data => {
+                console.error('Error:', data);
+            });
+        }
+    }).catch(error => {
+        console.error('Error:', error);
+    });
+});
