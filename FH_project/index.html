@@ -79,7 +79,7 @@
                 <div class="links_btns">
                     <button type = "submit" class="signin-btn">Войти</button>
                     <div class="forgot_password">
-                        <a href="" class="signin_link">Забыли пароль?</a>
+                        <button class="signin_link" id="js-forgot-password-link">Забыли пароль?</button>
                     </div>
                 </div>
                 <div class="logreg-link">
@@ -191,7 +191,7 @@
                                         <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
                                         <button class="addButton" id = "newButton">Добавить</button>
                                     </div>
-                                </div>      
+                                </div>     
                             </div>
                             <div class="height-weight-block">
                                 <p class="hw_title">Укажите текущие вес и рост</p>
@@ -224,6 +224,24 @@
                 <img src="img/ellipse1.svg" alt="">
                 <img src="img/ellipse.svg" alt="">
                 <p>Шаг 2</p>
+            </div>
+        </div>
+
+        <div class="modal-box-forgot-password" id="js-my-modal-forgot-password">
+            <button class="modal-close-btn" id="js-close-forgot-password-modal">
+                <img src="img/close_btn.svg">
+            </button>
+            <div class="form-box">
+                <h2>Смена пароля</h2>
+                <form action="">
+                    <div class="inputbox">
+                        <input type="text" required>
+                        <label for="">Адрес электронной почты</label>
+                    </div>
+                </form>
+                <div class="links_btns">
+                    <button type = "submit" class="signin-btn">Отправить новый пароль</button>
+                </div>
             </div>
         </div>
     </div>

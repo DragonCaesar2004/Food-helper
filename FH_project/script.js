@@ -7,7 +7,6 @@ document.getElementById("js-close-my-modal").addEventListener("click",function()
 })
 
 document.getElementById("js-register-btn").addEventListener("click",function(){
-    document.getElementById("js-my-modal").classList.add("open");
     document.getElementById("js-my-modal-login").classList.remove("open");
     document.getElementById("js-my-modal-login").classList.add("close");
     document.getElementById("js-my-modal-register").classList.add("open");
@@ -33,6 +32,17 @@ document.getElementById("js-prev-step-btn").addEventListener("click",function(){
     document.getElementById("js-step2").classList.remove("open");
 })
 
+document.getElementById("js-forgot-password-link").addEventListener("click", function(){
+    document.getElementById("js-my-modal-login").classList.remove("open");
+    document.getElementById("js-my-modal-login").classList.add("close");
+    document.getElementById("js-my-modal-forgot-password").classList.add("open");
+})
+
+document.getElementById("js-close-forgot-password-modal").addEventListener("click", function(){
+    document.getElementById("js-my-modal").classList.remove("open");
+    document.getElementById("js-my-modal-forgot-password").classList.remove("open");
+    document.getElementById("js-my-modal-login").classList.remove("close");
+})
 
 const input = document.querySelectorAll('input');
 for (let elem of input)
