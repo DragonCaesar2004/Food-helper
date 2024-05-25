@@ -2,12 +2,12 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
+from g4f.Provider import RetryProvider, Aichatos, Cnote, DuckDuckGo, Ecosia, Feedough
 
 
 def home(request):
     client = Client(
-        provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False)
+        provider=RetryProvider([Aichatos, Cnote, DuckDuckGo, Ecosia, Feedough], shuffle=False)
     )
     try:
         # if the session does not have a messages key, create one
@@ -68,7 +68,7 @@ def error_handler(request):
 
 def foo():
     client = Client(
-        provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False)
+        provider=RetryProvider([Aichatos], shuffle=False)
     )
     messages = []
     while True:
