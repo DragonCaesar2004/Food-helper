@@ -29,3 +29,9 @@ class RegisterSerializer(serializers.ModelSerializer):
             height=validated_data['height']
         )
         return user
+
+
+from rest_framework import serializers
+
+class PasswordResetSerializer(serializers.Serializer):
+    mail_for_recovery = serializers.EmailField()

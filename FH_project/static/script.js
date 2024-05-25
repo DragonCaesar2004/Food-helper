@@ -139,29 +139,6 @@ container.addEventListener("click", function(event) {
 const showInputButton = document.getElementById("showInputButton");
 showInputButton.addEventListener("click", showInput);
  
-
-
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    fetch('/api/login/', {
-        method: 'POST',
-        body: JSON.stringify({
-            username: formData.get('username'),
-            password: formData.get('password')
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.access) {
-              localStorage.setItem('token', data.access);
-              window.location.href = '/profile/';
-          }
-      });
-});
- 
 document.getElementById('register-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -186,4 +163,45 @@ document.getElementById('register-form').addEventListener('submit', function(eve
         console.error('Error:', error);
     });
 });
+
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    fetch('/api/login/', {
+        method: 'POST',
+        body: JSON.stringify({
+            username: formData.get('username'),
+            password: formData.get('password')
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+          if (data.access) {
+              localStorage.setItem('token', data.access);
+              window.location.href = '/profile/';
+          }
+      });
+});
  
+
+document.getElementById('recovery-password-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    fetch('/api/recovery-password/', {
+        method: 'POST',
+        body: JSON.stringify({
+            mail_for_recovery: formData.get('mail_for_recovery'),
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+          if (data.message) {alert(data.message);
+          } else if (data.error) {
+              alert(data.error);
+          }
+      });
+});
