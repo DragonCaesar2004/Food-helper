@@ -7,4 +7,5 @@ urlpatterns = [
     path('api/', include('users.urls')),
     path('', include('main.urls', namespace='main')),
     path('profile/', TemplateView.as_view(template_name="profile.html"), name='profile'),
+    path('askgpt/', include('askgpt.urls')),
 ]
