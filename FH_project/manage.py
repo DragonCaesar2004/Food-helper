@@ -2,14 +2,14 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from users.passwordRecovery import passwordRecovery
+# from users.passwordRecovery import passwordRecovery
 
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FH_project.settings')
-    print('runserver in main.py')
+    # print('runserver in main.py')
     # print(find_email('89270374240@mail.ru'))
-    passwordRecovery('89270374240@mail.ru')
+    # passwordRecovery('89270374240@mail.ru')
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -1,0 +1,206 @@
+@font-face {
+    font-family: 'Myriad Pro Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Myriad Pro Bold'), url('fonts/MYRIADPRO-BOLD.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Myriad Pro Semibold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Myriad Pro Semibold'), url('fonts/MYRIADPRO-SEMIBOLD.woff') format('woff');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
+
+*,
+*::before,
+*::after{
+    padding: 0;
+    margin: 0;
+    outline: none;
+    border: none;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Montserrat", sans-serif;
+    background-image: url("img/main_background.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    font-weight: 600;
+    font-size: 1.5rem;
+    color: #A7BB00;    ;
+  }
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+h1,h2,h3,h4,h5,h6 {
+    margin: 0;
+    padding: 0;
+}
+
+h4 {
+    font-size: 2.8rem;
+    line-height: 120%;
+    letter-spacing: -0.05em;
+    text-align: center;
+    color: #415F02;
+}
+
+h5 {
+    font-size: 2rem;
+    line-height: 120%;
+    letter-spacing: -0.05em;
+    text-align: left;
+    color: #415F02;
+}
+
+p {
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+    line-height: 105%;
+}
+
+.container {
+    max-width: 1446px;
+    margin: 0 auto;
+    padding: 0 15px;
+}
+
+
+.header_main{
+    margin-top: 41px;
+}
+
+/*Страница с нейронкой*/
+.header_main h1{
+    font-family: 'Myriad Pro Bold';
+    font-size: 3rem;
+    font-weight: 700;
+    color: #415F02;
+}
+
+.header-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.header-box a{
+    font-family: 'Myriad Pro Bold';
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #344000;
+}
+
+.personal_info {
+    display: flex;
+}
+
+.personal_photo {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    margin-right: 50px;
+}
+
+.personal_photo img {
+    margin-bottom: 30px;
+}
+
+.personal_info{
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #415F02;
+}
+
+.personal_info_block {
+    position: relative;
+}
+
+.personal_info_block h2{
+    font-family: 'Myriad Pro Semibold';
+    font-size: 2.8rem;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.personal_info p{
+    margin-right: 50px;
+}
+
+.personal_info span{
+    color:#A7BB00;
+    margin-right: 50px;
+}
+
+.personal_info_subblock{
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.change-password-btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #A7BB00;
+    cursor: pointer;
+    border-bottom: 2px solid #A7BB00;
+}
+
+.edit-info-btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #A7BB00;
+    border-radius: 100px;
+    cursor: pointer;
+    padding: 3px 18px;
+}
+
+.edit-info-btn {
+    position: absolute;
+    right: 0;
+}
+
+.food_info {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    text-align: center;
+    max-width: 690px;
+}
+
+.food_info .food-date {
+    margin-bottom: 40px;
+}
+
+.food_info p {
+    margin-bottom: 30px;
+}
+
+.food-info-block {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.food-info-btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: #A4A4A4;
+    border-bottom: 2px solid #A4A4A4;
+    cursor: pointer;
+}
