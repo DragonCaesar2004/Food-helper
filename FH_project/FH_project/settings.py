@@ -199,4 +199,4 @@ EMAIL_HOST = 'smtp.gmail.com'  # Замените на SMTP сервер ваш�
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'foodhelperproject@gmail.com'  # Ваш email
-EMAIL_HOST_PASSWORD = 'omep qscs vvaq ifwn'  # Пароль к вашему email
+EMAIL_HOST_PASSWORD = 'omep qscs vvaq ifwn'  
