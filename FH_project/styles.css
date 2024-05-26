@@ -27,10 +27,9 @@
 
 body {
     font-family: "Montserrat", sans-serif;
-    color: #FFFFFF;
     font-weight: 600;
     font-size: 1.5rem;
-    color: #A7BB00;    ;
+    color: #A7BB00;
   }
 
 a {
@@ -69,7 +68,7 @@ p {
 .container {
     max-width: 1446px;
     margin: 0 auto;
-    padding: 0 15px;
+    padding: 0 15px 20px;
 }
 
 /*header*/
@@ -143,6 +142,7 @@ p {
 
 .triangle-button {
     cursor: pointer;
+    background-color: inherit;
 }
 
 /*main*/
@@ -165,6 +165,27 @@ p {
     max-width: 750px;
 }
 
+.info__block p{
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 60px;
+    letter-spacing: -0.02em;
+    text-align:justify;
+}
+
+.info__block span{
+    font-weight: 700;
+    color: #415F02;
+}
+
+.info__block ul {
+    font-size: 2.25rem;
+    font-weight: 600;
+    line-height: 60px;
+    letter-spacing: -0.02em;
+    text-align:justify;
+}
+
 .info__title {
     margin-bottom: 50px;
 }
@@ -172,14 +193,13 @@ p {
 /*footer*/
 
 .footer {
-    background-color: #FFFFFF;
+    background-color: inherit;
 }
 
 .wrapper__footer {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-bottom: 114px;
 }
 
 /*modal*/
@@ -327,6 +347,7 @@ input:focus + label, .input_filled + label {
     text-align: center;
     color: #647812;
     cursor: pointer;
+    background-color: inherit;
 }
 
 .forgot_password{
