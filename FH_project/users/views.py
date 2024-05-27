@@ -45,7 +45,6 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.core.mail import send_mail
 from django.contrib.auth import get_user_model
-# from .utils import send_email
 import random
 import string
 
@@ -54,10 +53,6 @@ from .serializers import PasswordResetSerializer
 
 def index(request):
     return render(request, 'index.html')
-
-
-
-
 
 
 # @csrf_exempt

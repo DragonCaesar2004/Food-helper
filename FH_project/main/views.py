@@ -65,34 +65,3 @@ from .serializers import PasswordResetSerializer
 def index(request):
     return render(request, 'index.html')
 
-# @csrf_exempt  # Это отключает CSRF защиту для данного эндпоинта
-# class PasswordResetAPIView(APIView):
-#     permission_classes = [AllowAny]
-
-#     def post(self, request):
-#         serializer = PasswordResetSerializer(data=request.data)
-#         if serializer.is_valid():
-#             email = serializer.validated_data['mail_for_recovery']
-#             User = get_user_model()
-            
-#             try:
-#                 user = User.objects.get(email=email)
-                
-#                 # Генерация нового пароля
-#                 new_password = ''.join(random.choices(string.ascii_letters + string.digits, k=8))
-#                 user.set_password(new_password)
-#                 user.save()
-                
-#                 # Отправка письма с новым паролем
-#                 send_mail(
-#                     'Password Reset',
-#                     f'Your new password is: {new_password}',
-#                     'from@example.com',  # Замените на реальный адрес отправителя
-#                     [email],
-#                     fail_silently=False,
-#                 )
-                
-#                 return Response({'message': 'A new password has been sent to your email.'}, status=status.HTTP_200_OK)
-#             except User.DoesNotExist:
-#                 return Response({'error': 'Email not registered in the system.'}, status=status.HTTP_404_NOT_FOUND)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
