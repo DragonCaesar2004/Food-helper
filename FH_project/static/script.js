@@ -7,7 +7,7 @@ document.getElementById("js-close-my-modal").addEventListener("click",function()
 })
 
 document.getElementById("js-register-btn").addEventListener("click",function(){
-    document.getElementById("js-my-modal").classList.add("open");
+   // document.getElementById("js-my-modal").classList.add("open");
     document.getElementById("js-my-modal-login").classList.remove("open");
     document.getElementById("js-my-modal-login").classList.add("close");
     document.getElementById("js-my-modal-register").classList.add("open");
@@ -33,6 +33,18 @@ document.getElementById("js-prev-step-btn").addEventListener("click",function(){
     document.getElementById("js-step2").classList.remove("open");
 })
 
+document.getElementById("js-forgot-password-link").addEventListener("click", function(){
+    document.getElementById("js-my-modal-login").classList.remove("open");
+    document.getElementById("js-my-modal-login").classList.add("close");
+    document.getElementById("js-my-modal-forgot-password").classList.add("open");
+})
+
+document.getElementById("js-close-forgot-password-modal").addEventListener("click", function(){
+    document.getElementById("js-my-modal").classList.remove("open");
+    document.getElementById("js-my-modal-forgot-password").classList.remove("open");
+    document.getElementById("js-my-modal-login").classList.remove("close");
+})
+
 function addString(inputValue) {
     if (inputValue) {
         const stringList = document.getElementById("stringList");
@@ -42,7 +54,9 @@ function addString(inputValue) {
 
         // Создаем элемент для изображения крестика (svg)
         const newIcon = document.createElement("img");
+
         newIcon.setAttribute("src", "img/close-btn-list.svg"); // Укажите путь к файлу с изображением крестика
+
         newIcon.classList.add("cross-icon");
         newIcon.addEventListener("click", function() {
             stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
@@ -57,6 +71,7 @@ function addString(inputValue) {
         document.getElementById("newInput").value = "";
     }
 }
+
 
 const input = document.querySelectorAll('input');
 for (let elem of input)
@@ -126,27 +141,7 @@ container.addEventListener("click", function(event) {
 const showInputButton = document.getElementById("showInputButton");
 showInputButton.addEventListener("click", showInput);
 
-document.getElementById('login-form').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    fetch('/api/login/', {
-        method: 'POST',
-        body: JSON.stringify({
-            username: formData.get('username'),
-            password: formData.get('password')
-        }),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(response => response.json())
-      .then(data => {
-          if (data.access) {
-              localStorage.setItem('token', data.access);
-              window.location.href = '/profile/';
-          }
-      });
-});
-
+ 
 document.getElementById('register-form').addEventListener('submit', function(event) {
     event.preventDefault();
     const formData = new FormData(event.target);
@@ -170,4 +165,47 @@ document.getElementById('register-form').addEventListener('submit', function(eve
     }).catch(error => {
         console.error('Error:', error);
     });
+});
+
+document.getElementById('login-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    fetch('/api/login/', {
+        method: 'POST',
+        body: JSON.stringify({
+            username: formData.get('username'),
+            password: formData.get('password')
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+          if (data.access) {
+              localStorage.setItem('token', data.access);
+              window.location.href = '/profile/';
+          }
+      });
+});
+
+
+document.getElementById('recovery-password-form').addEventListener('submit', function(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    fetch('/api/recovery-password/', {
+        method: 'POST',
+        body: JSON.stringify({
+            mail_for_recovery: formData.get('mail_for_recovery'),
+        }),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then(response => response.json())
+      .then(data => {
+          if (data.message) {alert(data.message);
+          } else if (data.error) {
+              alert(data.error);
+          }
+      });
+
 });

@@ -81,7 +81,7 @@
                     <div class="links_btns">
                         <button type = "submit" class="signin-btn">Войти</button>
                         <div class="forgot_password">
-                            <a href="" class="signin_link">Забыли пароль?</a>
+                            <button class="signin_link" id="js-forgot-password-link">Забыли пароль?</button>
                         </div>
                     </div>
                 </form>
@@ -227,7 +227,28 @@
                 <p>Шаг 2</p>
             </div>
         </div>
+
+        <div class="modal-box-forgot-password" id="js-my-modal-forgot-password">
+            <button class="modal-close-btn" id="js-close-forgot-password-modal">
+                <img src= "{% static "img/close_btn.svg" %}"> 
+            </button>
+            <div class="form-box">
+                <h2>Смена пароля</h2>
+                <form id="recovery-password-form" action="">
+                    <div class="inputbox">
+                        <input type="text" id = "mail_for_recovery" name="mail_for_recovery" required>
+                        <label for="">Адрес электронной почты</label>
+                    </div>
+                
+                <div class="links_btns">
+                    <button type = "submit" class="signin-btn">Отправить новый пароль</button>
+                </div>
+            </form>
+            </div>
+        </div>
+
     </div>
+
 </body>
-<script src="{% static "script.js" %}" defer></script>
+<script src= "{% static "script.js" %}" defer></script>
 </html>
