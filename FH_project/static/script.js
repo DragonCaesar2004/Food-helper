@@ -54,7 +54,9 @@ function addString(inputValue) {
 
         // Создаем элемент для изображения крестика (svg)
         const newIcon = document.createElement("img");
-        newIcon.setAttribute("src", "{% static 'img/close-btn-list.svg' %}"); // Укажите путь к файлу с изображением крестика
+
+        newIcon.setAttribute("src", "img/close-btn-list.svg"); // Укажите путь к файлу с изображением крестика
+
         newIcon.classList.add("cross-icon");
         newIcon.addEventListener("click", function() {
             stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
@@ -69,7 +71,7 @@ function addString(inputValue) {
         document.getElementById("newInput").value = "";
     }
 }
- 
+
 
 const input = document.querySelectorAll('input');
 for (let elem of input)
@@ -138,6 +140,7 @@ container.addEventListener("click", function(event) {
 // Добавляем обработчик события click для кнопки "добавить продукт / группу продуктов"
 const showInputButton = document.getElementById("showInputButton");
 showInputButton.addEventListener("click", showInput);
+
  
 document.getElementById('register-form').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -184,7 +187,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
           }
       });
 });
- 
+
 
 document.getElementById('recovery-password-form').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -204,4 +207,5 @@ document.getElementById('recovery-password-form').addEventListener('submit', fun
               alert(data.error);
           }
       });
+
 });

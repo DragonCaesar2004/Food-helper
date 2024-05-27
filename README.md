@@ -18,10 +18,12 @@ PASSWORD='Ваш пароль от PostgreSQL'
 
 Выбираем интерпретатор Python из виртуального окружения в FH_project
 
+
 ``` pip install -r requirements.txt ```
 
 
 Миграции:
+Удалить все файлы кроме __init__.py в папке users/migratitons.py
 
 ```python manage.py makemigrations```
 
