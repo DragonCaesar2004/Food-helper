@@ -186,7 +186,7 @@ document.getElementById('login-form').addEventListener('submit', function(event)
               window.location.href = '/profile/';
           }
       });
-});
+}); 
 
 
 document.getElementById('recovery-password-form').addEventListener('submit', function(event) {

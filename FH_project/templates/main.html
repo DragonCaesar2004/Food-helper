@@ -29,6 +29,10 @@
                         <div class="personal_info_block" id="profile">
                             <h2 id="username"></h2>
                             <div class="personal_info_subblock">
+                                <p>Email</p>
+                                <span id="email"></span>
+                            </div>
+                            <div class="personal_info_subblock">
                                 <p>Пол</p>
                                 <span id="gender"></span>
                             </div>
@@ -43,6 +47,10 @@
                                 <span id="weight"></span>
                             </div>
                             <div class="personal_info_subblock">
+                                <p>Образ пиания</p>
+                                <span id="vegan_vegetarian"></span>
+                            </div>
+                            <div class="personal_info_subblock">
                                 <p>Нежелательные продукты</p>
                                 <span id="allergies"></span>
                             </div>
@@ -50,7 +58,7 @@
                                 <p>Цель</p>
                                 <span id="goal"></span>
                             </div>
-                            <button class="main-links">Сменить пароль</button>
+                            <button type="button" class="main-links" id="recovery-password-btn">Сменить пароль</button>
                             <button class="edit-info-btn">Редактировать</button>
                         </div>
                     </div>
@@ -148,63 +156,7 @@
             </div>
         </div>
     </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                window.location.href = '/login/';
-                return;
-            }
 
-            fetch('/api/profile/', {
-                headers: {
-                    'Authorization': 'Bearer ' + token
-                }
-            }).then(response => response.json())
-              .then(data => {
-                  document.getElementById('username').textContent = data.username;
-                  //document.getElementById('email').textContent = data.email;
-                  document.getElementById('date_of_birth').textContent = data.date_of_birth;
-                  document.getElementById('goal').textContent = data.goal;
-                  document.getElementById('gender').textContent = data.gender;
-                  //document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
-                  document.getElementById('allergies').textContent = data.allergies;
-                  document.getElementById('weight').textContent = data.weight;
-                  document.getElementById('height').textContent = data.height;
-              });
-              document.getElementById('logout_btn').addEventListener('click', function() {
-                const refreshToken = localStorage.getItem('refresh');
-        
-                fetch('/api/logout/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify({
-                        'refresh': refreshToken
-                    })
-                }).then(response => {
-                    if (response.status === 205) {
-                        localStorage.removeItem('token');
-                        localStorage.removeItem('refresh');
-                        window.location.href = '/';
-                    } else {
-                        alert('Error logging out');
-                    }
-                });
-            });
-        });
-
-        const dateElement = document.getElementById('currentDate');
-            const currentDate = new Date();
-            const formattedDate = currentDate.toLocaleDateString('ru-RU', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            });
-            dateElement.textContent = formattedDate;
-    </script>
 </body>
 <script src="{% static "script_main.js" %}" defer></script>
 </html>

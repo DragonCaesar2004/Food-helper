@@ -30,8 +30,5 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-
-from rest_framework import serializers
-
 class PasswordResetSerializer(serializers.Serializer):
     mail_for_recovery = serializers.EmailField()
