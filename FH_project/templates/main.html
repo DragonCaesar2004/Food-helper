@@ -1,10 +1,12 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Helper</title>
-    <link rel="stylesheet" href="main.css">
+    <title>Food Helper | Profile</title>
+    <link rel="stylesheet" href="{% static "main.css" %}">
 </head>
 <body>
     <header class="header_main">
@@ -17,60 +19,172 @@
     </header>
     <section class="info_main">
         <div class="container">
-            <div class="personal_info">
-                <div class="personal_photo">
-                    <img src="img/photo.svg" alt="">
-                    <button><img src="img/dice.svg" alt=""></button>
+            <div class="main_block">
+                <div class="main_info">
+                    <div class="personal_info">
+                        <div class="personal_photo">
+                            <img src="{% static "img/photo.svg" %}" alt="">
+                            <button class="main-btns"><img src="{% static "img/dice.svg" %}" alt=""></button>
+                        </div>
+                        {% comment %} <div id="profile">
+                            <p><strong>Username:</strong> <span id="username"></span></p>
+                            <p><strong>Email:</strong> <span id="email"></span></p>
+                            <p><strong>Date of Birth:</strong> <span id="date_of_birth"></span></p>
+                            <p><strong>Goal:</strong> <span id="goal"></span></p>
+                            <p><strong>Gender:</strong> <span id="gender"></span></p>
+                            <p><strong>Vegan/Vegetarian:</strong> <span id="vegan_vegetarian"></span></p>
+                            <p><strong>Allergies:</strong> <span id="allergies"></span></p>
+                            <p><strong>Weight:</strong> <span id="weight"></span></p>
+                            <p><strong>Height:</strong> <span id="height"></span></p>
+                        </div> {% endcomment %}
+                        <div class="personal_info_block" id="profile">
+                            <h2 id="username"></h2>
+                            <div class="personal_info_subblock">
+                                <p>Пол</p>
+                                <span id="gender"></span>
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Дата рождения</p>
+                                <span id="date_of_birth"></span>
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Рост</p>
+                                <span id="height"></span>
+                                <p>Вес</p>
+                                <span id="weight"></span>
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Нежелательные продукты</p>
+                                <span id="allergies"></span>
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Цель</p>
+                                <span id="goal"></span>
+                            </div>
+                            <button class="main-links">Сменить пароль</button>
+                            <button class="edit-info-btn">Редактировать</button>
+                        </div>
+                    </div>
+                    <div class="food_info">
+                        <h3>История за день</h3>
+                        <span class="food-date">Дата</span>
+                        <div class="food-main">
+                            <div class="food-info-headers">
+                                <h4>Тип приема пищи</h4>
+                                <h4>Время</h4>
+                                <h4>Оценка</h4>
+                            </div>
+                            <div class="food-add-info">
+                    
+                            </div>
+                            <div class="input-area">
+                                <button class = "list-add-btn" id="addMealButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить приём пищи</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="personal_info_block">
-                    <h2>Имя</h2>
-                    <div class="personal_info_subblock">
-                        <p>Пол</p>
-                        <span>инфа</span>
+    
+                <div class="food_add_info" id="foodAddInfo">
+                    <h2>Добавление приёма пищи</h2>
+                    <div class="add-meal-block-headers">
+                        <h4>Тип приёма пищи</h4>
+                        <button class="main-links" id="addMealTimeButton">Выбрать</button>
+                        <form class="add-form" id="addMealForm">
+                            <div class="__select" data-state="">
+                                <div class="__select__title" data-default="Option 0">Завтрак</div>
+                                <div class="__select__content">
+                                  <input id="singleSelect0" class="__select__input" type="radio" name="singleSelect" checked />
+                                  <label for="singleSelect0" class="__select__label">Завтрак</label>
+                                  <input id="singleSelect1" class="__select__input" type="radio" name="singleSelect" />
+                                  <label for="singleSelect1" class="__select__label">Завтрак</label>
+                                  <input id="singleSelect2" class="__select__input" type="radio" name="singleSelect" />
+                                  <label for="singleSelect2" class="__select__label">Обед</label>
+                                  <input id="singleSelect3" class="__select__input" type="radio" name="singleSelect" />
+                                  <label for="singleSelect3" class="__select__label">Ужин</label>
+                                </div>
+                              </div>
+                        </form>
                     </div>
-                    <div class="personal_info_subblock">
-                        <p>Дата рождения</p>
-                        <span>инфа</span>
+                    <div class="add-meal-block-headers">
+                        <h4>Время</h4>
+                        <button class="main-links" id="setTimeButton">00:00</button>
+                        <form class="add-form" id="addTimeForm">
+                            <div class="set-time-block">
+                                <p>
+                                    <input class="set-time-input" type="time" id="time" name="time"/>
+                                </p>
+                                <p>
+                                    <button type="button" class="submit-time-btn">Принять</button>
+                                </p>
+                            </div>
+                        </form>
                     </div>
-                    <div class="personal_info_subblock">
-                        <p>Рост</p>
-                        <span>инфа</span>
-                        <p>Вес</p>
-                        <span>инфа</span>
+                    <div class="form-wrapper">
+                        <h3>Употребленные продукты</h3>
+                        <div class="type-of-food-block">
+                            <div class="type-of-food-block-headers">
+                                <h4>Наименование</h4>
+                                <h4>Кол-во</h4>
+                            </div>
+                            <div class="string-list" id="stringList"></div>                  
+                            <div class="input-area">
+                                <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить съеденную пищу</button>
+                                <div class="textInputContainer" id="textInputContainer">
+                                    <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
+                                    <button class="addButton" id = "newButton">Добавить</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn">Получить оценку</button>
+                        </div>
                     </div>
-                    <div class="personal_info_subblock">
-                        <p>Нежелательные продукты</p>
-                        <span>инфа</span>
+
+                    <div class="results-block">
+                        <h3>Оценка</h3>
+                        <div class="result-list">
+                            <ol>
+                                <li><div class="result-list-item">
+                                    <div class="name-of-product-result">
+                                        <p>Кузя лакомкин</p>
+                                        <h5>0/10</h5> <!--Оценка отдельного продукта-->
+                                    </div>
+                                <span>Комментарий</span> <!--Комментарий-->
+                                </div></li>
+                            </ol>
+                        </div>
+                        <h3 id="overallResult"></h3> <!--Общая оценка-->
                     </div>
-                    <div class="personal_info_subblock">
-                        <p>Цель</p>
-                        <span>инфа</span>
-                    </div>
-                    <button class="change-password-btn">Сменить пароль</button>
-                    <button class="edit-info-btn">Редактировать</button>
-                </div>
-            </div>
-            <div class="food_info">
-                <h3>История за день</h3>
-                <span class="food-date">Дата</span>
-                <div class="personal_info">
-                    <div class="food-info-block">
-                        <p>Тип приёма пищи</p>
-                        <span>Завтрак</span>
-                    </div>
-                    <div class="food-info-block">
-                        <p>Время</p>
-                        <span>14:88</span>
-                    </div>
-                    <div class="food-info-block">
-                        <p>Оценка</p>
-                        <span>хз из 10</span>
-                    </div>
-                    <button class="food-info-btn">Подробнее</button>
-                    <img src="img/pencil.svg" alt="">
                 </div>
             </div>
         </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const token = localStorage.getItem('token');
+                if (!token) {
+                    window.location.href = '/login/';
+                    return;
+                }
+    
+                fetch('/api/profile/', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    }
+                }).then(response => response.json())
+                  .then(data => {
+                      document.getElementById('username').textContent = data.username;
+                      //document.getElementById('email').textContent = data.email;
+                      document.getElementById('date_of_birth').textContent = data.date_of_birth;
+                      document.getElementById('goal').textContent = data.goal;
+                      document.getElementById('gender').textContent = data.gender;
+                      //document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+                      document.getElementById('allergies').textContent = data.allergies;
+                      document.getElementById('weight').textContent = data.weight;
+                      document.getElementById('height').textContent = data.height;
+                  });
+            });
+        </script>
     </section>
 </body>
+<script src="{% static "script_main.js" %}" defer></script>
 </html>

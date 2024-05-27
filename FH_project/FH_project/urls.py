@@ -6,5 +6,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('users.urls')),
     path('', include('main.urls', namespace='main')),
-    path('profile/', TemplateView.as_view(template_name="profile.html"), name='profile'),
+    path('profile/', TemplateView.as_view(template_name="main.html"), name='profile'),
 ]
