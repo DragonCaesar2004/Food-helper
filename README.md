@@ -7,15 +7,19 @@ Web-site with nutrition AI-consultant
 
 ``` .\venv\Scripts\activate ```
 
+
+Создайте файл .env в корневой папке FH_project, и запишите там переменные окружения:
+
+EMAIL_HOST_PASSWORD = 'Ваш пароль от почты' 
+PASSWORD='Ваш пароль от PostgreSQL'
+
+
 Заходим в какой-либо .py файл и сверху в поиске набираем: >select
 
 Выбираем интерпретатор Python из виртуального окружения в FH_project
 
-``` pip install django ```
+``` pip install -r requirements.txt ```
 
-```pip install djangorestframework djangorestframework-simplejwt```
-
-```pip install django-cors-headers```
 
 Миграции:
 
@@ -35,7 +39,7 @@ https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 
 
 При установке имя: user
-пароль: 141414
+пароль: находится в .env
 порт: 5432 
 В конце не ставим галочку
 
@@ -43,4 +47,3 @@ https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 Находим в пуске postgresq и открвыаем pgAdmin4
 Выбираем слева login/Group roles (правой кнопкой мыши) -> create ->  login/Group role и вводи в General имя, Definiteion пароль, в Priveleges все галочки кроме предпоследеней и в конце save.
 
-``` pip install psycopg2 ```
