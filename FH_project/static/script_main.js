@@ -224,10 +224,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const submitTimeButton = document.querySelector('.submit-time-btn');
     const foodInfoBlock = document.querySelector('.food-add-info'); // Контейнер для новых блоков информации
     const resultsBtn = document.getElementById('resultsBtn'); // Кнопка для отправки формы
+    const chatBlock = document.getElementById('chatBlock');
 
     // Открытие формы для добавления приёма пищи
     addMealButton.addEventListener('click', () => {
         foodAddInfo.style.display = 'block';
+        chatBlock.classList.add("close");
     });
 
     // Добавление употребленных продуктов в список
@@ -299,6 +301,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
          // Скрываем форму после добавления информации
          foodAddInfo.style.display = 'none';
+         chatBlock.classList.remove("close");
          addMealForm.reset();
          addTimeForm.reset(); // Сброс формы времени
          stringList.innerHTML = '';

@@ -98,3 +98,4 @@ class PasswordResetAPIView(APIView):
             except User.DoesNotExist:
                 return Response({'error': 'Email not registered in the system.'}, status=status.HTTP_404_NOT_FOUND)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+

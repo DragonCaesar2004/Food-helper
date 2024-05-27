@@ -10,7 +10,7 @@
 </head>
 <body>
     <header class="header_main">
-        <div class="container">
+        <div class="contaner">
             <div class="header-box">
                 <h1>Помощник по питанию</h1>
                 <a href="#" id="logout_btn" class="logout_btn">Выйти</a>
@@ -18,7 +18,7 @@
         </div>
     </header>
     <section class="info_main">
-        <div class="container">
+        <div class="contaner">
             <div class="main_block">
                 <div class="main_info">
                     <div class="personal_info">
@@ -81,6 +81,38 @@
                     </div>
                 </div>
     
+                {% block content %}
+                <div class="chat-block" id="chatBlock">
+                    <div class = "chat-window"> 
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h2>A.I Food Helper</h2>
+                            </div>
+                            <div class="chat-input-content">
+                                <div class="chat-input-content-btns">
+                                    <button>Добавить приём пищи</button>
+                                    <button type="button" onclick="location.href='{% url 'new_chat' %}'">Clear chat</button>
+                                </div>
+                                <div class="chat-message-wrapper">
+                                    {% for message in messages %}
+                                        <div class="chat-message-content">
+                                            <strong>{{ message.role|title }}:</strong> {{ message.content|linebreaksbr }}
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                                <form action="." method="POST">
+                                    {% csrf_token %}
+                                    <input required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
+                                    <button type="submit">
+                                        SEND
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endblock %}
+
                 <div class="food_add_info" id="foodAddInfo">
                     <h2>Добавление приёма пищи</h2>
                     <div class="add-meal-block-headers">
