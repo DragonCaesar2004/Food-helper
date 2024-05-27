@@ -26,17 +26,6 @@
                             <img src="{% static "img/photo.svg" %}" alt="">
                             <button class="main-btns"><img src="{% static "img/dice.svg" %}" alt=""></button>
                         </div>
-                        {% comment %} <div id="profile">
-                            <p><strong>Username:</strong> <span id="username"></span></p>
-                            <p><strong>Email:</strong> <span id="email"></span></p>
-                            <p><strong>Date of Birth:</strong> <span id="date_of_birth"></span></p>
-                            <p><strong>Goal:</strong> <span id="goal"></span></p>
-                            <p><strong>Gender:</strong> <span id="gender"></span></p>
-                            <p><strong>Vegan/Vegetarian:</strong> <span id="vegan_vegetarian"></span></p>
-                            <p><strong>Allergies:</strong> <span id="allergies"></span></p>
-                            <p><strong>Weight:</strong> <span id="weight"></span></p>
-                            <p><strong>Height:</strong> <span id="height"></span></p>
-                        </div> {% endcomment %}
                         <div class="personal_info_block" id="profile">
                             <h2 id="username"></h2>
                             <div class="personal_info_subblock">
@@ -67,7 +56,7 @@
                     </div>
                     <div class="food_info">
                         <h3>История за день</h3>
-                        <span class="food-date">Дата</span>
+                        <span class="food-date" id="currentDate">Дата</span>
                         <div class="food-main">
                             <div class="food-info-headers">
                                 <h4>Тип приема пищи</h4>
@@ -158,33 +147,42 @@
                 </div>
             </div>
         </div>
-        <script>
-            document.addEventListener('DOMContentLoaded', function() {
-                const token = localStorage.getItem('token');
-                if (!token) {
-                    window.location.href = '/login/';
-                    return;
-                }
-    
-                fetch('/api/profile/', {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                }).then(response => response.json())
-                  .then(data => {
-                      document.getElementById('username').textContent = data.username;
-                      //document.getElementById('email').textContent = data.email;
-                      document.getElementById('date_of_birth').textContent = data.date_of_birth;
-                      document.getElementById('goal').textContent = data.goal;
-                      document.getElementById('gender').textContent = data.gender;
-                      //document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
-                      document.getElementById('allergies').textContent = data.allergies;
-                      document.getElementById('weight').textContent = data.weight;
-                      document.getElementById('height').textContent = data.height;
-                  });
-            });
-        </script>
     </section>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login/';
+                return;
+            }
+
+            fetch('/api/profile/', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('username').textContent = data.username;
+                  //document.getElementById('email').textContent = data.email;
+                  document.getElementById('date_of_birth').textContent = data.date_of_birth;
+                  document.getElementById('goal').textContent = data.goal;
+                  document.getElementById('gender').textContent = data.gender;
+                  //document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+                  document.getElementById('allergies').textContent = data.allergies;
+                  document.getElementById('weight').textContent = data.weight;
+                  document.getElementById('height').textContent = data.height;
+              });
+        });
+
+        const dateElement = document.getElementById('currentDate');
+            const currentDate = new Date();
+            const formattedDate = currentDate.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+            dateElement.textContent = formattedDate;
+    </script>
 </body>
 <script src="{% static "script_main.js" %}" defer></script>
 </html>
