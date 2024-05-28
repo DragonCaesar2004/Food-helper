@@ -3,7 +3,7 @@ from .views import RegisterView, ProfileView, LogoutView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 # from django.contrib.auth.views import PasswordResetView
 from .views import PasswordResetAPIView
-
+from . import views
 # from .views import PasswordResetView
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),

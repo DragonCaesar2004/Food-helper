@@ -5,8 +5,6 @@ app_name = 'main'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    # path('password-reset/', PasswordResetView.as_view(), name='password-reset'),
-
-    
+    path('profile/', views.profile, name='profile'),
+    path('new_chat/', views.new_chat, name='new_chat'),
 ]
-
