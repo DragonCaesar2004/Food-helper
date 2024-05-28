@@ -83,36 +83,32 @@
                     </div>
                 </div>
 
-                <div class="row justify-content-center my-4">
-                    <div class="col-md-7 mt-4">
-                        <div class="card">
-                            <div class="card-header-block">
-                                <h1 class="card-header text-center">A.I Food Helper</h1>
+                <div class="chat-block" id="chatBlock">
+                    <div class = "chat-window">
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h1>A.I. Food Helper</h1>
                             </div>
-                            <div class="card-body">
-                                <div class="d-flex justify-content-end gap-2">
-                                <button class="btn btn-success mb-3">Добавить приём пищи</button>
-                                <button type="button" class="btn btn-primary mb-3" onclick="location.href='{% url 'main:new_chat' %}'">Clear chat</button>
+                            <div class="chat-input-content">
+                                <div class="chat-input-content-btns">
+                                    {% comment %} <button></button> {% endcomment %}
+                                    <button type="button" onclick="location.href='{% url 'main:new_chat' %}'">Очистить чат</button>
                                 </div>
-                                <div class="chat-history mb-3">
+                                <div class="chat-message-wrapper">
                                 {% for message in messages %}
                                     <div class="card mb-2 {% if message.role == 'assistant' %}bg-success text-white{% endif %}">
-                                    <div class="card-body p-2">
-                                        <strong>{{ message.role|title }}:</strong> {{ message.content|linebreaksbr }}
-                                    </div>
+                                        <div class="card-body p-2">
+                                            <strong>{{ message.role|title }}:</strong> {{ message.content|linebreaksbr }}
+                                        </div>
                                     </div>
                                 {% endfor %}
                                 </div>
                                 <form action="." method="POST">
-                                <!-- this secures the form from malicious attacks during submission -->
-                                {% csrf_token %}
-                                <input class="form-control mb-2" required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
-                                <!--
-                                <label for="temperature" class="form-label">Temperature:</label>
-                                <input class="form-control mb-2" type="number" step="0.01" min="0" max="2" name="temperature" value="{{ temperature }}" id="temperature"> -->
-                                <button class="btn btn-success fw-bold" type="submit">
-                                        SEND
-                                </button>
+                                    {% csrf_token %}
+                                    <input required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
+                                    <button type="submit">
+                                            ОТПРАВИТЬ
+                                    </button>
                                 </form>
                             </div>
                         </div>
