@@ -395,3 +395,4 @@ document.getElementById('recovery-password-btn').addEventListener('click', funct
           }
       });
 });
+
