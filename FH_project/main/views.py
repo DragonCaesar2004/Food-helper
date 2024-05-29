@@ -29,6 +29,10 @@ def profile(request):
         if request.method == 'POST':
             # get the prompt from the form
             prompt = request.POST.get('prompt')
+            # get the additional text from the form
+            additional_text = request.POST.get('additional_text', '')
+            # combine the prompt and the additional text
+            full_prompt = f"{additional_text}\n{prompt}"
             # get the temperature from the form
             temperature = float(request.POST.get('temperature', 0.1))
             # append the prompt to the messages list
@@ -38,7 +42,7 @@ def profile(request):
             # call the openai API
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": prompt}],
+                messages=[{"role": "user", "content": full_prompt}],
             )
             # format the response
             formatted_response = response.choices[0].message.content
@@ -63,7 +67,7 @@ def profile(request):
     except Exception as e:
         print(e)
         # if there is an error, redirect to the error handler
-        return redirect('error_handler')
+        return redirect('main:error_handler')
 
 
 def new_chat(request):
@@ -72,7 +76,8 @@ def new_chat(request):
     return redirect('main:profile')
 
 
-
+def error_handler(request):
+    return render(request, '404.html')
 
 def foo():
     client = Client(

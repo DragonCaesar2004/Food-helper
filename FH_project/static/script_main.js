@@ -320,52 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-document.addEventListener('DOMContentLoaded', function() {
-    const token = localStorage.getItem('token');
-    if (!token) {
-        window.location.href = '/login/';
-        return;
-    }
-
-    fetch('/api/profile/', {
-        headers: {
-            'Authorization': 'Bearer ' + token
-        }
-    }).then(response => response.json())
-      .then(data => {
-          document.getElementById('username').textContent = data.username;
-          document.getElementById('email').textContent = data.email;
-          document.getElementById('date_of_birth').textContent = data.date_of_birth;
-          document.getElementById('goal').textContent = data.goal;
-          document.getElementById('gender').textContent = data.gender;
-          document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
-          document.getElementById('allergies').textContent = data.allergies;
-          document.getElementById('weight').textContent = data.weight;
-          document.getElementById('height').textContent = data.height;
-      });
-      document.getElementById('logout_btn').addEventListener('click', function() {
-        const refreshToken = localStorage.getItem('refresh');
-    
-        fetch('/api/logout/', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
-            body: JSON.stringify({
-                'refresh': refreshToken
-            })
-        }).then(response => {
-            if (response.status === 205) {
-                localStorage.removeItem('token');
-                localStorage.removeItem('refresh');
-                window.location.href = '/';
-            } else {
-                alert('Error logging out');
-            }
-        });
-    });
-});
 
 const dateElement = document.getElementById('currentDate');
 const currentDate = new Date();

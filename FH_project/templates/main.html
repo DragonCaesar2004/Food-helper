@@ -49,7 +49,7 @@
                                 <span id="weight"></span>
                             </div>
                             <div class="personal_info_subblock">
-                                <p>Образ пиания</p>
+                                <p>Образ питания</p>
                                 <span id="vegan_vegetarian"></span>
                             </div>
                             <div class="personal_info_subblock">
@@ -106,6 +106,7 @@
                                 <form action="." method="POST">
                                     {% csrf_token %}
                                     <input required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
+                                    <input type="hidden" name="additional_text" id="additional_text_input" value="">
                                     <button type="submit">
                                             ОТПРАВИТЬ
                                     </button>
@@ -190,7 +191,58 @@
             </div>
         </div>
     </section>
-
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login/';
+                return;
+            }
+        
+            fetch('/api/profile/', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('username').textContent = data.username;
+                  document.getElementById('email').textContent = data.email;
+                  document.getElementById('date_of_birth').textContent = data.date_of_birth;
+                  document.getElementById('goal').textContent = data.goal;
+                  document.getElementById('gender').textContent = data.gender;
+                  document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+                  document.getElementById('allergies').textContent = data.allergies;
+                  document.getElementById('weight').textContent = data.weight;
+                  document.getElementById('height').textContent = data.height;
+        
+                  var currentTime = new Date();
+                  var formattedTime = currentTime.toLocaleTimeString();
+                  document.getElementById('additional_text_input').value = "Дата моего рождения: " + data.date_of_birth + ". Мой пол: " + data.gender + ". Мой вес: " + data.weight + ". Мой рост: " + data.height + ". Моя цель: " + data.goal + ". Мой образ питания: " + data.vegan_vegetarian + ". Я не предпочитаю эти продукты: " + data.allergies + ". И сейчас время: " + formattedTime;
+              });
+              document.getElementById('logout_btn').addEventListener('click', function() {
+                const refreshToken = localStorage.getItem('refresh');
+            
+                fetch('/api/logout/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        'refresh': refreshToken
+                    })
+                }).then(response => {
+                    if (response.status === 205) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refresh');
+                        window.location.href = '/';
+                    } else {
+                        alert('Error logging out');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 <script src="{% static "script_main.js" %}" defer></script>
 </html>
