@@ -103,7 +103,6 @@
                             </div>
                             <div class="chat-input-content">
                                 <div class="chat-input-content-btns">
-                                    {% comment %} <button></button> {% endcomment %}
                                     <button type="button" onclick="location.href='{% url 'main:new_chat' %}'">Очистить чат</button>
                                 </div>
                                 <div class="chat-message-wrapper">
@@ -128,6 +127,7 @@
                     </div>
                 </div>
 
+
                 <div class="food_add_info" id="foodAddInfo">
                     <h2>Добавление приёма пищи</h2>
                     <div class="add-meal-block-headers">
@@ -137,16 +137,16 @@
                             <div class="__select" data-state="">
                                 <div class="__select__title" data-default="Option 0">Завтрак</div>
                                 <div class="__select__content">
-                                  <input id="singleSelect0" class="__select__input" type="radio" name="singleSelect" checked />
+                                  <input id="singleSelect0" class="__select__input" type="radio" name="singleSelect" value="Завтрак"checked />
                                   <label for="singleSelect0" class="__select__label">Завтрак</label>
-                                  <input id="singleSelect1" class="__select__input" type="radio" name="singleSelect" />
+                                  <input id="singleSelect1" class="__select__input" type="radio" name="singleSelect" value="Завтрак"/>
                                   <label for="singleSelect1" class="__select__label">Завтрак</label>
-                                  <input id="singleSelect2" class="__select__input" type="radio" name="singleSelect" />
+                                  <input id="singleSelect2" class="__select__input" type="radio" name="singleSelect" value="Обед"/>
                                   <label for="singleSelect2" class="__select__label">Обед</label>
-                                  <input id="singleSelect3" class="__select__input" type="radio" name="singleSelect" />
+                                  <input id="singleSelect3" class="__select__input" type="radio" name="singleSelect" value="Ужин"/>
                                   <label for="singleSelect3" class="__select__label">Ужин</label>
                                 </div>
-                              </div>
+                            </div>
                         </form>
                     </div>
                     <div class="add-meal-block-headers">
@@ -174,10 +174,13 @@
                             <div class="input-area">
                                 <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить съеденную пищу</button>
                                 <div class="textInputContainer" id="textInputContainer">
-                                    <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
+                                    <input type="text" class="inputField" id = "newInput2" placeholder="Введите слово">
                                     <button class="addButton" id = "newButton">Добавить</button>
                                 </div>
                             </div>
+                            <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
+
+                            <input type="number" id="quantity" name="quantity" required>
                         </div>
                         <div class="results-btn-block">
                             <button class="results-btn" id="resultsBtn">Получить оценку</button>
@@ -203,6 +206,11 @@
             </div>
         </div>
     </section>
+
+
+
+
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('token');
@@ -231,6 +239,7 @@
                   var formattedTime = currentTime.toLocaleTimeString();
                   document.getElementById('additional_text_input').value = "Дата моего рождения: " + data.date_of_birth + ". Мой пол: " + data.gender + ". Мой вес: " + data.weight + ". Мой рост: " + data.height + ". Моя цель: " + data.goal + ". Мой образ питания: " + data.vegan_vegetarian + ". Я не предпочитаю эти продукты: " + data.allergies + ". И сейчас время: " + formattedTime;
               });
+
               document.getElementById('logout_btn').addEventListener('click', function() {
                 const refreshToken = localStorage.getItem('refresh');
             
@@ -254,6 +263,39 @@
                 });
             });
         });
+    </script>
+
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.getElementById('resultsBtn').addEventListener('click', function() {
+            const token = localStorage.getItem('token');
+            const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
+            const mealTime = document.getElementById('time').value;
+            const foodName = document.getElementById('newInput').value;
+            const quantity = document.getElementById('quantity').value;
+    
+            fetch('/api/meal/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    meal_type: mealType,
+                    time: mealTime,
+                    name_of_food: foodName,
+                    quantity: quantity
+                })
+            }).then(response => {
+                if (response.ok) {
+                    alert('Приём пищи успешно добавлен');
+                } else {
+                    alert('Ошибка при добавлении приёма пищи');
+                }
+            });
+        });
+    });
     </script>
 </body>
 <script src="{% static "script_main.js" %}" defer></script>

@@ -6,11 +6,11 @@ from django.contrib.auth import get_user_model
 from .serializers import RegisterSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
-
-User = get_user_model()
+from .models import CustomUser
+#User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     permission_classes = (AllowAny,)
     serializer_class = RegisterSerializer
     
@@ -22,7 +22,7 @@ class RegisterView(generics.CreateAPIView):
         return Response(serializer.data, status=status.HTTP_201_CREATED, headers=headers)
     
 class ProfileView(generics.RetrieveUpdateAPIView):
-    queryset = User.objects.all()
+    queryset = CustomUser.objects.all()
     serializer_class = UserSerializer
     permission_classes = [IsAuthenticated]
 
@@ -101,5 +101,39 @@ class PasswordResetAPIView(APIView):
 
 
 
+class UpdateProfileView(APIView):
+    permission_classes = [IsAuthenticated]
 
+    def put(self, request):
+        user = request.user
+        data = request.data
 
+        user.email = data.get('email', user.email)
+        user.date_of_birth = data.get('date_of_birth', user.date_of_birth)
+        user.goal = data.get('goal', user.goal)
+        user.gender = data.get('gender', user.gender)
+        user.vegan_vegetarian = data.get('vegan_vegetarian', user.vegan_vegetarian)
+        user.allergies = data.get('allergies', user.allergies)
+        user.weight = data.get('weight', user.weight)
+        user.height = data.get('height', user.height)
+
+        user.save()
+        
+        serializer = UserSerializer(user)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+
+    
+
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Meal
+from .serializers import MealSerializer
+
+class MealCreateView(generics.CreateAPIView):
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer
+    permission_classes = [IsAuthenticated]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
