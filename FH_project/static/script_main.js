@@ -350,3 +350,103 @@ document.getElementById('recovery-password-btn').addEventListener('click', funct
       });
 });
 
+
+//Кнопка редактирования, сохранения, отмены сохранения
+document.getElementById('edit-info-btn').addEventListener('click', function() {
+    document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+        span.style.display = 'none';
+    });
+    document.querySelectorAll('.edit-input').forEach(input => {
+        input.style.display = 'inline-block';
+    });
+
+    document.getElementById('email-input').value = document.getElementById('email').textContent;
+    document.getElementById('gender-input').value = document.getElementById('gender').textContent;
+    document.getElementById('date_of_birth-input').value = document.getElementById('date_of_birth').textContent;
+    document.getElementById('height-input').value = document.getElementById('height').textContent;
+    document.getElementById('weight-input').value = document.getElementById('weight').textContent;
+    document.getElementById('vegan_vegetarian-input').value = document.getElementById('vegan_vegetarian').textContent;
+    document.getElementById('allergies-input').value = document.getElementById('allergies').textContent;
+    document.getElementById('goal-input').value = document.getElementById('goal').textContent;
+    
+
+    document.getElementById('edit-info-btn').style.display = 'none';
+    document.getElementById('save-info-btn').style.display = 'inline-block';
+    document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+});
+
+document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+    document.querySelectorAll('.edit-input').forEach(input => {
+        input.style.display = 'none';
+    });
+    document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+        span.style.display = 'inline-block';
+    });
+    document.getElementById('edit-info-btn').style.display = 'inline-block';
+    document.getElementById('save-info-btn').style.display = 'none';
+    document.getElementById('cancel-edit-btn').style.display = 'none';
+});
+
+document.getElementById('save-info-btn').addEventListener('click', function() {
+    document.querySelectorAll('.edit-input').forEach(input => {
+        const id = input.id.replace('-input', '');
+        document.getElementById(id).textContent = input.value;
+        input.style.display = 'none';
+    });
+    document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+        span.style.display = 'inline-block';
+    });
+    document.getElementById('edit-info-btn').style.display = 'inline-block';
+    document.getElementById('save-info-btn').style.display = 'none';
+    document.getElementById('cancel-edit-btn').style.display = 'none';
+});
+
+
+document.getElementById('save-info-btn').addEventListener('click', function() {
+    const token = localStorage.getItem('token');
+
+    const data = {
+        email: document.getElementById('email-input').value,
+        date_of_birth: document.getElementById('date_of_birth-input').value,
+        goal: document.getElementById('goal-input').value,
+        gender: document.getElementById('gender-input').value,
+        vegan_vegetarian: document.getElementById('vegan_vegetarian-input').value,
+        allergies: document.getElementById('allergies-input').value,
+        weight: document.getElementById('weight-input').value,
+        height: document.getElementById('height-input').value
+    };
+
+    fetch('/api/update-profile/', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(data)
+    }).then(response => response.json())
+      .then(data => {
+          if (data) {
+              document.getElementById('username').textContent = data.username;
+              document.getElementById('email').textContent = data.email;
+              document.getElementById('date_of_birth').textContent = data.date_of_birth;
+              document.getElementById('goal').textContent = data.goal;
+              document.getElementById('gender').textContent = data.gender;
+              document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+              document.getElementById('allergies').textContent = data.allergies;
+              document.getElementById('weight').textContent = data.weight;
+              document.getElementById('height').textContent = data.height;
+
+              document.querySelectorAll('.edit-input').forEach(input => {
+                  input.style.display = 'none';
+              });
+              document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+                  span.style.display = 'inline-block';
+              });
+              document.getElementById('edit-info-btn').style.display = 'inline-block';
+              document.getElementById('save-info-btn').style.display = 'none';
+              document.getElementById('cancel-edit-btn').style.display = 'none';
+          } else {
+              alert('Error updating profile');
+          }
+      });
+});
