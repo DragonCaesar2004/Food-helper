@@ -399,7 +399,6 @@ document.getElementById('save-info-btn').addEventListener('click', function() {
     document.getElementById('edit-info-btn').style.display = 'inline-block';
     document.getElementById('save-info-btn').style.display = 'none';
     document.getElementById('cancel-edit-btn').style.display = 'none';
-});
 
 
 document.getElementById('save-info-btn').addEventListener('click', function() {
@@ -449,4 +448,3 @@ document.getElementById('save-info-btn').addEventListener('click', function() {
               alert('Error updating profile');
           }
       });
-});
