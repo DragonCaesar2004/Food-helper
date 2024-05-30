@@ -350,3 +350,53 @@ document.getElementById('recovery-password-btn').addEventListener('click', funct
       });
 });
 
+
+//Кнопка редактирования, сохранения, отмены сохранения
+document.getElementById('edit-info-btn').addEventListener('click', function() {
+    document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+        span.style.display = 'none';
+    });
+    document.querySelectorAll('.edit-input').forEach(input => {
+        input.style.display = 'inline-block';
+    });
+
+    document.getElementById('email-input').value = document.getElementById('email').textContent;
+    document.getElementById('gender-input').value = document.getElementById('gender').textContent;
+    document.getElementById('date_of_birth-input').value = document.getElementById('date_of_birth').textContent;
+    document.getElementById('height-input').value = document.getElementById('height').textContent;
+    document.getElementById('weight-input').value = document.getElementById('weight').textContent;
+    document.getElementById('vegan_vegetarian-input').value = document.getElementById('vegan_vegetarian').textContent;
+    document.getElementById('allergies-input').value = document.getElementById('allergies').textContent;
+    document.getElementById('goal-input').value = document.getElementById('goal').textContent;
+    
+
+    document.getElementById('edit-info-btn').style.display = 'none';
+    document.getElementById('save-info-btn').style.display = 'inline-block';
+    document.getElementById('cancel-edit-btn').style.display = 'inline-block';
+});
+
+document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+    document.querySelectorAll('.edit-input').forEach(input => {
+        input.style.display = 'none';
+    });
+    document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+        span.style.display = 'inline-block';
+    });
+    document.getElementById('edit-info-btn').style.display = 'inline-block';
+    document.getElementById('save-info-btn').style.display = 'none';
+    document.getElementById('cancel-edit-btn').style.display = 'none';
+});
+
+document.getElementById('save-info-btn').addEventListener('click', function() {
+    document.querySelectorAll('.edit-input').forEach(input => {
+        const id = input.id.replace('-input', '');
+        document.getElementById(id).textContent = input.value;
+        input.style.display = 'none';
+    });
+    document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+        span.style.display = 'inline-block';
+    });
+    document.getElementById('edit-info-btn').style.display = 'inline-block';
+    document.getElementById('save-info-btn').style.display = 'none';
+    document.getElementById('cancel-edit-btn').style.display = 'none';
+});

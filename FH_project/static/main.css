@@ -833,6 +833,8 @@ p {
 
 .chat-message-wrapper {
     margin-bottom: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .chat-message-content {
@@ -863,4 +865,45 @@ p {
 
 .chat-header h2 {
     margin: 0;
+}
+
+.personal-info-btns {
+    display: flex;
+    justify-content: space-between;
+}
+
+.save-info-btn, .cancel-edit-btn {
+    font-family: "Montserrat", sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #fff;
+    background-color: #A7BB00;
+    border-radius: 3px;
+    cursor: pointer;
+    padding: 3px 18px;
+}
+
+.save-info-btn, .cancel-edit-btn {
+    display: none;
+}
+
+.edit-input {
+    display: none;
+}
+
+.personal_info_subblock input {
+    display: none;
+    background: transparent;
+    border: 1.5px solid #344000;
+    border-radius: 10px;
+    padding: 5px;
+    outline: none;
+    font-size: 1.2rem;
+    margin-right: 5px;
+    color: #000000;
+    max-width: max-content;
+}
+
+#height-input, #weight-input, #allergies-input{
+    max-width: 70px;
 }
