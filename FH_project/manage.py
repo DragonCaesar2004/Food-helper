@@ -3,7 +3,7 @@
 import os
 import sys
 # from users.passwordRecovery import passwordRecovery
-
+# print('dcdcd')
 def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FH_project.settings')

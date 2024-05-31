@@ -137,3 +137,46 @@ class MealCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import json
+
+@csrf_exempt
+def receive_meal_data(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            user_id = data.get('user_id')
+            meal_type = data.get('meal_type')
+            meal_time = data.get('meal_time')
+
+            # Выводим данные в терминал
+            print(f'User ID: {user_id}')
+            print(f'Meal Type: {meal_type}')
+            print(f'Meal Time: {meal_time}')
+
+            return JsonResponse({'success': True, 'message': 'Data received successfully'})
+
+        except json.JSONDecodeError:
+            return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
+        except Exception as e:
+            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+    
+    return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=405)
