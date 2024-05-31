@@ -7,7 +7,6 @@ from .serializers import RegisterSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import CustomUser
-#User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -127,8 +126,8 @@ class UpdateProfileView(APIView):
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from .models import Meal
-from .serializers import MealSerializer
+from .models import Meal, Food
+from .serializers import MealSerializer, FoodSerializer
 
 class MealCreateView(generics.CreateAPIView):
     queryset = Meal.objects.all()
@@ -137,3 +136,38 @@ class MealCreateView(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
+
+class FoodCreateView(generics.CreateAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    permission_classes = [IsAuthenticated]
+
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import g4f
+from g4f.client import Client
+from g4f.Provider import RetryProvider, Aichatos
+import json
+
+@csrf_exempt
+def generate_description(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        food_name = data.get('food_name')
+        quantity = data.get('quantity')
+
+        client = Client(provider=RetryProvider([Aichatos], shuffle=False))
+
+        try:
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": f"Я поел {quantity} к количестве {food_name}. Дай оценку"}],
+            )
+            description = response.choices[0].message.content
+            return JsonResponse({'description': description}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)

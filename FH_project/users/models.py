@@ -16,7 +16,11 @@ class Meal(models.Model):
     meal_type = models.CharField(max_length=50)
     time = models.TimeField()
     date = models.DateField(auto_now_add=True)
-    name_of_food = models.CharField(max_length=255)
+
+class Food(models.Model):
+    meal = models.ForeignKey(Meal, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    name_of_food = models.TextField()
     quantity = models.FloatField()
-    evaluation = models.IntegerField(null=True, blank=True)
-    comment = models.TextField(null=True, blank=True)
+    # evaluation = models.TextField(null=True, blank=True)
+    description = models.TextField()

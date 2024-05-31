@@ -178,8 +178,7 @@
                                     <button class="addButton" id = "newButton">Добавить</button>
                                 </div>
                             </div>
-                            <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
-
+                            <input type="text" id = "name_of_food" placeholder="Введите слово">
                             <input type="number" id="quantity" name="quantity" required>
                         </div>
                         <div class="results-btn-block">
@@ -199,7 +198,7 @@
                                 <span>Комментарий</span> <!--Комментарий-->
                                 </div></li>
                             </ol>
-                        </div>
+                        </div> 
                         <h3 id="overallResult"></h3> <!--Общая оценка-->
                     </div>
                 </div>
@@ -212,35 +211,75 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('resultsBtn').addEventListener('click', function() {
+            document.getElementById('resultsBtn').addEventListener('click', async function() {
                 const token = localStorage.getItem('token');
                 const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
                 const mealTime = document.getElementById('time').value;
-                const foodName = document.getElementById('newInput').value;
+                const foodName = document.getElementById('name_of_food').value;
                 const quantity = document.getElementById('quantity').value;
         
-                fetch('/api/meal/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify({
-                        meal_type: mealType,
-                        time: mealTime,
-                        name_of_food: foodName,
-                        quantity: quantity
-                    })
-                }).then(response => {
-                    if (response.ok) {
-                        alert('Приём пищи успешно добавлен');
+                try {
+                    const mealResponse = await fetch('/api/meal/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            meal_type: mealType,
+                            time: mealTime
+                        })
+                    });
+        
+                    const mealData = await mealResponse.json();
+        
+                    if (mealData.id) {
+                        const mealId = mealData.id;
+        
+                        const gptResponse = await fetch('/api/generate-description/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                food_name: foodName,
+                                quantity: quantity
+                            })
+                        });
+        
+                        const gptData = await gptResponse.json();
+                        const foodDescription = gptData.description;
+        
+                        const foodResponse = await fetch('/api/food/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                meal: mealId,
+                                name_of_food: foodName,
+                                quantity: quantity,
+                                description: foodDescription
+                            })
+                        });
+        
+                        if (foodResponse.ok) {
+                            alert('Приём пищи и продукты успешно добавлены');
+                        } else {
+                            alert('Ошибка при добавлении продуктов');
+                        }
                     } else {
                         alert('Ошибка при добавлении приёма пищи');
                     }
-                });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             });
         });
     </script>
+    
 
 
 
