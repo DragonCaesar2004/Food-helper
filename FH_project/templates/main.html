@@ -210,7 +210,40 @@
 
 
 
-    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('resultsBtn').addEventListener('click', function() {
+                const token = localStorage.getItem('token');
+                const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
+                const mealTime = document.getElementById('time').value;
+                const foodName = document.getElementById('newInput').value;
+                const quantity = document.getElementById('quantity').value;
+        
+                fetch('/api/meal/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        meal_type: mealType,
+                        time: mealTime,
+                        name_of_food: foodName,
+                        quantity: quantity
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        alert('Приём пищи успешно добавлен');
+                    } else {
+                        alert('Ошибка при добавлении приёма пищи');
+                    }
+                });
+            });
+        });
+    </script>
+
+
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const token = localStorage.getItem('token');
@@ -265,40 +298,6 @@
         });
     </script>
 
-
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        document.getElementById('resultsBtn').addEventListener('click', function() {
-            const token = localStorage.getItem('token');
-            const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
-            const mealTime = document.getElementById('time').value;
-            const foodName = document.getElementById('newInput').value;
-            const quantity = document.getElementById('quantity').value;
-    
-            fetch('/api/meal/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer ' + token
-                },
-                body: JSON.stringify({
-                    meal_type: mealType,
-                    time: mealTime,
-                    name_of_food: foodName,
-                    quantity: quantity
-                })
-            }).then(response => {
-                if (response.ok) {
-                    alert('Приём пищи успешно добавлен');
-                } else {
-                    alert('Ошибка при добавлении приёма пищи');
-                }
-            });
-        });
-    });
-    </script>
-
-
     <script>
         document.getElementById('save-info-btn').addEventListener('click', function() {
             const token = localStorage.getItem('token');
@@ -346,8 +345,8 @@
                   } else {
                       alert('Error updating profile');
                   }
-              });
             });
+        });
     </script>
 </body>
 <script src="{% static "script_main.js" %}" defer></script>

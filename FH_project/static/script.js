@@ -45,33 +45,6 @@ document.getElementById("js-close-forgot-password-modal").addEventListener("clic
     document.getElementById("js-my-modal-login").classList.remove("close");
 })
 
-function addString(inputValue) {
-    if (inputValue) {
-        const stringList = document.getElementById("stringList");
-        const newStringItem = document.createElement("div");
-        newStringItem.classList.add("string-item");
-        newStringItem.textContent = inputValue;
-
-        // Создаем элемент для изображения крестика (svg)
-        const newIcon = document.createElement("img");
-
-        newIcon.setAttribute("src", "img/close-btn-list.svg"); // Укажите путь к файлу с изображением крестика
-
-        newIcon.classList.add("cross-icon");
-        newIcon.addEventListener("click", function() {
-            stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
-            updateAllergiesInput(); // Обновляем значение скрытого поля
-        });
-        
-        newStringItem.appendChild(newIcon); // Добавляем иконку крестика к строке
-        stringList.insertBefore(newStringItem, stringList.firstChild);
-
-        updateAllergiesInput();
-
-        document.getElementById("newInput").value = "";
-    }
-}
-
 
 const input = document.querySelectorAll('input');
 for (let elem of input)
@@ -156,7 +129,7 @@ document.getElementById('register-form').addEventListener('submit', function(eve
         body: JSON.stringify(data)
     }).then(response => {
         if (response.ok) {
-            window.location.href = '';
+            window.location.href = '/';
         } else {
             response.json().then(data => {
                 console.error('Error:', data);
