@@ -256,7 +256,7 @@ document.addEventListener('DOMContentLoaded', () => {
     resultsBtn.addEventListener('click', () => {
         const mealType = addMealForm.querySelector('input[name="singleSelect"]:checked').nextElementSibling.textContent;
         const mealTime = setTimeButton.textContent;
-        const overallResult = newInput.textContent;
+        //const overallResult = newInput.textContent;
 
         // Создаем новый блок с информацией о приёме пищи
         const newFoodInfo = document.createElement('div');
@@ -274,8 +274,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const foodItemsDiv = document.createElement('div');
         const foodItemsP = document.createElement('p');
-        foodItemsP.textContent = overallResult;
-        foodItemsDiv.appendChild(foodItemsP);
+        //foodItemsP.textContent = overallResult;
+        //foodItemsDiv.appendChild(foodItemsP);
         
         const detailButtonDiv = document.createElement('div');
         const detailButton = document.createElement('button');

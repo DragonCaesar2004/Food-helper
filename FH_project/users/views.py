@@ -163,9 +163,39 @@ def generate_description(request):
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": f"Я поел {quantity} к количестве {food_name}. Дай оценку"}],
+                messages=[{"role": "user", "content": f"Я поел {food_name}. {quantity} Расскажи что я получил от этого и подробно как это вляет на здоровье"}],
             )
             description = response.choices[0].message.content
+            return JsonResponse({'description': description}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+import g4f
+from g4f.client import Client
+from g4f.Provider import RetryProvider, Aichatos
+import json
+
+@csrf_exempt
+def generate_description2(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        food_name = data.get('food_name')
+        quantity = data.get('quantity')
+
+        client = Client(provider=RetryProvider([Aichatos], shuffle=False))
+
+        try:
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": f"Я поел {food_name} к количестве {quantity}. Дай оценку в видее только одной цифры от 0 дод 10. Мне нужно только одно число без текста!"}],
+            )
+            description = response.choices[0].message.content
+            description += "/10"
             return JsonResponse({'description': description}, status=200)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)

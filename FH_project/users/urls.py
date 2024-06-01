@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import RegisterView, ProfileView, LogoutView, PasswordResetAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import MealCreateView, UpdateProfileView, FoodCreateView, generate_description
+from .views import MealCreateView, UpdateProfileView, FoodCreateView, generate_description, generate_description2
 from . import views
  
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('meal/', MealCreateView.as_view(), name='meal_create'), 
     path('food/', FoodCreateView.as_view(), name='food-create'),
     path('generate-description/', generate_description, name='generate-description'),
+    path('generate-description2/', generate_description2, name='generate-description2'),
 ]

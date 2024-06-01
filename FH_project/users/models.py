@@ -22,5 +22,6 @@ class Food(models.Model):
     date = models.DateField(auto_now_add=True)
     name_of_food = models.TextField()
     quantity = models.FloatField()
-    # evaluation = models.TextField(null=True, blank=True)
+    food_type = models.TextField()
     description = models.TextField()
+    mark = models.TextField()

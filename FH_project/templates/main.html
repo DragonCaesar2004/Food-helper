@@ -128,7 +128,7 @@
                 </div>
 
 
-                <div class="food_add_info" id="foodAddInfo">
+                <div class="food_add_info" id="foodAddInfo" style="max-width: 600px;">
                     <h2>Добавление приёма пищи</h2>
                     <div class="add-meal-block-headers">
                         <h4>Тип приёма пищи</h4>
@@ -164,42 +164,55 @@
                         </form>
                     </div>
                     <div class="form-wrapper">
-                        <h3>Употребленные продукты</h3>
+                        <h3>Употребленный продукт</h3>
                         <div class="type-of-food-block">
-                            <div class="type-of-food-block-headers">
+                            <div class="type-of-food-block-headers" style="display: none;">
                                 <h4>Наименование</h4>
                                 <h4>Кол-во</h4>
                             </div>
-                            <div class="string-list" id="stringList"></div>                  
-                            <div class="input-area">
+                            <div class="string-list" id="stringList" style="display: none;"></div>                  
+                            <div class="input-area" style="display: none;">
                                 <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить съеденную пищу</button>
                                 <div class="textInputContainer" id="textInputContainer">
-                                    <input type="text" class="inputField" id = "newInput2" placeholder="Введите слово">
+                                    <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
                                     <button class="addButton" id = "newButton">Добавить</button>
                                 </div>
                             </div>
-                            <input type="text" id = "name_of_food" placeholder="Введите слово">
-                            <input type="number" id="quantity" name="quantity" required>
+                            <div style="display: block; text-align: left;">
+                                <span>Продукт:</span>
+                                <input type="text" id = "name_of_food" placeholder="Введите слово">
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <span>Количество:</span>
+                                <input type="number" id="quantity" name="quantity" placeholder="Введите слово">
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <span>Единица измерения:</span>
+                                <input type="text" id="food_type" name="quantity" placeholder="Введите слово">
+                            </div>
                         </div>
                         <div class="results-btn-block">
-                            <button class="results-btn" id="resultsBtn">Получить оценку</button>
+                            <button class="results-btn" id="resultsBtn2">Получить оценку</button>
                         </div>
                     </div>
 
-                    <div class="results-block">
+                    <div >
                         <h3>Оценка</h3>
                         <div class="result-list">
                             <ol>
                                 <li><div class="result-list-item">
                                     <div class="name-of-product-result">
-                                        <p>Кузя лакомкин</p>
-                                        <h5>0/10</h5> <!--Оценка отдельного продукта-->
+                                        <p id="food_text"></p>
+                                        <h5 id="food_mark"></h5> <!--Оценка отдельного продукта-->
                                     </div>
-                                <span>Комментарий</span> <!--Комментарий-->
+                                <span id="foodDescription_text"></span> <!--Комментарий-->
                                 </div></li>
                             </ol>
                         </div> 
-                        <h3 id="overallResult"></h3> <!--Общая оценка-->
+                        {% comment %} <h3 id="overallResult"></h3> <!--Общая оценка--> {% endcomment %}
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn">Сохранить</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -211,13 +224,13 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('resultsBtn').addEventListener('click', async function() {
+            document.getElementById('resultsBtn2').addEventListener('click', async function() {
                 const token = localStorage.getItem('token');
                 const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
                 const mealTime = document.getElementById('time').value;
                 const foodName = document.getElementById('name_of_food').value;
                 const quantity = document.getElementById('quantity').value;
-        
+                const food_type = document.getElementById('food_type').value;
                 try {
                     const mealResponse = await fetch('/api/meal/', {
                         method: 'POST',
@@ -250,7 +263,29 @@
         
                         const gptData = await gptResponse.json();
                         const foodDescription = gptData.description;
+
+
+
+                        const gptResponse2 = await fetch('/api/generate-description2/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                food_name: foodName,
+                                quantity: quantity
+                            })
+                        });
         
+                        const gptData2 = await gptResponse2.json();
+                        const foodDescription2 = gptData2.description;
+
+        
+                        document.getElementById('foodDescription_text').textContent = foodDescription;
+                        document.getElementById('food_text').textContent = foodName;
+                        document.getElementById('food_mark').textContent = foodDescription2;
+                        
                         const foodResponse = await fetch('/api/food/', {
                             method: 'POST',
                             headers: {
@@ -261,7 +296,9 @@
                                 meal: mealId,
                                 name_of_food: foodName,
                                 quantity: quantity,
-                                description: foodDescription
+                                food_type: food_type,
+                                description: foodDescription,
+                                mark: foodDescription2
                             })
                         });
         

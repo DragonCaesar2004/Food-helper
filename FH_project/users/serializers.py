@@ -8,7 +8,7 @@ from .models import CustomUser, Meal, Food
 class FoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Food
-        fields = ['id', 'meal', 'date', 'name_of_food', 'quantity', 'description']
+        fields = ['id', 'meal', 'date', 'name_of_food', 'quantity', 'food_type', 'description', 'mark']
 
 class MealSerializer(serializers.ModelSerializer):
     foods = FoodSerializer(many=True, read_only=True, source='food_set')
