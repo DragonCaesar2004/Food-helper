@@ -179,18 +179,18 @@
                     <div class="form-wrapper">
                         <h3>Употребленный продукт</h3>
                         <div class="type-of-food-block">
-                            <div class="type-of-food-block-headers" style="display: none;">
+                            {% comment %} <div class="type-of-food-block-headers" style="display: none;">
                                 <h4>Наименование</h4>
                                 <h4>Кол-во</h4>
-                            </div>
-                            <div class="string-list" id="stringList" style="display: none;"></div>                  
+                            </div> {% endcomment %}
+                            {% comment %} <div class="string-list" id="stringList" style="display: none;"></div>                  
                             <div class="input-area" style="display: none;">
                                 <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить съеденную пищу</button>
                                 <div class="textInputContainer" id="textInputContainer">
                                     <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
                                     <button class="addButton" id = "newButton">Добавить</button>
                                 </div>
-                            </div>
+                            </div> {% endcomment %}
                             <div style="display: block; text-align: left;">
                                 <span>Продукт:</span>
                                 <input type="text" id = "name_of_food" placeholder="Введите слово">

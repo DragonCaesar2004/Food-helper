@@ -13,7 +13,7 @@ for (let elem of input)
 
 function addString(inputValue) {
     if (inputValue) {
-        const stringList = document.getElementById("stringList");
+        // const stringList = document.getElementById("stringList");
         const newStringItem = document.createElement("div");
         const stringItemName = document.createElement("div");
         stringItemName.classList.add("string-item-block");
@@ -92,7 +92,7 @@ function addString(inputValue) {
         newIcon.setAttribute("src", "img/close-btn-list.svg"); // Укажите путь к файлу с изображением крестика
         newIcon.classList.add("cross-icon");
         newIcon.addEventListener("click", function() {
-            stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
+            // stringList.removeChild(newStringItem); // Удаляем строку при клике на крестик
         });
 
         const itemAmount = document.createElement("input");
@@ -103,7 +103,7 @@ function addString(inputValue) {
         newStringItem.appendChild(stringItemAmount);
         newStringItem.appendChild(newForm);
         newStringItem.appendChild(newIcon); // Добавляем иконку крестика к строке
-        stringList.insertBefore(newStringItem, stringList.firstChild);
+        // stringList.insertBefore(newStringItem, stringList.firstChild);
 
         // Обработчики событий для нового элемента select
         const selectSingle = newSelectDiv;
@@ -129,7 +129,7 @@ function addString(inputValue) {
             });
         }
 
-        document.getElementById("newInput").value = "";
+        // document.getElementById("newInput").value = "";
     }
 }
 
@@ -137,41 +137,41 @@ function addString(inputValue) {
 // Функция для отображения поля ввода текста
 function showInput() {
     // Создаем элемент input
-    const inputField = document.getElementById("newInput");
+    // const inputField = document.getElementById("newInput");
     // Создаем кнопку для добавления введенного текста
-    const addButton = document.getElementById("newButton");
+    // const addButton = document.getElementById("newButton");
     inputField.classList.add("open");
     addButton.classList.add("open");
 }
 
 function closeInput() {
-    const inputField = document.getElementById("newInput");
+    // const inputField = document.getElementById("newInput");
     // Создаем кнопку для добавления введенного текста
-    const addButton = document.getElementById("newButton");
+    // const addButton = document.getElementById("newButton");
     inputField.classList.remove("open");
     addButton.classList.remove("open");
 }
 
 // Добавляем обработчик события click к контейнеру
-const container = document.getElementById("textInputContainer");
-container.addEventListener("click", function(event) {
-  // Проверяем, что клик произошел на кнопке "Добавить"
-  if (event.target.id === "newButton") {
-    const inputField = document.getElementById("newInput");
-    const inputValue = inputField.value.trim();
-    if (inputValue) {
-      addString(inputValue);
-      // Очищаем поле ввода после добавления
-      inputField.value = "";
-      // Скрываем поле ввода и кнопку
-      closeInput(); 
-    }
-  }
-});
+// const container = document.getElementById("textInputContainer");
+// container.addEventListener("click", function(event) {
+//   // Проверяем, что клик произошел на кнопке "Добавить"
+//   if (event.target.id === "newButton") {
+//     const inputField = document.getElementById("newInput");
+//     const inputValue = inputField.value.trim();
+//     if (inputValue) {
+//       addString(inputValue);
+//       // Очищаем поле ввода после добавления
+//       inputField.value = "";
+//       // Скрываем поле ввода и кнопку
+//       closeInput(); 
+//     }
+//   }
+// });
 
 // Добавляем обработчик события click для кнопки "добавить съеденную пищу"
-const showInputButton = document.getElementById("showInputButton");
-showInputButton.addEventListener("click", showInput);
+// const showInputButton = document.getElementById("showInputButton");
+// showInputButton.addEventListener("click", showInput);
 
 const addMealButton = document.getElementById("addMealTimeButton");
 addMealButton.addEventListener("click", ()=> {
@@ -215,9 +215,9 @@ toggleInputMenu();
 document.addEventListener('DOMContentLoaded', () => {
     const addMealButton = document.getElementById('addMealButton');
     const foodAddInfo = document.getElementById('foodAddInfo');
-    const stringList = document.getElementById('stringList');
-    const newInput = document.getElementById('overallResult');
-    const newButton = document.getElementById('newButton');
+    // const stringList = document.getElementById('stringList');
+    // const newInput = document.getElementById('overallResult');
+    // const newButton = document.getElementById('newButton');
     const addMealForm = document.getElementById('addMealForm');
     const addTimeForm = document.getElementById('addTimeForm');
     const setTimeButton = document.getElementById('setTimeButton');
@@ -233,16 +233,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Добавление употребленных продуктов в список
-    newButton.addEventListener('click', () => {
-        const inputValue = newInput.value.trim();
-        if (inputValue) {
-            const newStringItem = document.createElement('div');
-            newStringItem.classList.add('string-item');
-            newStringItem.textContent = inputValue;
-            stringList.appendChild(newStringItem);
-            newInput.value = '';
-        }
-    });
+    // newButton.addEventListener('click', () => {
+    //     // const inputValue = newInput.value.trim();
+    //     if (inputValue) {
+    //         const newStringItem = document.createElement('div');
+    //         newStringItem.classList.add('string-item');
+    //         newStringItem.textContent = inputValue;
+    //         // stringList.appendChild(newStringItem);
+    //         // newInput.value = '';
+    //     }
+    // });
 
     // Обработка времени приема пищи
     submitTimeButton.addEventListener('click', () => {
@@ -304,7 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
          chatBlock.classList.remove("close");
          addMealForm.reset();
          addTimeForm.reset(); // Сброс формы времени
-         stringList.innerHTML = '';
+        //  stringList.innerHTML = '';
          setTimeButton.textContent = '00:00';
  
          // Сброс выбранного типа приема пищи к первому элементу
