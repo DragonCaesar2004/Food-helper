@@ -5,6 +5,7 @@ import sys
 # from users.passwordRecovery import passwordRecovery
 # print('dcdcd')
 def main():
+    
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FH_project.settings')
     # print('runserver in main.py')
@@ -19,7 +20,7 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
-
+    
 
 if __name__ == '__main__':
     
