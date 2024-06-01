@@ -8,6 +8,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Food Helper | Profile</title>
+    <style>
+        .result-container {
+            margin-top: 220px; /* Добавляет отступ сверху, чтобы блок располагался ниже */
+        }
+        div {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            border: 2px solid #344000; 
+            border-radius: 10px; 
+            padding: 5px;
+        }
+    </style>
     <link rel="stylesheet" href="{% static "main.css" %}">
 </head>
 <body>
@@ -184,7 +197,7 @@
                             </div>
                             <div style="display: block; text-align: left;">
                                 <span>Количество:</span>
-                                <input type="number" id="quantity" name="quantity" placeholder="Введите слово">
+                                <input type="number" id="quantity" name="quantity" placeholder="Введите число">
                             </div>
                             <div style="display: block; text-align: left;">
                                 <span>Единица измерения:</span>
@@ -196,16 +209,16 @@
                         </div>
                     </div>
 
-                    <div >
+                    <div class="result-container">
                         <h3>Оценка</h3>
                         <div class="result-list">
                             <ol>
                                 <li><div class="result-list-item">
                                     <div class="name-of-product-result">
-                                        <p id="food_text"></p>
-                                        <h5 id="food_mark"></h5> <!--Оценка отдельного продукта-->
+                                        <p id="food_text">Продукт</p>
+                                        <h5 id="food_mark">Оценка</h5> <!--Оценка отдельного продукта-->
                                     </div>
-                                <span id="foodDescription_text"></span> <!--Комментарий-->
+                                <span id="foodDescription_text">Комментарий</span> <!--Комментарий-->
                                 </div></li>
                             </ol>
                         </div> 
@@ -248,7 +261,19 @@
         
                     if (mealData.id) {
                         const mealId = mealData.id;
-        
+
+                        date_of_birth = document.getElementById('date_of_birth').textContent;
+                        goal = document.getElementById('goal').textContent;
+                        gender = document.getElementById('gender').textContent;
+                        vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
+                        allergies = document.getElementById('allergies').textContent;
+                        weight = document.getElementById('weight').textContent;
+                        height = document.getElementById('height').textContent;
+
+                        const prompt = "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
+
+
+
                         const gptResponse = await fetch('/api/generate-description/', {
                             method: 'POST',
                             headers: {
@@ -256,8 +281,11 @@
                                 'Authorization': 'Bearer ' + token
                             },
                             body: JSON.stringify({
+                                mealType: mealType,
                                 food_name: foodName,
-                                quantity: quantity
+                                quantity: quantity,
+                                food_type: food_type,
+                                prompt: prompt
                             })
                         });
         
@@ -273,8 +301,11 @@
                                 'Authorization': 'Bearer ' + token
                             },
                             body: JSON.stringify({
+                                mealType: mealType,
                                 food_name: foodName,
-                                quantity: quantity
+                                quantity: quantity,
+                                food_type: food_type,
+                                prompt: prompt
                             })
                         });
         

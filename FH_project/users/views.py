@@ -158,12 +158,16 @@ def generate_description(request):
         food_name = data.get('food_name')
         quantity = data.get('quantity')
 
+        mealType = data.get('mealType')
+        food_type = data.get('food_type')
+        prompt = data.get('prompt')
+
         client = Client(provider=RetryProvider([Aichatos], shuffle=False))
 
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": f"Я поел {food_name}. {quantity} Расскажи что я получил от этого и подробно как это вляет на здоровье"}],
+                messages=[{"role": "user", "content": f"{prompt}. Сегодня на {mealType} я поел {food_name}. Количество: {quantity} {food_type}. Исходя из этих данных кратко скажи расскажи про мой прием: сколько калории, что я получил, как это вляет на организм, и полезно ли для моих данных. Не используй жирный и курсивный шрифты и формулы!"}],
             )
             description = response.choices[0].message.content
             return JsonResponse({'description': description}, status=200)
@@ -187,12 +191,16 @@ def generate_description2(request):
         food_name = data.get('food_name')
         quantity = data.get('quantity')
 
+        mealType = data.get('mealType')
+        food_type = data.get('food_type')
+        prompt = data.get('prompt')
+
         client = Client(provider=RetryProvider([Aichatos], shuffle=False))
 
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": f"Я поел {food_name} к количестве {quantity}. Дай оценку в видее только одной цифры от 0 дод 10. Мне нужно только одно число без текста!"}],
+                messages=[{"role": "user", "content": f"{prompt}. Сегодня на {mealType} я поел {food_name}. Количество: {quantity} {food_type}. Проанализируй данные и дай оценку в видее только одной цифры от 0 до 10. Мне нужно только одно число без текста!"}],
             )
             description = response.choices[0].message.content
             description += "/10"
