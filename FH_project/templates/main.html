@@ -10,7 +10,7 @@
     <title>Food Helper | Profile</title>
     <style>
         .result-container {
-            margin-top: 220px; /* Добавляет отступ сверху, чтобы блок располагался ниже */
+            margin-top: 220px;
         }
         div {
             margin-bottom: 20px;
@@ -38,8 +38,8 @@
                 <div class="main_info">
                     <div class="personal_info">
                         <div class="personal_photo">
-                            <img src="{% static "img/photo.svg" %}" alt="">
-                            <button class="main-btns"><img src="{% static "img/dice.svg" %}" alt=""></button>
+                            <div class="image-container"><img class="profile-image" src="{% static "img/faces_with_a_frame/face9.png" %}" alt="" id="profile-photo-img"></div>
+                            <button class="main-btns" id="random-image-button"><img src="{% static "img/dice.svg" %}" alt=""></button>
                         </div>
                         <div class="personal_info_block" id="profile">
                             <h2 id="username"></h2>
@@ -98,9 +98,9 @@
                                 <h4>Время</h4>
                                 <h4>Оценка</h4>
                             </div>
-                            <div class="food-add-info">
-                    
-                            </div>
+                            <div class="food-add-info2" style="display: block; text-align: left; max-height: 200px; overflow-y: auto;">
+                                
+                            </div> 
                             <div class="input-area">
                                 <button class = "list-add-btn" id="addMealButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить приём пищи</button>
                             </div>
@@ -228,23 +228,173 @@
                         </div>
                     </div>
                 </div>
+
+
+
+                {% comment %} <div class="food_add_info" id="foodAddInfo" style="max-width: 600px;">
+                    <h2>Приём пищи</h2>
+                    <div class="add-meal-block-headers">
+                        <h4>Тип приёма пищи</h4>
+                        <span id="">Выбрать</span>
+                    </div>
+                    <div class="add-meal-block-headers">
+                        <h4>Время</h4>
+                        <button class="main-links" id="setTimeButton">00:00</button>
+                    </div>
+                    <div class="form-wrapper">
+                        <h3>Употребленный продукт</h3>
+                        <div class="type-of-food-block">
+                            <div style="display: block; text-align: left;">
+                                <span>Продукт:</span>
+                                <input type="text" id = "name_of_food" placeholder="Введите слово">
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <span>Количество:</span>
+                                <input type="number" id="quantity" name="quantity" placeholder="Введите число">
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <span>Единица измерения:</span>
+                                <input type="text" id="food_type" name="quantity" placeholder="Введите слово">
+                            </div>
+                        </div>
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn2">Получить оценку</button>
+                        </div>
+                    </div>
+
+                    <div class="result-container">
+                        <h3>Оценка</h3>
+                        <div class="result-list">
+                            <ol>
+                                <li><div class="result-list-item">
+                                    <div class="name-of-product-result">
+                                        <p id="food_text">Продукт</p>
+                                        <h5 id="food_mark">Оценка</h5> <!--Оценка отдельного продукта-->
+                                    </div>
+                                <span id="foodDescription_text">Комментарий</span> <!--Комментарий-->
+                                </div></li>
+                            </ol>
+                        </div> 
+                        {% comment %} <h3 id="overallResult"></h3> <!--Общая оценка--> {% endcomment %}
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn">Сохранить</button>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+
+
+                
             </div>
         </div>
     </section>
 
 
+    
 
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            async function fetchUserMeals() {
+                try {
+                    const response = await fetch('/api/user-meals/', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+    
+                    const meals = await response.json();
+                    const mealsContainer = document.querySelector('.food-add-info2');
+                    mealsContainer.innerHTML = '';
+                    const today = new Date().toISOString().split('T')[0];
+                    meals.forEach(meal => {
+                        //if (today === meal.date) {
+                            const mealDiv = document.createElement('div');
+                            mealDiv.classList.add('meal-entry');
+                            mealDiv.innerHTML = `
+                                <span style="padding: 5px 30px;
+                                background-color: #415F02;
+                                color: #fff;
+                                border-radius: 100px;
+                                margin-right: 110px;">${meal.meal_type}</span>
+                                <span style="margin-right: 53px">${meal.time}</span>
+                                <span style="margin-right: 70px">${meal.mark}</span>
+                                <button class="delete-btn" data-id="${meal.id}"><img style="display: block; background-color: #f6f6f6;" src="{% static "img/close-btn-list.svg" %}" alt=""> </button> 
+                            `;
+                            mealsContainer.appendChild(mealDiv);
+                        //}
+                    });
+    
+                    document.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', async function() {
+                            const mealId = this.getAttribute('data-id');
+                            await deleteMeal(mealId);
+                            fetchUserMeals();
+                        });
+                    });
+                } catch (error) {
+                    console.error('Error fetching meals:', error);
+                }
+            }
+    
+            async function deleteMeal(mealId) {
+                try {
+                    const response = await fetch(`/api/meal/${mealId}/delete/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+    
+                    if (response.ok) {
+                        alert('Приём пищи успешно удалён');
+                    } else {
+                        alert('Ошибка при удалении приёма пищи');
+                    }
+                } catch (error) {
+                    console.error('Error deleting meal:', error);
+                }
+            }
+    
+            fetchUserMeals();
+
             document.getElementById('resultsBtn2').addEventListener('click', async function() {
-                const token = localStorage.getItem('token');
                 const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
                 const mealTime = document.getElementById('time').value;
                 const foodName = document.getElementById('name_of_food').value;
                 const quantity = document.getElementById('quantity').value;
                 const food_type = document.getElementById('food_type').value;
                 try {
+                    date_of_birth = document.getElementById('date_of_birth').textContent;
+                    goal = document.getElementById('goal').textContent;
+                    gender = document.getElementById('gender').textContent;
+                    vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
+                    allergies = document.getElementById('allergies').textContent;
+                    weight = document.getElementById('weight').textContent;
+                    height = document.getElementById('height').textContent;
+
+                    const prompt = "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
+
+                    const gptResponse2 = await fetch('/api/generate-description2/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            mealType: mealType,
+                            food_name: foodName,
+                            quantity: quantity,
+                            food_type: food_type,
+                            prompt: prompt
+                        })
+                    });
+    
+                    const gptData2 = await gptResponse2.json();
+                    const foodDescription2 = gptData2.description;
+
                     const mealResponse = await fetch('/api/meal/', {
                         method: 'POST',
                         headers: {
@@ -253,7 +403,8 @@
                         },
                         body: JSON.stringify({
                             meal_type: mealType,
-                            time: mealTime
+                            time: mealTime,
+                            mark: foodDescription2
                         })
                     });
         
@@ -261,19 +412,6 @@
         
                     if (mealData.id) {
                         const mealId = mealData.id;
-
-                        date_of_birth = document.getElementById('date_of_birth').textContent;
-                        goal = document.getElementById('goal').textContent;
-                        gender = document.getElementById('gender').textContent;
-                        vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
-                        allergies = document.getElementById('allergies').textContent;
-                        weight = document.getElementById('weight').textContent;
-                        height = document.getElementById('height').textContent;
-
-                        const prompt = "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
-
-
-
                         const gptResponse = await fetch('/api/generate-description/', {
                             method: 'POST',
                             headers: {
@@ -288,35 +426,11 @@
                                 prompt: prompt
                             })
                         });
-        
                         const gptData = await gptResponse.json();
                         const foodDescription = gptData.description;
-
-
-
-                        const gptResponse2 = await fetch('/api/generate-description2/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + token
-                            },
-                            body: JSON.stringify({
-                                mealType: mealType,
-                                food_name: foodName,
-                                quantity: quantity,
-                                food_type: food_type,
-                                prompt: prompt
-                            })
-                        });
-        
-                        const gptData2 = await gptResponse2.json();
-                        const foodDescription2 = gptData2.description;
-
-        
                         document.getElementById('foodDescription_text').textContent = foodDescription;
                         document.getElementById('food_text').textContent = foodName;
                         document.getElementById('food_mark').textContent = foodDescription2;
-                        
                         const foodResponse = await fetch('/api/food/', {
                             method: 'POST',
                             headers: {
@@ -332,7 +446,6 @@
                                 mark: foodDescription2
                             })
                         });
-        
                         if (foodResponse.ok) {
                             alert('Приём пищи и продукты успешно добавлены');
                         } else {
@@ -348,7 +461,14 @@
         });
     </script>
     
-
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var button = document.getElementById("resultsBtn");
+            button.addEventListener("click", function() {
+                location.reload();
+            });
+        });
+    </script>
 
 
     <script>

@@ -141,6 +141,7 @@ class FoodCreateView(generics.CreateAPIView):
     queryset = Food.objects.all()
     serializer_class = FoodSerializer
     permission_classes = [IsAuthenticated]
+    
 
 
 
@@ -167,7 +168,7 @@ def generate_description(request):
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": f"{prompt}. Сегодня на {mealType} я поел {food_name}. Количество: {quantity} {food_type}. Исходя из этих данных кратко скажи расскажи про мой прием: сколько калории, что я получил, как это вляет на организм, и полезно ли для моих данных. Не используй жирный и курсивный шрифты и формулы!"}],
+                messages=[{"role": "user", "content": f"{prompt}. Сегодня на {mealType} я поел {food_name}. Количество: {quantity} {food_type}. Исходя из этих данных кратко скажи расскажи про мой прием: сколько калории, что я получил, как это вляет на мой организм, и полезно ли для моих данных. Не используй жирный и курсивный шрифты и формулы!"}],
             )
             description = response.choices[0].message.content
             return JsonResponse({'description': description}, status=200)
@@ -209,3 +210,38 @@ def generate_description2(request):
             return JsonResponse({'error': str(e)}, status=500)
     else:
         return JsonResponse({'error': 'Invalid request method'}, status=400)
+    
+
+
+
+
+
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Meal
+from .serializers import MealSerializer
+
+class UserMealsView(generics.ListAPIView):
+    serializer_class = MealSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
+
+
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .models import Meal
+
+class MealDeleteView(generics.DestroyAPIView):
+    queryset = Meal.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        meal_id = kwargs.get('pk')
+        meal = self.get_queryset().filter(id=meal_id, user=request.user).first()
+        if meal:
+            meal.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_404_NOT_FOUND)
