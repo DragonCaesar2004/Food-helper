@@ -103,8 +103,11 @@
                             </div>
                             <div class="chat-input-content">
                                 <div class="chat-input-content-btns">
-                                    <button type="button" onclick="location.href='{% url 'main:new_chat' %}'">Очистить чат</button>
-                                </div>
+                                    <script>
+                                        const newChatUrl = "{% url 'main:new_chat' %}";
+                                    </script>
+                                    
+                                    <button type="button" onclick="window.location.href=newChatUrl">Очистить чат</button>                                </div>
                                 <div class="chat-message-wrapper">
                                 {% for message in messages %}
                                     <div class="card mb-2 {% if message.role == 'assistant' %}bg-success text-white{% endif %}">
@@ -243,6 +246,220 @@
     </script>
 
 
+
+
+
+<!--- 
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const token = localStorage.getItem('token');
+    if (!token) {
+        window.location.href = '/login/';
+        return;
+    }
+
+    fetch('/api/profile/', {
+        headers: {
+            'Authorization': 'Bearer ' + token
+        }
+    }).then(response => response.json())
+      .then(data => {
+          if (data) {
+              document.getElementById('meal_type').textContent = data.meal_type;
+              //document.getElementById('email').textContent = data.email;
+              //document.getElementById('date_of_birth').textContent = data.date_of_birth;
+              //document.getElementById('goal').textContent = data.goal;
+              //document.getElementById('gender').textContent = data.gender;
+              //document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+              //document.getElementById('allergies').textContent = data.allergies;
+              //document.getElementById('weight').textContent = data.weight;
+              //document.getElementById('height').textContent = data.height;
+
+           //edTime = currentTime.toLocaleTimeString();
+             // document.getElementById('additional_text_input').value = "Дата моего рождения: " + data.date_of_birth + ". Мой пол: " + data.gender + ". Мой вес: " + data.weight + ". Мой рост: " + data.height + ". Моя цель: " + data.goal + ". Мой образ питания: " + data.vegan_vegetarian + ". Я не предпочитаю эти продукты: " + data.allergies + ". И сейчас время: " + formattedTime;
+          }
+      })
+      .catch(error => {
+          console.error('Error fetching profile:', error);
+      });
+
+    document.getElementById('logout_btn').addEventListener('click', function() {
+        const refreshToken = localStorage.getItem('refresh');
+
+        fetch('/api/logout/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+            body: JSON.stringify({
+                'refresh': refreshToken
+            })
+        }).then(response => {
+            if (response.status === 205) {
+                localStorage.removeItem('token');
+                localStorage.removeItem('refresh');
+                window.location.href = '/';
+            } else {
+                alert('Error logging out');
+            }
+        }).catch(error => {
+            console.error('Error logging out:', error);
+        });
+    });
+});
+
+
+</script>
+
+
+
+stop--->
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login/';
+            return;
+        }
+    
+        fetch('api/load_meals/', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }).then(response => response.json())
+          .then(data => {
+            document.getElementById('meal_type').textContent = data[0].meal_type;
+                  document.getElementById('meal_time').textContent = data[0].time;
+               
+    
+          });
+
+          document.getElementById('logout_btn').addEventListener('click', function() {
+            const refreshToken = localStorage.getItem('refresh');
+        
+            fetch('/api/logout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    'refresh': refreshToken
+                })
+            }).then(response => {
+                if (response.status === 205) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('refresh');
+                    window.location.href = '/';
+                } else {
+                    alert('Error meal loading');
+                }
+            });
+        });
+    });
+</script> -->
+
+<!-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login/';
+            return;
+        }
+
+        fetch('/api/load_meals/', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }).then(response => response.json())
+          .then(data => {
+              if (data.length > 0) {
+                  // Assuming data is an array of meal objects
+                  document.getElementById('meal_type').textContent = data[0].meal_type;
+                  document.getElementById('meal_time').textContent = data[0].time;
+              } else {
+                  document.getElementById('meal_type').textContent = 'No meals found';
+                  document.getElementById('meal_time').textContent = '';
+              }
+          });
+
+        document.getElementById('logout_btn').addEventListener('click', function() {
+            const refreshToken = localStorage.getItem('refresh');
+
+            fetch('/api/logout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    'refresh': refreshToken
+                })
+            }).then(response => {
+                if (response.status === 205) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('refresh');
+                    window.location.href = '/';
+                } else {
+                    alert('Error logging out');
+                }
+            });
+        });
+    });
+</script> -->
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('token');
+        if (!token) {
+            window.location.href = '/login/';
+            return;
+        }
+
+        fetch('/api/load_meals/', {
+            headers: {
+                'Authorization': 'Bearer ' + token
+            }
+        }).then(response => response.json())
+          .then(data => {
+              if (data.length > 0) {
+                  document.getElementById('meal_type').textContent = data.meal_type;
+                  document.getElementById('time').textContent = data.time;
+              } else {
+                  document.getElementById('meal_type').textContent = 'No meals found';
+                  document.getElementById('time').textContent = '';
+              }
+          });
+
+        document.getElementById('logout_btn').addEventListener('click', function() {
+            const refreshToken = localStorage.getItem('refresh');
+
+            fetch('/api/logout/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify({
+                    'refresh': refreshToken
+                })
+            }).then(response => {
+                if (response.status === 205) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('refresh');
+                    window.location.href = '/';
+                } else {
+                    alert('Error logging out');
+                }
+            });
+        });
+    });
+</script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

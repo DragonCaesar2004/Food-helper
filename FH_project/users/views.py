@@ -123,6 +123,45 @@ class UpdateProfileView(APIView):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
 
+
+
+
+
+
+
+# from rest_framework.views import APIView
+# from rest_framework.response import Response
+# from rest_framework.permissions import IsAuthenticated
+# from .serializers import UserSerializer  # Создайте сериализатор для пользователя
+
+# class LoadMeals(APIView):
+#     permission_classes = [IsAuthenticated]
+
+#     def get(self, request, *args, **kwargs):
+#         user = request.user
+#         serializer = MealSerializer(user)
+#         return Response(serializer.data)
+
+
+# views.py
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+from .models import Meal
+from .serializers import MealSerializer
+
+class UserMealsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        print('hello')
+        meals = Meal.objects.filter(user_id=user.id)
+        serializer = MealSerializer(meals, many=True)
+        return Response(serializer.data)
+
+
+
     
 
 from rest_framework import generics

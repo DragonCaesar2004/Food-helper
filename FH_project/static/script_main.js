@@ -320,7 +320,7 @@ document.addEventListener('DOMContentLoaded', () => {
        //  const userId = document.getElementById('userId').textContent; // Предположим, что ID пользователя хранится в элементе с ID 'userId'
 
          // Отправляем данные на сервер
-         sendMealData(4, mealType, mealTime);
+       //  sendMealData(4, mealType, mealTime);
     });
 });
 

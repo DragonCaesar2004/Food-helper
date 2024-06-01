@@ -3,7 +3,7 @@ from .views import RegisterView, ProfileView, LogoutView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from .views import MealCreateView, UpdateProfileView
 # from django.contrib.auth.views import PasswordResetView
-from .views import PasswordResetAPIView
+from .views import PasswordResetAPIView,UserMealsView
 from . import views
 # from .views import PasswordResetView
 urlpatterns = [
@@ -15,4 +15,5 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('update-profile/', UpdateProfileView.as_view(), name='update-profile'),
     path('meal/', MealCreateView.as_view(), name='meal_create'), 
+    path('load_meals/', UserMealsView.as_view(), name='load_meals'),
 ]

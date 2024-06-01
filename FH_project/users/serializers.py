@@ -41,3 +41,9 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'date_of_birth', 'goal', 'gender', 'vegan_vegetarian', 'allergies', 'weight', 'height']
+
+
+# class MealSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Meal
+#         fields = ['username', 'email', 'date_of_birth', 'goal', 'gender', 'vegan_vegetarian', 'allergies', 'weight', 'height']
