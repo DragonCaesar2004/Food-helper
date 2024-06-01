@@ -283,11 +283,11 @@ document.addEventListener('DOMContentLoaded', () => {
         detailButton.textContent = 'Подробнее';
         detailButtonDiv.appendChild(detailButton);
 
-        const editButtonDiv = document.createElement('div');
-        const editButton = document.createElement('button');
-        editButton.classList.add('main-btns');
-        const editImg = document.createElement('img');
-        editImg.setAttribute('src', 'img/pencil.svg');
+        const deleteButtonDiv = document.createElement('div');
+        const deleteButton = document.createElement('button');
+        deleteButton.classList.add('main-btns');
+        const deleteImg = document.createElement('img');
+        deleteImg.setAttribute('src', 'img/close-btn-list.svg');
         editButton.appendChild(editImg);
         editButtonDiv.appendChild(editButton);
 
@@ -316,6 +316,30 @@ document.addEventListener('DOMContentLoaded', () => {
                  selectTitle.textContent = firstOption.nextElementSibling.textContent;
              }
          }
+    });
+
+    const images = [
+        "/static/img/faces_with_a_frame/face1.png",
+        "/static/img/faces_with_a_frame/face2.png",
+        "/static/img/faces_with_a_frame/face3.png",
+        "/static/img/faces_with_a_frame/face4.png",
+        "/static/img/faces_with_a_frame/face5.png",
+        "/static/img/faces_with_a_frame/face6.png",
+        "/static/img/faces_with_a_frame/face7.png",
+        "/static/img/faces_with_a_frame/face8.png",
+        "/static/img/faces_with_a_frame/face9.png",
+        "/static/img/faces_with_a_frame/face10.png",
+    ];
+
+    const randomImageButton = document.getElementById('random-image-button');
+
+    randomImageButton.addEventListener('click', () => {
+        // Случайный выбор изображения
+        const randomIndex = Math.floor(Math.random() * images.length);
+        const selectedImage = images[randomIndex];
+
+        const imgElement = document.getElementById('profile-photo-img');
+        imgElement.setAttribute("src", selectedImage);
     });
 });
 
