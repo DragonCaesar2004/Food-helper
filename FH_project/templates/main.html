@@ -181,32 +181,23 @@
                     </div>
                     <div class="form-wrapper">
                         <h3>Употребленный продукт</h3>
-                        <div class="type-of-food-block">
-                            {% comment %} <div class="type-of-food-block-headers" style="display: none;">
-                                <h4>Наименование</h4>
-                                <h4>Кол-во</h4>
-                            </div> {% endcomment %}
-                            {% comment %} <div class="string-list" id="stringList" style="display: none;"></div>                  
-                            <div class="input-area" style="display: none;">
-                                <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить съеденную пищу</button>
-                                <div class="textInputContainer" id="textInputContainer">
-                                    <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
-                                    <button class="addButton" id = "newButton">Добавить</button>
+                        <div id="productsContainer" class="type-of-food-block" >
+                            <div class="type-of-food-block">
+                                <div style="display: block; text-align: left;">
+                                    <span>Продукт:</span>
+                                    <input type="text" class="name_of_food" placeholder="Введите слово">
                                 </div>
-                            </div> {% endcomment %}
-                            <div style="display: block; text-align: left;">
-                                <span>Продукт:</span>
-                                <input type="text" id = "name_of_food" placeholder="Введите слово">
-                            </div>
-                            <div style="display: block; text-align: left;">
-                                <span>Количество:</span>
-                                <input type="number" id="quantity" name="quantity" placeholder="Введите число">
-                            </div>
-                            <div style="display: block; text-align: left;">
-                                <span>Единица измерения:</span>
-                                <input type="text" id="food_type" name="quantity" placeholder="Введите слово">
-                            </div>
+                                <div style="display: block; text-align: left;">
+                                    <span>Количество:</span>
+                                    <input type="number" class="quantity" name="quantity" placeholder="Введите число">
+                                </div>
+                                <div style="display: block; text-align: left;">
+                                    <span>Единица измерения:</span>
+                                    <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
+                                </div>
+                            </div>  
                         </div>
+                        <button id="addProductButton" type="button">Добавить продукт</button>
                         <div class="results-btn-block">
                             <button class="results-btn" id="resultsBtn2">Получить оценку</button>
                         </div>
@@ -219,17 +210,10 @@
                     <div class="result-container" id="result-containerID2" style="display: none;">
                         <h3>Оценка</h3>
                         <div class="result-list">
-                            <ol>
-                                <li><div class="result-list-item">
-                                    <div class="name-of-product-result">
-                                        <p id="food_text">Продукт</p>
-                                        <h5 id="food_mark">Оценка</h5> <!--Оценка отдельного продукта-->
-                                    </div>
-                                <span id="foodDescription_text">Комментарий</span> <!--Комментарий-->
-                                </div></li>
+                            <ol id="resultList">
+                                <!-- Результаты будут добавлены сюда -->
                             </ol>
                         </div> 
-                        {% comment %} <h3 id="overallResult"></h3> <!--Общая оценка--> {% endcomment %}
                         <div class="results-btn-block">
                             <button class="results-btn" id="resultsBtn">Сохранить</button>
                         </div>
@@ -250,7 +234,7 @@
 
 
 
-                    <div class="form-wrapper">
+                    {% comment %} <div class="form-wrapper">
                         <h3>Употребленный продукт</h3>
                         <div class="type-of-food-block">
                             <div style="display: block; text-align: left;">
@@ -266,20 +250,17 @@
                                 <span type="text" id="modalMealFoodfood_type"></span>
                             </div>
                         </div> 
-                    </div>
+                    </div> {% endcomment %}
+
+
+                    {% comment %} <div id="modalMealProducts" >
+                        <!-- Сюда будут добавлены продукты -->
+                    </div> {% endcomment %}
 
                     <div class="result-container">
                         <h3>Оценка</h3>
-                        <div class="result-list">
-                            <ol>
-                                <li><div class="result-list-item">
-                                    <div class="name-of-product-result">
-                                        <p id="modalMealFoodAgain">Продукт</p>
-                                        <h5 id="modalMealMark">Оценка</h5>  
-                                    </div>
-                                    <span id="modalMealFooddescription">Комментарий</span>
-                                </div></li>
-                            </ol>
+                        <div class="result-list" id="modalMealProducts">
+                            
                         </div> 
                         <div class="results-btn-block">
                             <button class="results-btn" id="resultsBtn3">Выйти</button>
@@ -349,18 +330,34 @@
                         button.addEventListener('click', function() {
                             const mealId = this.getAttribute('data-id');
                             const meal = meals.find(m => m.id == mealId);
-                            const mealFoods  = foodsID.find(f => f.id == mealId);
+                            const mealFoods  = foodsID.filter(f => f.meal == mealId);
                             if (meal) {
-                                    document.getElementById('modalMealType').textContent = meal.meal_type;
-                                    document.getElementById('modalMealTime').textContent = meal.time;
-                                    document.getElementById('modalMealMark').textContent = meal.mark;
-                                    document.getElementById('modalMealFood').textContent = mealFoods.name_of_food;  
-                                    document.getElementById('modalMealFoodquantity').textContent = mealFoods.quantity; 
-                                    document.getElementById('modalMealFoodfood_type').textContent = mealFoods.food_type; 
-                                    document.getElementById('modalMealFooddescription').textContent = mealFoods.description;  
-                                    document.getElementById('modalMealFoodAgain').textContent = mealFoods.name_of_food; 
-            
-                                    openModal();
+                                document.getElementById('modalMealType').textContent = meal.meal_type;
+                                document.getElementById('modalMealTime').textContent = meal.time;
+        
+                                const modalMealProducts = document.getElementById('modalMealProducts');
+                                modalMealProducts.innerHTML = ''; // Очищаем контейнер перед добавлением новых продуктов
+        
+                                mealFoods.forEach(food => {
+                                    const productDiv = document.createElement('div');
+                                    productDiv.classList.add('product-details');
+                                    productDiv.innerHTML = ` 
+                                        <ol>
+                                            <li>
+                                                <div class="result-list-item">
+                                                    <div class="name-of-product-result">
+                                                        <p>${food.name_of_food} - ${food.quantity} ${food.food_type}</p>
+                                                        <h5>${food.mark}</h5>  
+                                                    </div>
+                                                    <span>${food.description}</span>
+                                                </div> 
+                                            </li>
+                                         </ol>
+                                    `;
+                                    modalMealProducts.appendChild(productDiv);
+                                });
+        
+                                openModal();
                             }
                         });
                     });
@@ -401,10 +398,37 @@
                 modal.style.display = 'block';
                 chatBlock.classList.add("close");
             }
-        
-            
+         
+            //fetchUserMeals();
 
-            fetchUserMeals();
+
+            function addProductEntry() {
+                const productsContainer = document.getElementById('productsContainer');
+                const productEntry = document.createElement('div');
+                productEntry.classList.add('product-entry');
+                productEntry.style.display = 'block';
+                productEntry.style.textAlign = 'left';
+                productEntry.innerHTML = `
+                    <div class="type-of-food-block">
+                        <div style="display: block; text-align: left;">
+                            <span>Продукт:</span>
+                            <input class="name_of_food" type="text"  placeholder="Введите слово">
+                        </div>
+                        <div style="display: block; text-align: left;">
+                            <span>Количество:</span>
+                            <input type="number" class="quantity" name="quantity" placeholder="Введите число">
+                        </div>
+                        <div style="display: block; text-align: left;">
+                            <span>Единица измерения:</span>
+                            <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
+                        </div>
+                    </div> 
+                `;
+                productsContainer.appendChild(productEntry);
+            }
+        
+            document.getElementById('addProductButton').addEventListener('click', addProductEntry);
+        
 
             document.getElementById('resultsBtn2').addEventListener('click', async function() {
                 openModal2();
@@ -415,38 +439,25 @@
 
                 const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
                 const mealTime = document.getElementById('time').value;
-                const foodName = document.getElementById('name_of_food').value;
-                const quantity = document.getElementById('quantity').value;
-                const food_type = document.getElementById('food_type').value;
+
+                const products = Array.from(document.querySelectorAll('.product-entry')).map(entry => ({
+                    name_of_food: entry.querySelector('.name_of_food').value,
+                    quantity: entry.querySelector('.quantity').value,
+                    food_type: entry.querySelector('.food_type').value
+                }));
+                //const foodName = document.getElementById('name_of_food').value;
+                //const quantity = document.getElementById('quantity').value;
+                //const food_type = document.getElementById('food_type').value;
                 try {
-                    date_of_birth = document.getElementById('date_of_birth').textContent;
-                    goal = document.getElementById('goal').textContent;
-                    gender = document.getElementById('gender').textContent;
-                    vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
-                    allergies = document.getElementById('allergies').textContent;
-                    weight = document.getElementById('weight').textContent;
-                    height = document.getElementById('height').textContent;
+                    //date_of_birth = document.getElementById('date_of_birth').textContent;
+                    //goal = document.getElementById('goal').textContent;
+                    //gender = document.getElementById('gender').textContent;
+                    //vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
+                    //allergies = document.getElementById('allergies').textContent;
+                    //weight = document.getElementById('weight').textContent;
+                    //height = document.getElementById('height').textContent;
 
-                    const prompt = "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
-
-                    const gptResponse2 = await fetch('/api/generate-description2/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer ' + token
-                        },
-                        body: JSON.stringify({
-                            mealType: mealType,
-                            food_name: foodName,
-                            quantity: quantity,
-                            food_type: food_type,
-                            prompt: prompt
-                        })
-                    });
-    
-                    const gptData2 = await gptResponse2.json();
-                    const foodDescription2 = gptData2.description;
-
+                    //const prompt = "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
                     const mealResponse = await fetch('/api/meal/', {
                         method: 'POST',
                         headers: {
@@ -456,58 +467,80 @@
                         body: JSON.stringify({
                             meal_type: mealType,
                             time: mealTime,
-                            mark: foodDescription2
+                            //mark: foodDescription2
                         })
                     });
-        
+
                     const mealData = await mealResponse.json();
-        
                     if (mealData.id) {
                         const mealId = mealData.id;
-                        const gptResponse = await fetch('/api/generate-description/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + token
-                            },
-                            body: JSON.stringify({
-                                mealType: mealType,
-                                food_name: foodName,
-                                quantity: quantity,
-                                food_type: food_type,
-                                prompt: prompt
-                            })
+                        const productPromises = products.map(async product => {
+                            const prompt = generatePrompt(mealTime);
+                            const gptResponse2 = await fetch('/api/generate-description2/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + token
+                                },
+                                body: JSON.stringify({
+                                    mealType: mealType,
+                                    food_name: product.name_of_food,
+                                    quantity: product.quantity,
+                                    food_type: product.food_type,
+                                    prompt: prompt
+                                })
+                            });
+                            const gptData2 = await gptResponse2.json();
+                            const foodDescription2 = gptData2.description;
+                            product.description = foodDescription2;
+                            const gptResponse = await fetch('/api/generate-description/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + token
+                                },
+                                body: JSON.stringify({
+                                    mealType: mealType,
+                                    food_name: product.name_of_food,
+                                    quantity: product.quantity,
+                                    food_type: product.food_type,
+                                    prompt: prompt
+                                })
+                            });
+                            const gptData = await gptResponse.json();
+                            const foodDescription = gptData.description;
+                            product.mark = foodDescription;
+                            const foodResponse = await fetch('/api/food/', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': 'Bearer ' + token
+                                },
+                                body: JSON.stringify({
+                                    meal: mealId,
+                                    name_of_food: product.name_of_food,
+                                    quantity: product.quantity,
+                                    food_type: product.food_type,
+                                    description: foodDescription,
+                                    mark: foodDescription2
+                                })
+                            });
+        
+                            if (!foodResponse.ok) {
+                                alert('Ошибка при добавлении продуктов');
+                            }
                         });
-                        const gptData = await gptResponse.json();
-                        const foodDescription = gptData.description;
-                        document.getElementById('foodDescription_text').textContent = foodDescription;
-                        document.getElementById('food_text').textContent = foodName;
-                        document.getElementById('food_mark').textContent = foodDescription2;
-                        const foodResponse = await fetch('/api/food/', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer ' + token
-                            },
-                            body: JSON.stringify({
-                                meal: mealId,
-                                name_of_food: foodName,
-                                quantity: quantity,
-                                food_type: food_type,
-                                description: foodDescription,
-                                mark: foodDescription2
-                            })
-                        });
-                        if (!foodResponse.ok) {
-                            alert('Ошибка при добавлении продуктов');
-                        } 
+        
+                        await Promise.all(productPromises);
+        
+                        updateResults(products);
                     } else {
                         alert('Ошибка при добавлении приёма пищи');
                     }
                 } catch (error) {
                     console.error('Error:', error);
                 }
-
+        
                 openModal3();
                 function openModal3() {
                     const modal = document.getElementById('result-containerID');
@@ -515,7 +548,40 @@
                     const modal2 = document.getElementById('result-containerID2');
                     modal2.style.display = 'block'; 
                 }
+                
             });
+        
+            function generatePrompt(mealTime) {
+                const date_of_birth = document.getElementById('date_of_birth').textContent;
+                const goal = document.getElementById('goal').textContent;
+                const gender = document.getElementById('gender').textContent;
+                const vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
+                const allergies = document.getElementById('allergies').textContent;
+                const weight = document.getElementById('weight').textContent;
+                const height = document.getElementById('height').textContent;
+        
+                return "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
+            }
+        
+            function updateResults(products) {
+                const resultList = document.getElementById('resultList');
+                resultList.innerHTML = '';
+                products.forEach(product => {
+                    const resultItem = document.createElement('li');
+                    resultItem.innerHTML = `
+                        <div class="result-list-item">
+                            <div class="name-of-product-result">
+                                <p>${product.name_of_food}</p>
+                                <h5>${product.description}</h5> <!--Оценка отдельного продукта-->
+                            </div>
+                            <span>${product.mark}</span> <!--Комментарий-->
+                        </div>
+                    `;
+                    resultList.appendChild(resultItem);
+                });
+            }
+        
+            fetchUserMeals();
         });
     </script>
     
