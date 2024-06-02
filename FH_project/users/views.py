@@ -311,4 +311,25 @@ class FoodListView(generics.ListCreateAPIView):
 
 
 
- 
+ # views.py
+
+# views.py
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from .models import Meal
+from .serializers import MealSerializer
+
+@api_view(['PUT'])
+def update_meal(request, meal_id):
+    try:
+        meal = Meal.objects.get(id=meal_id)
+    except Meal.DoesNotExist:
+        return Response({'error': 'Meal not found'}, status=status.HTTP_404_NOT_FOUND)
+
+    serializer = MealSerializer(meal, data=request.data, partial=True)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

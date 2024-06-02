@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .views import MealCreateView, UpdateProfileView, FoodCreateView, generate_description, generate_description2, FoodListView
 from . import views
-from .views import MealDeleteView, UserMealsView
+from .views import MealDeleteView, UserMealsView, update_meal
 
 urlpatterns = [
     path('register/', RegisterView.as_view(), name='register'),
@@ -23,6 +23,6 @@ urlpatterns = [
     path('user-meals/', UserMealsView.as_view(), name='user_meals'),
     path('meal/<int:pk>/delete/', MealDeleteView.as_view(), name='meal_delete'),
     path('food2/', FoodListView.as_view(), name='food_list'), 
-    
+    path('api/meal/<int:meal_id>/update/', update_meal, name='update-meal'),
 
 ]

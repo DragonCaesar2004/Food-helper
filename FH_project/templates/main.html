@@ -181,21 +181,23 @@
                     </div>
                     <div class="form-wrapper">
                         <h3>Употребленный продукт</h3>
-                        <div id="productsContainer" class="type-of-food-block" >
+                        <div id="productsContainer" class="type-of-food-block">
                             <div class="type-of-food-block">
-                                <div style="display: block; text-align: left;">
-                                    <span>Продукт:</span>
-                                    <input type="text" class="name_of_food" placeholder="Введите слово">
+                                <div class="product-entry" style="display: block; text-align: left;"> 
+                                    <div style="display: block; text-align: left;">
+                                        <span>Продукт:</span>
+                                        <input type="text" class="name_of_food" placeholder="Введите слово">
+                                    </div>
+                                    <div style="display: block; text-align: left;">
+                                        <span>Количество:</span>
+                                        <input type="number" class="quantity" name="quantity" placeholder="Введите число">
+                                    </div>
+                                    <div style="display: block; text-align: left;">
+                                        <span>Единица измерения:</span>
+                                        <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
+                                    </div>
                                 </div>
-                                <div style="display: block; text-align: left;">
-                                    <span>Количество:</span>
-                                    <input type="number" class="quantity" name="quantity" placeholder="Введите число">
-                                </div>
-                                <div style="display: block; text-align: left;">
-                                    <span>Единица измерения:</span>
-                                    <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
-                                </div>
-                            </div>  
+                            </div>
                         </div>
                         <button id="addProductButton" type="button">Добавить продукт</button>
                         <div class="results-btn-block">
@@ -409,20 +411,18 @@
                 productEntry.style.display = 'block';
                 productEntry.style.textAlign = 'left';
                 productEntry.innerHTML = `
-                    <div class="type-of-food-block">
-                        <div style="display: block; text-align: left;">
-                            <span>Продукт:</span>
-                            <input class="name_of_food" type="text"  placeholder="Введите слово">
-                        </div>
-                        <div style="display: block; text-align: left;">
-                            <span>Количество:</span>
-                            <input type="number" class="quantity" name="quantity" placeholder="Введите число">
-                        </div>
-                        <div style="display: block; text-align: left;">
-                            <span>Единица измерения:</span>
-                            <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
-                        </div>
-                    </div> 
+                    <div style="display: block; text-align: left;">
+                        <span>Продукт:</span>
+                        <input type="text" class="name_of_food" placeholder="Введите слово">
+                    </div>
+                    <div style="display: block; text-align: left;">
+                        <span>Количество:</span>
+                        <input type="number" class="quantity" name="quantity" placeholder="Введите число">
+                    </div>
+                    <div style="display: block; text-align: left;">
+                        <span>Единица измерения:</span>
+                        <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
+                    </div>
                 `;
                 productsContainer.appendChild(productEntry);
             }
@@ -533,6 +533,18 @@
         
                         await Promise.all(productPromises);
         
+                        await fetch(`/api/meal/${mealId}/update/`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                meal_type: "mealType",
+                                time: mealTime,
+                            })
+                        });
+
                         updateResults(products);
                     } else {
                         alert('Ошибка при добавлении приёма пищи');
@@ -540,7 +552,8 @@
                 } catch (error) {
                     console.error('Error:', error);
                 }
-        
+
+                
                 openModal3();
                 function openModal3() {
                     const modal = document.getElementById('result-containerID');
