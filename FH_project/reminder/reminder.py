@@ -17,7 +17,7 @@ def start_scheduler():
     scheduler = BackgroundScheduler()
     scheduler.add_job(
         send_to_rabbitmq,
-        trigger=CronTrigger(hour=3, minute=53),  # Запуск каждый день в 01:30
+        trigger=CronTrigger(hour=4, minute=5),  # Запуск каждый день в 01:30
         id='daily_reminder',
         name='Daily Reminder Email',
         replace_existing=True,
@@ -34,7 +34,7 @@ def get_elements_from_q():
     scheduler = BackgroundScheduler()
     scheduler.add_job(
         get_elems,
-        trigger=CronTrigger(hour=3, minute=54),  # Запуск каждый день в 01:30
+        trigger=CronTrigger(hour=4, minute=11),  # Запуск каждый день в 01:30
         id='daily_reminder',
         name='Daily Reminder Email',
         replace_existing=True,
