@@ -314,6 +314,11 @@ document.addEventListener('DOMContentLoaded', () => {
                  selectTitle.textContent = firstOption.nextElementSibling.textContent;
              }
          }
+
+       //  const userId = document.getElementById('userId').textContent; // Предположим, что ID пользователя хранится в элементе с ID 'userId'
+
+         // Отправляем данные на сервер
+       //  sendMealData(4, mealType, mealTime);
     });
 
     
@@ -342,7 +347,28 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
-
+function sendMealData(userId, mealType, mealTime) {
+    fetch('/api/meal-data/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            meal_type: mealType,
+            meal_time: mealTime
+        })
+    }).then(response => response.json())
+      .then(data => {
+          if (data.success) {
+              console.log('Данные успешно отправлены');
+          } else {
+              console.error('Ошибка при отправке данных', data.error);
+          }
+      }).catch(error => {
+          console.error('Ошибка при отправке данных', error);
+      });
+}
 
 
 
