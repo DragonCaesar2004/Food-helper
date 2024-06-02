@@ -925,3 +925,27 @@ p {
     max-width: 70px;
 }
 
+
+
+
+
+
+
+.result-list2{
+    overflow-y: auto;
+    flex-grow: 1;
+    max-height: 500px;
+}
+
+.result-list2::-webkit-scrollbar {
+    width: 6px;
+}
+
+.result-list2::-webkit-scrollbar-track {
+    background-color: #fff;
+}
+
+.result-list2::-webkit-scrollbar-thumb {
+    background: #415F02;
+    border-radius: 7px;
+}

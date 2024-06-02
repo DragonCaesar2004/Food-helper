@@ -20,6 +20,9 @@
             border-radius: 10px; 
             padding: 5px;
         }
+        .result-container2 {
+            margin-top: 60px;
+        }
     </style>
     <link rel="stylesheet" href="{% static "main.css" %}">
 </head>
@@ -183,7 +186,8 @@
                         <h3>Употребленный продукт</h3>
                         <div id="productsContainer" class="type-of-food-block">
                             <div class="type-of-food-block">
-                                <div class="product-entry" style="display: block; text-align: left;"> 
+                                <div class="product-entry" style="display: block; text-align: left;">
+                                    <span>–––––––––––––––––––––––––––––––––––––––––––</span> 
                                     <div style="display: block; text-align: left;">
                                         <span>Продукт:</span>
                                         <input type="text" class="name_of_food" placeholder="Введите слово">
@@ -199,7 +203,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button id="addProductButton" type="button">Добавить продукт</button>
+                        <div><button id="addProductButton" type="button" style="background-color: #f6f6f6;"><h4>Добавить продукт</h4></button></div>
                         <div class="results-btn-block">
                             <button class="results-btn" id="resultsBtn2">Получить оценку</button>
                         </div>
@@ -259,10 +263,12 @@
                         <!-- Сюда будут добавлены продукты -->
                     </div> {% endcomment %}
 
-                    <div class="result-container">
+                    <div class="result-container2">
                         <h3>Оценка</h3>
-                        <div class="result-list" id="modalMealProducts">
-                            
+                        <div class="result-list2" >
+                            <ol id="modalMealProducts">
+
+                            </ol>
                         </div> 
                         <div class="results-btn-block">
                             <button class="results-btn" id="resultsBtn3">Выйти</button>
@@ -343,8 +349,7 @@
                                 mealFoods.forEach(food => {
                                     const productDiv = document.createElement('div');
                                     productDiv.classList.add('product-details');
-                                    productDiv.innerHTML = ` 
-                                        <ol>
+                                    productDiv.innerHTML = `  
                                             <li>
                                                 <div class="result-list-item">
                                                     <div class="name-of-product-result">
@@ -353,8 +358,7 @@
                                                     </div>
                                                     <span>${food.description}</span>
                                                 </div> 
-                                            </li>
-                                         </ol>
+                                            </li> 
                                     `;
                                     modalMealProducts.appendChild(productDiv);
                                 });
@@ -411,6 +415,7 @@
                 productEntry.style.display = 'block';
                 productEntry.style.textAlign = 'left';
                 productEntry.innerHTML = `
+                    <span>–––––––––––––––––––––––––––––––––––––––––––</span> 
                     <div style="display: block; text-align: left;">
                         <span>Продукт:</span>
                         <input type="text" class="name_of_food" placeholder="Введите слово">
@@ -439,7 +444,7 @@
 
                 const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
                 const mealTime = document.getElementById('time').value;
-
+                newMark = "sd";
                 const products = Array.from(document.querySelectorAll('.product-entry')).map(entry => ({
                     name_of_food: entry.querySelector('.name_of_food').value,
                     quantity: entry.querySelector('.quantity').value,
@@ -467,7 +472,7 @@
                         body: JSON.stringify({
                             meal_type: mealType,
                             time: mealTime,
-                            //mark: foodDescription2
+                            mark: "temp"
                         })
                     });
 
@@ -509,6 +514,7 @@
                             });
                             const gptData = await gptResponse.json();
                             const foodDescription = gptData.description;
+                            newMark = foodDescription2;
                             product.mark = foodDescription;
                             const foodResponse = await fetch('/api/food/', {
                                 method: 'POST',
@@ -525,6 +531,7 @@
                                     mark: foodDescription2
                                 })
                             });
+                            
         
                             if (!foodResponse.ok) {
                                 alert('Ошибка при добавлении продуктов');
@@ -533,15 +540,15 @@
         
                         await Promise.all(productPromises);
         
-                        await fetch(`/api/meal/${mealId}/update/`, {
-                            method: 'PUT',
+                    
+                        const response3 = await fetch(`/api/meal/${mealId}/update/`, {
+                            method: 'PATCH',
                             headers: {
                                 'Content-Type': 'application/json',
                                 'Authorization': 'Bearer ' + token
                             },
                             body: JSON.stringify({
-                                meal_type: "mealType",
-                                time: mealTime,
+                                mark: newMark
                             })
                         });
 
