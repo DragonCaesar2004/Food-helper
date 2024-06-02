@@ -230,36 +230,35 @@
                 </div>
 
 
-
-                {% comment %} <div class="food_add_info" id="foodAddInfo" style="max-width: 600px;">
-                    <h2>Приём пищи</h2>
+                <div class="food_add_info" id="mealDetailsModal" style="max-width: 600px;">
+                    <h2>Подробнее о приёме пищи</h2>
                     <div class="add-meal-block-headers">
                         <h4>Тип приёма пищи</h4>
-                        <span id="">Выбрать</span>
+                        <span id="modalMealType"></span>
                     </div>
                     <div class="add-meal-block-headers">
                         <h4>Время</h4>
-                        <button class="main-links" id="setTimeButton">00:00</button>
+                        <span id="modalMealTime"></span> 
                     </div>
+
+
+
                     <div class="form-wrapper">
                         <h3>Употребленный продукт</h3>
                         <div class="type-of-food-block">
                             <div style="display: block; text-align: left;">
-                                <span>Продукт:</span>
-                                <input type="text" id = "name_of_food" placeholder="Введите слово">
+                                <h4>Продукт:</h4>
+                                <span type="text" id = "modalMealFood"></span>
                             </div>
                             <div style="display: block; text-align: left;">
-                                <span>Количество:</span>
-                                <input type="number" id="quantity" name="quantity" placeholder="Введите число">
+                                <h4>Количество:</h4>
+                                <span type="number" id="modalMealFoodquantity"></span> 
                             </div>
                             <div style="display: block; text-align: left;">
-                                <span>Единица измерения:</span>
-                                <input type="text" id="food_type" name="quantity" placeholder="Введите слово">
+                                <h4>Единица измерения:</h4>
+                                <span type="text" id="modalMealFoodfood_type"></span>
                             </div>
-                        </div>
-                        <div class="results-btn-block">
-                            <button class="results-btn" id="resultsBtn2">Получить оценку</button>
-                        </div>
+                        </div> 
                     </div>
 
                     <div class="result-container">
@@ -268,28 +267,25 @@
                             <ol>
                                 <li><div class="result-list-item">
                                     <div class="name-of-product-result">
-                                        <p id="food_text">Продукт</p>
-                                        <h5 id="food_mark">Оценка</h5> <!--Оценка отдельного продукта-->
+                                        <p id="modalMealFoodAgain">Продукт</p>
+                                        <h5 id="modalMealMark">Оценка</h5>  
                                     </div>
-                                <span id="foodDescription_text">Комментарий</span> <!--Комментарий-->
+                                    <span id="modalMealFooddescription">Комментарий</span>
                                 </div></li>
                             </ol>
                         </div> 
-                        {% comment %} <h3 id="overallResult"></h3> <!--Общая оценка--> {% endcomment %}
                         <div class="results-btn-block">
-                            <button class="results-btn" id="resultsBtn">Сохранить</button>
+                            <button class="results-btn" id="resultsBtn3">Выйти</button>
                         </div>
                     </div>
-                </div> {% endcomment %}
+                </div> 
+                
 
 
                 
             </div>
         </div>
-    </section>
-
-
-    
+    </section> 
 
 
     <script>
@@ -306,6 +302,16 @@
                     });
     
                     const meals = await response.json();
+
+                    const foodResponse2 = await fetch('/api/food2/', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+                    const foodsID = await foodResponse2.json();
+                    
+
                     const mealsContainer = document.querySelector('.food-add-info2');
                     mealsContainer.innerHTML = '';
                     const today = new Date().toISOString().split('T')[0];
@@ -320,13 +326,37 @@
                                 border-radius: 100px;
                                 margin-right: 110px;">${meal.meal_type}</span>
                                 <span style="margin-right: 53px">${meal.time}</span>
-                                <span style="margin-right: 70px">${meal.mark}</span>
+                                <span style="margin-right: 20px">${meal.mark}</span>
+                                <button class="details-btn" data-id="${meal.id}" style="margin-right: 12px; font-weight: 500;
+                                color: #A4A4A4; background-color: #f6f6f6;
+                                border-bottom: 2px solid #A4A4A4;">Подробнее</button>
                                 <button class="delete-btn" data-id="${meal.id}"><img style="display: block; background-color: #f6f6f6;" src="{% static "img/close-btn-list.svg" %}" alt=""> </button> 
                             `;
                             mealsContainer.appendChild(mealDiv);
                         //}
                     });
     
+
+                    document.querySelectorAll('.details-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const mealId = this.getAttribute('data-id');
+                            const meal = meals.find(m => m.id == mealId);
+                            const mealFoods  = foodsID.find(f => f.id == mealId);
+                            if (meal) {
+                                    document.getElementById('modalMealType').textContent = meal.meal_type;
+                                    document.getElementById('modalMealTime').textContent = meal.time;
+                                    document.getElementById('modalMealMark').textContent = meal.mark;
+                                    document.getElementById('modalMealFood').textContent = mealFoods.name_of_food;  
+                                    document.getElementById('modalMealFoodquantity').textContent = mealFoods.quantity; 
+                                    document.getElementById('modalMealFoodfood_type').textContent = mealFoods.food_type; 
+                                    document.getElementById('modalMealFooddescription').textContent = mealFoods.description;  
+                                    document.getElementById('modalMealFoodAgain').textContent = mealFoods.name_of_food; 
+            
+                                    openModal();
+                            }
+                        });
+                    });
+
                     document.querySelectorAll('.delete-btn').forEach(button => {
                         button.addEventListener('click', async function() {
                             const mealId = this.getAttribute('data-id');
@@ -358,6 +388,14 @@
                 }
             }
     
+            function openModal() {
+                const modal = document.getElementById('mealDetailsModal');
+                modal.style.display = 'block';
+                chatBlock.classList.add("close");
+            }
+        
+            
+
             fetchUserMeals();
 
             document.getElementById('resultsBtn2').addEventListener('click', async function() {
@@ -464,6 +502,12 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             var button = document.getElementById("resultsBtn");
+            button.addEventListener("click", function() {
+                location.reload();
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            var button = document.getElementById("resultsBtn3");
             button.addEventListener("click", function() {
                 location.reload();
             });

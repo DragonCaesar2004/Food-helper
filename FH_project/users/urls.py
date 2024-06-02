@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import RegisterView, ProfileView, LogoutView, PasswordResetAPIView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from .views import MealCreateView, UpdateProfileView, FoodCreateView, generate_description, generate_description2
+from .views import MealCreateView, UpdateProfileView, FoodCreateView, generate_description, generate_description2, FoodListView
 from . import views
 from .views import MealDeleteView, UserMealsView
 
@@ -20,5 +20,6 @@ urlpatterns = [
 
     path('user-meals/', UserMealsView.as_view(), name='user_meals'),
     path('meal/<int:pk>/delete/', MealDeleteView.as_view(), name='meal_delete'),
+    path('food2/', FoodListView.as_view(), name='food_list'),  # добавьте этот путь
 
 ]

@@ -344,6 +344,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
+
+
+
+
 const dateElement = document.getElementById('currentDate');
 const currentDate = new Date();
 const formattedDate = currentDate.toLocaleDateString('ru-RU', {

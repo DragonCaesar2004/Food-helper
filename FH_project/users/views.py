@@ -245,3 +245,23 @@ class MealDeleteView(generics.DestroyAPIView):
             meal.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Food
+from .serializers import FoodSerializer
+
+class FoodListView(generics.ListCreateAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Food.objects.filter(meal__user=user)
+
+    def perform_create(self, serializer):
+        serializer.save()
