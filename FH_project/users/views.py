@@ -7,7 +7,6 @@ from .serializers import RegisterSerializer, UserSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework_simplejwt.tokens import RefreshToken
 from .models import CustomUser
-#User = get_user_model()
 
 class RegisterView(generics.CreateAPIView):
     queryset = CustomUser.objects.all()
@@ -166,8 +165,8 @@ class UserMealsView(APIView):
 
 from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
-from .models import Meal
-from .serializers import MealSerializer
+from .models import Meal, Food
+from .serializers import MealSerializer, FoodSerializer
 
 class MealCreateView(generics.CreateAPIView):
     queryset = Meal.objects.all()
@@ -177,45 +176,135 @@ class MealCreateView(generics.CreateAPIView):
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+ 
+class FoodCreateView(generics.CreateAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    permission_classes = [IsAuthenticated]
+    
 
 
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+import g4f
+from g4f.client import Client
+from g4f.Provider import RetryProvider, Aichatos
 import json
 
 @csrf_exempt
-def receive_meal_data(request):
+def generate_description(request):
     if request.method == 'POST':
+        data = json.loads(request.body)
+        food_name = data.get('food_name')
+        quantity = data.get('quantity')
+
+        mealType = data.get('mealType')
+        food_type = data.get('food_type')
+        prompt = data.get('prompt')
+
+        client = Client(provider=RetryProvider([Aichatos], shuffle=False))
+
         try:
-            data = json.loads(request.body)
-            user_id = data.get('user_id')
-            meal_type = data.get('meal_type')
-            meal_time = data.get('meal_time')
-
-            # Выводим данные в терминал
-            print(f'User ID: {user_id}')
-            print(f'Meal Type: {meal_type}')
-            print(f'Meal Time: {meal_time}')
-
-            return JsonResponse({'success': True, 'message': 'Data received successfully'})
-
-        except json.JSONDecodeError:
-            return JsonResponse({'success': False, 'error': 'Invalid JSON'}, status=400)
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": f"{prompt}. Сегодня на {mealType} я поел {food_name}. Количество: {quantity} {food_type}. Исходя из этих данных кратко скажи расскажи про мой прием: сколько калории, что я получил, как это вляет на мой организм, и полезно ли для моих данных. Не используй жирный и курсивный шрифты и формулы!"}],
+            )
+            description = response.choices[0].message.content
+            return JsonResponse({'description': description}, status=200)
         except Exception as e:
-            return JsonResponse({'success': False, 'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
+ 
+
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+ 
+import g4f
+from g4f.client import Client
+from g4f.Provider import RetryProvider, Aichatos
+import json
+
+@csrf_exempt
+def generate_description2(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        food_name = data.get('food_name')
+        quantity = data.get('quantity')
+
+        mealType = data.get('mealType')
+        food_type = data.get('food_type')
+        prompt = data.get('prompt')
+
+        client = Client(provider=RetryProvider([Aichatos], shuffle=False))
+
+        try:
+            response = client.chat.completions.create(
+                model="gpt-3.5-turbo",
+                messages=[{"role": "user", "content": f"{prompt}. Сегодня на {mealType} я поел {food_name}. Количество: {quantity} {food_type}. Проанализируй данные и дай оценку в видее только одной цифры от 0 до 10. Мне нужно только одно число без текста!"}],
+            )
+            description = response.choices[0].message.content
+            description += "/10"
+            return JsonResponse({'description': description}, status=200)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+    else:
+        return JsonResponse({'error': 'Invalid request method'}, status=400)
     
-    return JsonResponse({'success': False, 'error': 'Invalid request method'}, status=405)
+
+
+
+
+
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Meal
+from .serializers import MealSerializer
+
+class UserMealsView(generics.ListAPIView):
+    serializer_class = MealSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Meal.objects.filter(user=self.request.user)
+
+
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .models import Meal
+
+class MealDeleteView(generics.DestroyAPIView):
+    queryset = Meal.objects.all()
+    permission_classes = [IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        meal_id = kwargs.get('pk')
+        meal = self.get_queryset().filter(id=meal_id, user=request.user).first()
+        if meal:
+            meal.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_404_NOT_FOUND)
+
+
+
+
+from rest_framework import generics
+from rest_framework.permissions import IsAuthenticated
+from .models import Food
+from .serializers import FoodSerializer
+
+class FoodListView(generics.ListCreateAPIView):
+    queryset = Food.objects.all()
+    serializer_class = FoodSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        user = self.request.user
+        return Food.objects.filter(meal__user=user)
+
+    def perform_create(self, serializer):
+        serializer.save()
+ 

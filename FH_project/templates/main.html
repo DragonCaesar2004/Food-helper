@@ -8,6 +8,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Food Helper | Profile</title>
+    <style>
+        .result-container {
+            margin-top: 220px;
+        }
+        div {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            border: 2px solid #344000; 
+            border-radius: 10px; 
+            padding: 5px;
+        }
+    </style>
     <link rel="stylesheet" href="{% static "main.css" %}">
 </head>
 <body>
@@ -25,8 +38,8 @@
                 <div class="main_info">
                     <div class="personal_info">
                         <div class="personal_photo">
-                            <img src="{% static "img/photo.svg" %}" alt="">
-                            <button class="main-btns"><img src="{% static "img/dice.svg" %}" alt=""></button>
+                            <div class="image-container"><img class="profile-image" src="{% static "img/faces_with_a_frame/face9.png" %}" alt="" id="profile-photo-img"></div>
+                            <button class="main-btns" id="random-image-button"><img src="{% static "img/dice.svg" %}" alt=""></button>
                         </div>
                         <div class="personal_info_block" id="profile">
                             <h2 id="username"></h2>
@@ -85,9 +98,9 @@
                                 <h4>Время</h4>
                                 <h4>Оценка</h4>
                             </div>
-                            <div class="food-add-info">
-                    
-                            </div>
+                            <div class="food-add-info2" style="display: block; text-align: left; max-height: 200px; overflow-y: auto;">
+                                
+                            </div> 
                             <div class="input-area">
                                 <button class = "list-add-btn" id="addMealButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить приём пищи</button>
                             </div>
@@ -131,7 +144,7 @@
                 </div>
 
 
-                <div class="food_add_info" id="foodAddInfo">
+                <div class="food_add_info" id="foodAddInfo" style="max-width: 600px;">
                     <h2>Добавление приёма пищи</h2>
                     <div class="add-meal-block-headers">
                         <h4>Тип приёма пищи</h4>
@@ -167,84 +180,342 @@
                         </form>
                     </div>
                     <div class="form-wrapper">
-                        <h3>Употребленные продукты</h3>
+                        <h3>Употребленный продукт</h3>
                         <div class="type-of-food-block">
-                            <div class="type-of-food-block-headers">
+                            {% comment %} <div class="type-of-food-block-headers" style="display: none;">
                                 <h4>Наименование</h4>
                                 <h4>Кол-во</h4>
-                            </div>
-                            <div class="string-list" id="stringList"></div>                  
-                            <div class="input-area">
+                            </div> {% endcomment %}
+                            {% comment %} <div class="string-list" id="stringList" style="display: none;"></div>                  
+                            <div class="input-area" style="display: none;">
                                 <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить съеденную пищу</button>
                                 <div class="textInputContainer" id="textInputContainer">
-                                    <input type="text" class="inputField" id = "newInput2" placeholder="Введите слово">
+                                    <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
                                     <button class="addButton" id = "newButton">Добавить</button>
                                 </div>
+                            </div> {% endcomment %}
+                            <div style="display: block; text-align: left;">
+                                <span>Продукт:</span>
+                                <input type="text" id = "name_of_food" placeholder="Введите слово">
                             </div>
-                            <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
-
-                            <input type="number" id="quantity" name="quantity" required>
+                            <div style="display: block; text-align: left;">
+                                <span>Количество:</span>
+                                <input type="number" id="quantity" name="quantity" placeholder="Введите число">
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <span>Единица измерения:</span>
+                                <input type="text" id="food_type" name="quantity" placeholder="Введите слово">
+                            </div>
                         </div>
                         <div class="results-btn-block">
-                            <button class="results-btn" id="resultsBtn">Получить оценку</button>
+                            <button class="results-btn" id="resultsBtn2">Получить оценку</button>
                         </div>
                     </div>
 
-                    <div class="results-block">
+                    <div class="result-container">
                         <h3>Оценка</h3>
                         <div class="result-list">
                             <ol>
                                 <li><div class="result-list-item">
                                     <div class="name-of-product-result">
-                                        <p>Кузя лакомкин</p>
-                                        <h5>0/10</h5> <!--Оценка отдельного продукта-->
+                                        <p id="food_text">Продукт</p>
+                                        <h5 id="food_mark">Оценка</h5> <!--Оценка отдельного продукта-->
                                     </div>
-                                <span>Комментарий</span> <!--Комментарий-->
+                                <span id="foodDescription_text">Комментарий</span> <!--Комментарий-->
                                 </div></li>
                             </ol>
+                        </div> 
+                        {% comment %} <h3 id="overallResult"></h3> <!--Общая оценка--> {% endcomment %}
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn">Сохранить</button>
                         </div>
-                        <h3 id="overallResult"></h3> <!--Общая оценка-->
                     </div>
                 </div>
+
+
+                <div class="food_add_info" id="mealDetailsModal" style="max-width: 600px;">
+                    <h2>Подробнее о приёме пищи</h2>
+                    <div class="add-meal-block-headers">
+                        <h4>Тип приёма пищи</h4>
+                        <span id="modalMealType"></span>
+                    </div>
+                    <div class="add-meal-block-headers">
+                        <h4>Время</h4>
+                        <span id="modalMealTime"></span> 
+                    </div>
+
+
+
+                    <div class="form-wrapper">
+                        <h3>Употребленный продукт</h3>
+                        <div class="type-of-food-block">
+                            <div style="display: block; text-align: left;">
+                                <h4>Продукт:</h4>
+                                <span type="text" id = "modalMealFood"></span>
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <h4>Количество:</h4>
+                                <span type="number" id="modalMealFoodquantity"></span> 
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <h4>Единица измерения:</h4>
+                                <span type="text" id="modalMealFoodfood_type"></span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="result-container">
+                        <h3>Оценка</h3>
+                        <div class="result-list">
+                            <ol>
+                                <li><div class="result-list-item">
+                                    <div class="name-of-product-result">
+                                        <p id="modalMealFoodAgain">Продукт</p>
+                                        <h5 id="modalMealMark">Оценка</h5>  
+                                    </div>
+                                    <span id="modalMealFooddescription">Комментарий</span>
+                                </div></li>
+                            </ol>
+                        </div> 
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn3">Выйти</button>
+                        </div>
+                    </div>
+                </div> 
+                
+
+
+                
             </div>
         </div>
-    </section>
-
-
+    </section> 
 
 
     <script>
+
         document.addEventListener('DOMContentLoaded', function() {
-            document.getElementById('resultsBtn').addEventListener('click', function() {
-                const token = localStorage.getItem('token');
+            const token = localStorage.getItem('token');
+            async function fetchUserMeals() {
+                try {
+                    const response = await fetch('/api/user-meals/', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+    
+                    const meals = await response.json();
+
+                    const foodResponse2 = await fetch('/api/food2/', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+                    const foodsID = await foodResponse2.json();
+                    
+
+                    const mealsContainer = document.querySelector('.food-add-info2');
+                    mealsContainer.innerHTML = '';
+                    const today = new Date().toISOString().split('T')[0];
+                    meals.forEach(meal => {
+                        //if (today === meal.date) {
+                            const mealDiv = document.createElement('div');
+                            mealDiv.classList.add('meal-entry');
+                            mealDiv.innerHTML = `
+                                <span style="padding: 5px 30px;
+                                background-color: #415F02;
+                                color: #fff;
+                                border-radius: 100px;
+                                margin-right: 110px;">${meal.meal_type}</span>
+                                <span style="margin-right: 53px">${meal.time}</span>
+                                <span style="margin-right: 20px">${meal.mark}</span>
+                                <button class="details-btn" data-id="${meal.id}" style="margin-right: 12px; font-weight: 500;
+                                color: #A4A4A4; background-color: #f6f6f6;
+                                border-bottom: 2px solid #A4A4A4;">Подробнее</button>
+                                <button class="delete-btn" data-id="${meal.id}"><img style="display: block; background-color: #f6f6f6;" src="{% static "img/close-btn-list.svg" %}" alt=""> </button> 
+                            `;
+                            mealsContainer.appendChild(mealDiv);
+                        //}
+                    });
+    
+
+                    document.querySelectorAll('.details-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const mealId = this.getAttribute('data-id');
+                            const meal = meals.find(m => m.id == mealId);
+                            const mealFoods  = foodsID.find(f => f.id == mealId);
+                            if (meal) {
+                                    document.getElementById('modalMealType').textContent = meal.meal_type;
+                                    document.getElementById('modalMealTime').textContent = meal.time;
+                                    document.getElementById('modalMealMark').textContent = meal.mark;
+                                    document.getElementById('modalMealFood').textContent = mealFoods.name_of_food;  
+                                    document.getElementById('modalMealFoodquantity').textContent = mealFoods.quantity; 
+                                    document.getElementById('modalMealFoodfood_type').textContent = mealFoods.food_type; 
+                                    document.getElementById('modalMealFooddescription').textContent = mealFoods.description;  
+                                    document.getElementById('modalMealFoodAgain').textContent = mealFoods.name_of_food; 
+            
+                                    openModal();
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', async function() {
+                            const mealId = this.getAttribute('data-id');
+                            await deleteMeal(mealId);
+                            fetchUserMeals();
+                        });
+                    });
+                } catch (error) {
+                    console.error('Error fetching meals:', error);
+                }
+            }
+    
+            async function deleteMeal(mealId) {
+                try {
+                    const response = await fetch(`/api/meal/${mealId}/delete/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+    
+                    if (response.ok) {
+                        alert('Приём пищи успешно удалён');
+                    } else {
+                        alert('Ошибка при удалении приёма пищи');
+                    }
+                } catch (error) {
+                    console.error('Error deleting meal:', error);
+                }
+            }
+    
+            function openModal() {
+                const modal = document.getElementById('mealDetailsModal');
+                modal.style.display = 'block';
+                chatBlock.classList.add("close");
+            }
+        
+            
+
+            fetchUserMeals();
+
+            document.getElementById('resultsBtn2').addEventListener('click', async function() {
                 const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
                 const mealTime = document.getElementById('time').value;
-                const foodName = document.getElementById('newInput').value;
+                const foodName = document.getElementById('name_of_food').value;
                 const quantity = document.getElementById('quantity').value;
+                const food_type = document.getElementById('food_type').value;
+                try {
+                    date_of_birth = document.getElementById('date_of_birth').textContent;
+                    goal = document.getElementById('goal').textContent;
+                    gender = document.getElementById('gender').textContent;
+                    vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
+                    allergies = document.getElementById('allergies').textContent;
+                    weight = document.getElementById('weight').textContent;
+                    height = document.getElementById('height').textContent;
+
+                    const prompt = "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
+
+                    const gptResponse2 = await fetch('/api/generate-description2/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            mealType: mealType,
+                            food_name: foodName,
+                            quantity: quantity,
+                            food_type: food_type,
+                            prompt: prompt
+                        })
+                    });
+    
+                    const gptData2 = await gptResponse2.json();
+                    const foodDescription2 = gptData2.description;
+
+                    const mealResponse = await fetch('/api/meal/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            meal_type: mealType,
+                            time: mealTime,
+                            mark: foodDescription2
+                        })
+                    });
         
-                fetch('/api/meal/', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': 'Bearer ' + token
-                    },
-                    body: JSON.stringify({
-                        meal_type: mealType,
-                        time: mealTime,
-                        name_of_food: foodName,
-                        quantity: quantity
-                    })
-                }).then(response => {
-                    if (response.ok) {
-                        alert('Приём пищи успешно добавлен');
+                    const mealData = await mealResponse.json();
+        
+                    if (mealData.id) {
+                        const mealId = mealData.id;
+                        const gptResponse = await fetch('/api/generate-description/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                mealType: mealType,
+                                food_name: foodName,
+                                quantity: quantity,
+                                food_type: food_type,
+                                prompt: prompt
+                            })
+                        });
+                        const gptData = await gptResponse.json();
+                        const foodDescription = gptData.description;
+                        document.getElementById('foodDescription_text').textContent = foodDescription;
+                        document.getElementById('food_text').textContent = foodName;
+                        document.getElementById('food_mark').textContent = foodDescription2;
+                        const foodResponse = await fetch('/api/food/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                meal: mealId,
+                                name_of_food: foodName,
+                                quantity: quantity,
+                                food_type: food_type,
+                                description: foodDescription,
+                                mark: foodDescription2
+                            })
+                        });
+                        if (foodResponse.ok) {
+                            alert('Приём пищи и продукты успешно добавлены');
+                        } else {
+                            alert('Ошибка при добавлении продуктов');
+                        }
                     } else {
                         alert('Ошибка при добавлении приёма пищи');
                     }
-                });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             });
         });
     </script>
-
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var button = document.getElementById("resultsBtn");
+            button.addEventListener("click", function() {
+                location.reload();
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            var button = document.getElementById("resultsBtn3");
+            button.addEventListener("click", function() {
+                location.reload();
+            });
+        });
+    </script>
 
 
 

@@ -156,6 +156,8 @@ p {
 
 .personal_photo img {
     margin-bottom: 30px;
+    max-width: 217px;
+    max-height: 300px;
 }
 
 .personal_info{
@@ -211,22 +213,22 @@ p {
     right: 0;
 }
 
-.food-add-info {
+.food-add-info2 {
     overflow-y: auto;
     flex-grow: 1;
     max-height: 150px;
     padding-top: 5px;
 }
 
-.food-add-info::-webkit-scrollbar {
+.food-add-info2::-webkit-scrollbar {
     width: 6px;
 }
 
-.food-add-info::-webkit-scrollbar-track {
+.food-add-info2::-webkit-scrollbar-track {
     background-color: #fff;
 }
 
-.food-add-info::-webkit-scrollbar-thumb {
+.food-add-info2::-webkit-scrollbar-thumb {
     background: #415F02;
     border-radius: 7px;
 }
@@ -907,3 +909,4 @@ p {
 #height-input, #weight-input, #allergies-input{
     max-width: 70px;
 }
+
