@@ -1,76 +1,624 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Helper</title>
-    <link rel="stylesheet" href="main.css">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Food Helper | Profile</title>
+    <style>
+        .result-container {
+            margin-top: 220px;
+        }
+        div {
+            margin-bottom: 20px;
+        }
+        input[type="text"], input[type="number"] {
+            border: 2px solid #344000; 
+            border-radius: 10px; 
+            padding: 5px;
+        }
+    </style>
+    <link rel="stylesheet" href="{% static "main.css" %}">
 </head>
 <body>
     <header class="header_main">
-        <div class="container">
+        <div class="contaner">
             <div class="header-box">
                 <h1>Помощник по питанию</h1>
-                <a href="" class="logout_btn">Выйти</a>
+                <a href="#" id="logout_btn" class="logout_btn">Выйти</a>
             </div>
         </div>
     </header>
     <section class="info_main">
-        <div class="container">
-            <div class="personal_info">
-                <div class="personal_photo">
-                    <img src="img/photo.svg" alt="">
-                    <button><img src="img/dice.svg" alt=""></button>
+        <div class="contaner">
+            <div class="main_block">
+                <div class="main_info">
+                    <div class="personal_info">
+                        <div class="personal_photo">
+                            <div class="image-container"><img class="profile-image" src="{% static "img/faces_with_a_frame/face9.png" %}" alt="" id="profile-photo-img"></div>
+                            <button class="main-btns" id="random-image-button"><img src="{% static "img/dice.svg" %}" alt=""></button>
+                        </div>
+                        <div class="personal_info_block" id="profile">
+                            <h2 id="username"></h2>
+                            <div class="personal_info_subblock">
+                                <p>Email</p>
+                                <span id="email"></span>
+                                <input type="text" id="email-input" class="edit-input">
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Пол</p>
+                                <span id="gender"></span>
+                                <input type="text" id="gender-input" class="edit-input">
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Дата рождения</p>
+                                <span id="date_of_birth"></span>
+                                <input type="date" id="date_of_birth-input" class="edit-input">
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Рост</p>
+                                <span id="height"></span>
+                                <input type="number" id="height-input" class="edit-input">
+                                <p>Вес</p>
+                                <span id="weight"></span>
+                                <input type="number" id="weight-input" class="edit-input">
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Образ питания</p>
+                                <span id="vegan_vegetarian"></span>
+                                <input type="text" id="vegan_vegetarian-input" class="edit-input" value="Вегетарианец">
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Нежелательные продукты</p>
+                                <span id="allergies"></span>
+                                <input type="text" id="allergies-input" class="edit-input" value="Орехи">
+                            </div>
+                            <div class="personal_info_subblock">
+                                <p>Цель</p>
+                                <span id="goal"></span>
+                                <input type="text" id="goal-input" class="edit-input" value="Похудение">
+                            </div>
+                            <div class="personal-info-btns">
+                                <button type="button" class="main-links" id="recovery-password-btn">Сменить пароль</button>
+                                <button class="edit-info-btn" id="edit-info-btn">Редактировать</button>
+                                <button class="save-info-btn" id="save-info-btn">Сохранить</button>
+                                <button class="cancel-edit-btn" id="cancel-edit-btn">Отменить</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="food_info">
+                        <h3>История за день</h3>
+                        <span class="food-date" id="currentDate">Дата</span>
+                        <div class="food-main">
+                            <div class="food-info-headers">
+                                <h4>Тип приема пищи</h4>
+                                <h4>Время</h4>
+                                <h4>Оценка</h4>
+                            </div>
+                            <div class="food-add-info2" style="display: block; text-align: left; max-height: 200px; overflow-y: auto;">
+                                
+                            </div> 
+                            <div class="input-area">
+                                <button class = "list-add-btn" id="addMealButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить приём пищи</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="personal_info_block">
-                    <h2>Имя</h2>
-                    <div class="personal_info_subblock">
-                        <p>Пол</p>
-                        <span>инфа</span>
+
+                <div class="chat-block" id="chatBlock">
+                    <div class = "chat-window">
+                        <div class="chat-content">
+                            <div class="chat-header">
+                                <h1>A.I. Food Helper</h1>
+                            </div>
+                            <div class="chat-input-content">
+                                <div class="chat-input-content-btns">
+                                    <button type="button" onclick="location.href='{% url 'main:new_chat' %}'">Очистить чат</button>
+                                </div>
+                                <div class="chat-message-wrapper">
+                                {% for message in messages %}
+                                    <div class="card mb-2 {% if message.role == 'assistant' %}bg-success text-white{% endif %}">
+                                        <div class="card-body p-2">
+                                            <strong>{{ message.role|title }}:</strong> {{ message.content|linebreaksbr }}
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                                </div>
+                                <form action="." method="POST">
+                                    {% csrf_token %}
+                                    <input required type="text" autofocus="autofocus" name="prompt" value="{{ prompt }}" id="">
+                                    <input type="hidden" name="additional_text" id="additional_text_input" value="">
+                                    <button type="submit">
+                                            ОТПРАВИТЬ
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                    <div class="personal_info_subblock">
-                        <p>Дата рождения</p>
-                        <span>инфа</span>
-                    </div>
-                    <div class="personal_info_subblock">
-                        <p>Рост</p>
-                        <span>инфа</span>
-                        <p>Вес</p>
-                        <span>инфа</span>
-                    </div>
-                    <div class="personal_info_subblock">
-                        <p>Нежелательные продукты</p>
-                        <span>инфа</span>
-                    </div>
-                    <div class="personal_info_subblock">
-                        <p>Цель</p>
-                        <span>инфа</span>
-                    </div>
-                    <button class="change-password-btn">Сменить пароль</button>
-                    <button class="edit-info-btn">Редактировать</button>
                 </div>
-            </div>
-            <div class="food_info">
-                <h3>История за день</h3>
-                <span class="food-date">Дата</span>
-                <div class="personal_info">
-                    <div class="food-info-block">
-                        <p>Тип приёма пищи</p>
-                        <span>Завтрак</span>
+
+
+                <div class="food_add_info" id="foodAddInfo" style="max-width: 600px;">
+                    <h2>Добавление приёма пищи</h2>
+                    <div class="add-meal-block-headers">
+                        <h4>Тип приёма пищи</h4>
+                        <button class="main-links" id="addMealTimeButton">Выбрать</button>
+                        <form class="add-form" id="addMealForm">
+                            <div class="__select" data-state="">
+                                <div class="__select__title" data-default="Option 0">Завтрак</div>
+                                <div class="__select__content">
+                                  <input id="singleSelect0" class="__select__input" type="radio" name="singleSelect" value="Завтрак"checked />
+                                  <label for="singleSelect0" class="__select__label">Завтрак</label>
+                                  <input id="singleSelect1" class="__select__input" type="radio" name="singleSelect" value="Завтрак"/>
+                                  <label for="singleSelect1" class="__select__label">Завтрак</label>
+                                  <input id="singleSelect2" class="__select__input" type="radio" name="singleSelect" value="Обед"/>
+                                  <label for="singleSelect2" class="__select__label">Обед</label>
+                                  <input id="singleSelect3" class="__select__input" type="radio" name="singleSelect" value="Ужин"/>
+                                  <label for="singleSelect3" class="__select__label">Ужин</label>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="food-info-block">
-                        <p>Время</p>
-                        <span>14:88</span>
+                    <div class="add-meal-block-headers">
+                        <h4>Время</h4>
+                        <button class="main-links" id="setTimeButton">00:00</button>
+                        <form class="add-form" id="addTimeForm">
+                            <div class="set-time-block">
+                                <p>
+                                    <input class="set-time-input" type="time" id="time" name="time"/>
+                                </p>
+                                <p>
+                                    <button type="button" class="submit-time-btn">Принять</button>
+                                </p>
+                            </div>
+                        </form>
                     </div>
-                    <div class="food-info-block">
-                        <p>Оценка</p>
-                        <span>хз из 10</span>
+                    <div class="form-wrapper">
+                        <h3>Употребленный продукт</h3>
+                        <div class="type-of-food-block">
+                            {% comment %} <div class="type-of-food-block-headers" style="display: none;">
+                                <h4>Наименование</h4>
+                                <h4>Кол-во</h4>
+                            </div> {% endcomment %}
+                            {% comment %} <div class="string-list" id="stringList" style="display: none;"></div>                  
+                            <div class="input-area" style="display: none;">
+                                <button class = "list-add-btn" id="showInputButton"> <img src="{% static "img/addWord.svg" %}" alt="">Добавить съеденную пищу</button>
+                                <div class="textInputContainer" id="textInputContainer">
+                                    <input type="text" class="inputField" id = "newInput" placeholder="Введите слово">
+                                    <button class="addButton" id = "newButton">Добавить</button>
+                                </div>
+                            </div> {% endcomment %}
+                            <div style="display: block; text-align: left;">
+                                <span>Продукт:</span>
+                                <input type="text" id = "name_of_food" placeholder="Введите слово">
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <span>Количество:</span>
+                                <input type="number" id="quantity" name="quantity" placeholder="Введите число">
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <span>Единица измерения:</span>
+                                <input type="text" id="food_type" name="quantity" placeholder="Введите слово">
+                            </div>
+                        </div>
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn2">Получить оценку</button>
+                        </div>
                     </div>
-                    <button class="food-info-btn">Подробнее</button>
-                    <img src="img/pencil.svg" alt="">
+
+                    <div class="result-container">
+                        <h3>Оценка</h3>
+                        <div class="result-list">
+                            <ol>
+                                <li><div class="result-list-item">
+                                    <div class="name-of-product-result">
+                                        <p id="food_text">Продукт</p>
+                                        <h5 id="food_mark">Оценка</h5> <!--Оценка отдельного продукта-->
+                                    </div>
+                                <span id="foodDescription_text">Комментарий</span> <!--Комментарий-->
+                                </div></li>
+                            </ol>
+                        </div> 
+                        {% comment %} <h3 id="overallResult"></h3> <!--Общая оценка--> {% endcomment %}
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn">Сохранить</button>
+                        </div>
+                    </div>
                 </div>
+
+
+                <div class="food_add_info" id="mealDetailsModal" style="max-width: 600px;">
+                    <h2>Подробнее о приёме пищи</h2>
+                    <div class="add-meal-block-headers">
+                        <h4>Тип приёма пищи</h4>
+                        <span id="modalMealType"></span>
+                    </div>
+                    <div class="add-meal-block-headers">
+                        <h4>Время</h4>
+                        <span id="modalMealTime"></span> 
+                    </div>
+
+
+
+                    <div class="form-wrapper">
+                        <h3>Употребленный продукт</h3>
+                        <div class="type-of-food-block">
+                            <div style="display: block; text-align: left;">
+                                <h4>Продукт:</h4>
+                                <span type="text" id = "modalMealFood"></span>
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <h4>Количество:</h4>
+                                <span type="number" id="modalMealFoodquantity"></span> 
+                            </div>
+                            <div style="display: block; text-align: left;">
+                                <h4>Единица измерения:</h4>
+                                <span type="text" id="modalMealFoodfood_type"></span>
+                            </div>
+                        </div> 
+                    </div>
+
+                    <div class="result-container">
+                        <h3>Оценка</h3>
+                        <div class="result-list">
+                            <ol>
+                                <li><div class="result-list-item">
+                                    <div class="name-of-product-result">
+                                        <p id="modalMealFoodAgain">Продукт</p>
+                                        <h5 id="modalMealMark">Оценка</h5>  
+                                    </div>
+                                    <span id="modalMealFooddescription">Комментарий</span>
+                                </div></li>
+                            </ol>
+                        </div> 
+                        <div class="results-btn-block">
+                            <button class="results-btn" id="resultsBtn3">Выйти</button>
+                        </div>
+                    </div>
+                </div> 
+                
+
+
+                
             </div>
         </div>
-    </section>
+    </section> 
+
+
+    <script>
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            async function fetchUserMeals() {
+                try {
+                    const response = await fetch('/api/user-meals/', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+    
+                    const meals = await response.json();
+
+                    const foodResponse2 = await fetch('/api/food2/', {
+                        method: 'GET',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+                    const foodsID = await foodResponse2.json();
+                    
+
+                    const mealsContainer = document.querySelector('.food-add-info2');
+                    mealsContainer.innerHTML = '';
+                    const today = new Date().toISOString().split('T')[0];
+                    meals.forEach(meal => {
+                        //if (today === meal.date) {
+                            const mealDiv = document.createElement('div');
+                            mealDiv.classList.add('meal-entry');
+                            mealDiv.innerHTML = `
+                                <span style="padding: 5px 30px;
+                                background-color: #415F02;
+                                color: #fff;
+                                border-radius: 100px;
+                                margin-right: 110px;">${meal.meal_type}</span>
+                                <span style="margin-right: 53px">${meal.time}</span>
+                                <span style="margin-right: 20px">${meal.mark}</span>
+                                <button class="details-btn" data-id="${meal.id}" style="margin-right: 12px; font-weight: 500;
+                                color: #A4A4A4; background-color: #f6f6f6;
+                                border-bottom: 2px solid #A4A4A4;">Подробнее</button>
+                                <button class="delete-btn" data-id="${meal.id}"><img style="display: block; background-color: #f6f6f6;" src="{% static "img/close-btn-list.svg" %}" alt=""> </button> 
+                            `;
+                            mealsContainer.appendChild(mealDiv);
+                        //}
+                    });
+    
+
+                    document.querySelectorAll('.details-btn').forEach(button => {
+                        button.addEventListener('click', function() {
+                            const mealId = this.getAttribute('data-id');
+                            const meal = meals.find(m => m.id == mealId);
+                            const mealFoods  = foodsID.find(f => f.id == mealId);
+                            if (meal) {
+                                    document.getElementById('modalMealType').textContent = meal.meal_type;
+                                    document.getElementById('modalMealTime').textContent = meal.time;
+                                    document.getElementById('modalMealMark').textContent = meal.mark;
+                                    document.getElementById('modalMealFood').textContent = mealFoods.name_of_food;  
+                                    document.getElementById('modalMealFoodquantity').textContent = mealFoods.quantity; 
+                                    document.getElementById('modalMealFoodfood_type').textContent = mealFoods.food_type; 
+                                    document.getElementById('modalMealFooddescription').textContent = mealFoods.description;  
+                                    document.getElementById('modalMealFoodAgain').textContent = mealFoods.name_of_food; 
+            
+                                    openModal();
+                            }
+                        });
+                    });
+
+                    document.querySelectorAll('.delete-btn').forEach(button => {
+                        button.addEventListener('click', async function() {
+                            const mealId = this.getAttribute('data-id');
+                            await deleteMeal(mealId);
+                            fetchUserMeals();
+                        });
+                    });
+                } catch (error) {
+                    console.error('Error fetching meals:', error);
+                }
+            }
+    
+            async function deleteMeal(mealId) {
+                try {
+                    const response = await fetch(`/api/meal/${mealId}/delete/`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': 'Bearer ' + token
+                        }
+                    });
+    
+                    if (response.ok) {
+                        alert('Приём пищи успешно удалён');
+                    } else {
+                        alert('Ошибка при удалении приёма пищи');
+                    }
+                } catch (error) {
+                    console.error('Error deleting meal:', error);
+                }
+            }
+    
+            function openModal() {
+                const modal = document.getElementById('mealDetailsModal');
+                modal.style.display = 'block';
+                chatBlock.classList.add("close");
+            }
+        
+            
+
+            fetchUserMeals();
+
+            document.getElementById('resultsBtn2').addEventListener('click', async function() {
+                const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
+                const mealTime = document.getElementById('time').value;
+                const foodName = document.getElementById('name_of_food').value;
+                const quantity = document.getElementById('quantity').value;
+                const food_type = document.getElementById('food_type').value;
+                try {
+                    date_of_birth = document.getElementById('date_of_birth').textContent;
+                    goal = document.getElementById('goal').textContent;
+                    gender = document.getElementById('gender').textContent;
+                    vegan_vegetarian = document.getElementById('vegan_vegetarian').textContent;
+                    allergies = document.getElementById('allergies').textContent;
+                    weight = document.getElementById('weight').textContent;
+                    height = document.getElementById('height').textContent;
+
+                    const prompt = "Дата моего рождения: " + date_of_birth + ". Мой пол: " + gender + ". Мой вес: " + weight + ". Мой рост: " + height + ". Моя цель: " + goal + ". Мой образ питания: " + vegan_vegetarian + ". Я не предпочитаю эти продукты: " + allergies + ". И сейчас время: " + mealTime;
+
+                    const gptResponse2 = await fetch('/api/generate-description2/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            mealType: mealType,
+                            food_name: foodName,
+                            quantity: quantity,
+                            food_type: food_type,
+                            prompt: prompt
+                        })
+                    });
+    
+                    const gptData2 = await gptResponse2.json();
+                    const foodDescription2 = gptData2.description;
+
+                    const mealResponse = await fetch('/api/meal/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({
+                            meal_type: mealType,
+                            time: mealTime,
+                            mark: foodDescription2
+                        })
+                    });
+        
+                    const mealData = await mealResponse.json();
+        
+                    if (mealData.id) {
+                        const mealId = mealData.id;
+                        const gptResponse = await fetch('/api/generate-description/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                mealType: mealType,
+                                food_name: foodName,
+                                quantity: quantity,
+                                food_type: food_type,
+                                prompt: prompt
+                            })
+                        });
+                        const gptData = await gptResponse.json();
+                        const foodDescription = gptData.description;
+                        document.getElementById('foodDescription_text').textContent = foodDescription;
+                        document.getElementById('food_text').textContent = foodName;
+                        document.getElementById('food_mark').textContent = foodDescription2;
+                        const foodResponse = await fetch('/api/food/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Authorization': 'Bearer ' + token
+                            },
+                            body: JSON.stringify({
+                                meal: mealId,
+                                name_of_food: foodName,
+                                quantity: quantity,
+                                food_type: food_type,
+                                description: foodDescription,
+                                mark: foodDescription2
+                            })
+                        });
+                        if (foodResponse.ok) {
+                            alert('Приём пищи и продукты успешно добавлены');
+                        } else {
+                            alert('Ошибка при добавлении продуктов');
+                        }
+                    } else {
+                        alert('Ошибка при добавлении приёма пищи');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+            });
+        });
+    </script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var button = document.getElementById("resultsBtn");
+            button.addEventListener("click", function() {
+                location.reload();
+            });
+        });
+        document.addEventListener("DOMContentLoaded", function() {
+            var button = document.getElementById("resultsBtn3");
+            button.addEventListener("click", function() {
+                location.reload();
+            });
+        });
+    </script>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/login/';
+                return;
+            }
+        
+            fetch('/api/profile/', {
+                headers: {
+                    'Authorization': 'Bearer ' + token
+                }
+            }).then(response => response.json())
+              .then(data => {
+                  document.getElementById('username').textContent = data.username;
+                  document.getElementById('email').textContent = data.email;
+                  document.getElementById('date_of_birth').textContent = data.date_of_birth;
+                  document.getElementById('goal').textContent = data.goal;
+                  document.getElementById('gender').textContent = data.gender;
+                  document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+                  document.getElementById('allergies').textContent = data.allergies;
+                  document.getElementById('weight').textContent = data.weight;
+                  document.getElementById('height').textContent = data.height;
+        
+                  var currentTime = new Date();
+                  var formattedTime = currentTime.toLocaleTimeString();
+                  document.getElementById('additional_text_input').value = "Дата моего рождения: " + data.date_of_birth + ". Мой пол: " + data.gender + ". Мой вес: " + data.weight + ". Мой рост: " + data.height + ". Моя цель: " + data.goal + ". Мой образ питания: " + data.vegan_vegetarian + ". Я не предпочитаю эти продукты: " + data.allergies + ". И сейчас время: " + formattedTime;
+              });
+
+              document.getElementById('logout_btn').addEventListener('click', function() {
+                const refreshToken = localStorage.getItem('refresh');
+            
+                fetch('/api/logout/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: JSON.stringify({
+                        'refresh': refreshToken
+                    })
+                }).then(response => {
+                    if (response.status === 205) {
+                        localStorage.removeItem('token');
+                        localStorage.removeItem('refresh');
+                        window.location.href = '/';
+                    } else {
+                        alert('Error logging out');
+                    }
+                });
+            });
+        });
+    </script>
+
+    <script>
+        document.getElementById('save-info-btn').addEventListener('click', function() {
+            const token = localStorage.getItem('token');
+        
+            const data = {
+                email: document.getElementById('email-input').value,
+                date_of_birth: document.getElementById('date_of_birth-input').value,
+                goal: document.getElementById('goal-input').value,
+                gender: document.getElementById('gender-input').value,
+                vegan_vegetarian: document.getElementById('vegan_vegetarian-input').value,
+                allergies: document.getElementById('allergies-input').value,
+                weight: document.getElementById('weight-input').value,
+                height: document.getElementById('height-input').value
+            };
+        
+            fetch('/api/update-profile/', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(data)
+            }).then(response => response.json())
+              .then(data => {
+                  if (data) {
+                      document.getElementById('username').textContent = data.username;
+                      document.getElementById('email').textContent = data.email;
+                      document.getElementById('date_of_birth').textContent = data.date_of_birth;
+                      document.getElementById('goal').textContent = data.goal;
+                      document.getElementById('gender').textContent = data.gender;
+                      document.getElementById('vegan_vegetarian').textContent = data.vegan_vegetarian;
+                      document.getElementById('allergies').textContent = data.allergies;
+                      document.getElementById('weight').textContent = data.weight;
+                      document.getElementById('height').textContent = data.height;
+        
+                      document.querySelectorAll('.edit-input').forEach(input => {
+                          input.style.display = 'none';
+                      });
+                      document.querySelectorAll('.personal_info_subblock span').forEach(span => {
+                          span.style.display = 'inline-block';
+                      });
+                      document.getElementById('edit-info-btn').style.display = 'inline-block';
+                      document.getElementById('save-info-btn').style.display = 'none';
+                      document.getElementById('cancel-edit-btn').style.display = 'none';
+                  } else {
+                      alert('Error updating profile');
+                  }
+            });
+        });
+    </script>
 </body>
+<script src="{% static "script_main.js" %}" defer></script>
 </html>

@@ -1,22 +1,36 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
+from .models import CustomUser, Meal, Food
 
-User = get_user_model()
+
+from rest_framework import serializers
+from .models import CustomUser, Meal, Food
+
+class FoodSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Food
+        fields = ['id', 'meal', 'date', 'name_of_food', 'quantity', 'food_type', 'description', 'mark']
+
+class MealSerializer(serializers.ModelSerializer):
+    foods = FoodSerializer(many=True, read_only=True, source='food_set')
+
+    class Meta:
+        model = Meal
+        fields = ['id', 'meal_type', 'time', 'date', 'foods', 'mark']
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'email', 'date_of_birth', 'goal', 'gender', 'vegan_vegetarian', 'allergies', 'weight', 'height']
 
 class RegisterSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
 
     class Meta:
-        model = User
+        model = CustomUser
         fields = ['username', 'email', 'password', 'date_of_birth', 'goal', 'gender', 'vegan_vegetarian', 'allergies', 'weight', 'height']
 
     def create(self, validated_data):
-        user = User.objects.create_user(
+        user = CustomUser.objects.create_user(
             username=validated_data['username'],
             email=validated_data['email'],
             password=validated_data['password'],
@@ -30,8 +44,7 @@ class RegisterSerializer(serializers.ModelSerializer):
         )
         return user
 
-
-from rest_framework import serializers
-
 class PasswordResetSerializer(serializers.Serializer):
     mail_for_recovery = serializers.EmailField()
+
+
