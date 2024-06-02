@@ -323,17 +323,18 @@
                             const mealDiv = document.createElement('div');
                             mealDiv.classList.add('meal-entry');
                             mealDiv.innerHTML = `
+                                <div>
                                 <span style="padding: 5px 30px;
                                 background-color: #415F02;
                                 color: #fff;
                                 border-radius: 100px;
-                                margin-right: 110px;">${meal.meal_type}</span>
-                                <span style="margin-right: 53px">${meal.time}</span>
-                                <span style="margin-right: 20px">${meal.mark}</span>
-                                <button class="details-btn" data-id="${meal.id}" style="margin-right: 12px; font-weight: 500;
+                                ">${meal.meal_type}</span></div>
+                                <div><span>${meal.time}</span></div>
+                                <div><span>${meal.mark}</span></div>
+                                <div><button class="details-btn" data-id="${meal.id}" style="font-weight: 500;
                                 color: #A4A4A4; background-color: #f6f6f6;
-                                border-bottom: 2px solid #A4A4A4;">Подробнее</button>
-                                <button class="delete-btn" data-id="${meal.id}"><img style="display: block; background-color: #f6f6f6;" src="{% static "img/close-btn-list.svg" %}" alt=""> </button> 
+                                border-bottom: 2px solid #A4A4A4;">Подробнее</button></div>
+                                <div><button class="delete-btn" data-id="${meal.id}"><img style="display: block; background-color: #f6f6f6;" src="{% static "img/close-btn-list.svg" %}" alt=""> </button></div> 
                             `;
                             mealsContainer.appendChild(mealDiv);
                         //}

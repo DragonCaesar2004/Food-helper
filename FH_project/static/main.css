@@ -220,6 +220,21 @@ p {
     padding-top: 5px;
 }
 
+.meal-entry {
+    display: flex;
+    align-items: center;
+    gap: 70px;
+    margin-bottom: 15px;
+}
+
+.meal-entry div{
+    text-align: center;
+}
+
+.meal-entry div:first-child {
+    width: 166px;
+}
+
 .food-add-info2::-webkit-scrollbar {
     width: 6px;
 }
