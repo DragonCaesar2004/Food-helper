@@ -8,9 +8,8 @@ def main():
     
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'FH_project.settings')
-    # print('runserver in main.py')
-    # print(find_email('89270374240@mail.ru'))
-    # passwordRecovery('89270374240@mail.ru')
+    print('runserver in main.py')
+
     try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:

@@ -45,7 +45,28 @@ https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 порт: 5432 
 В конце не ставим галочку
 
+прописать построчно в SQL Shell (psql)
 
-Находим в пуске postgresq и открвыаем pgAdmin4
-Выбираем слева login/Group roles (правой кнопкой мыши) -> create ->  login/Group role и вводи в General имя, Definiteion пароль, в Priveleges все галочки кроме предпоследеней и в конце save.
+CREATE DATABASE fh_db;
+CREATE ROLE django_admin with password '141414';
+ALTER ROLE "django_admin" WITH LOGIN;
+GRANT ALL PRIVILEGES ON DATABASE "fh_db" to django_admin;
+ ALTER USER django_admin CREATEDB;
+\c fh_db
+GRANT ALL ON schema public TO django_admin;
 
+## Установка RabbitMQ:
+
+Для запуска на вашем устройстве нужно установить ErLang (https://www.erlang.org/downloads) и RabbitMQ (https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.13.2/rabbitmq-server-3.13.2.exe) (ссылка для Windows) 
+
+После установки нужно прописать 
+ ```rabbitmq-plugins enable rabbitmq_management```
+В командной строке администратора, по адресу: 
+```место установки rabbitmq\RabbitMQ Server\rabbitmq_server-3.13.2\sbin```
+
+Чтобы проверить, что rabbitMQ корректно работает можете в браузере в поисковой строке написать
+ http://localhost:15672
+
+логин: guest
+пароль: guest
+заходить необязательно, главное, чтобы загрузилась страница
