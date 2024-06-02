@@ -212,7 +212,11 @@
                         </div>
                     </div>
 
-                    <div class="result-container">
+                    <div class="result-container" id="result-containerID" style="display: none;">
+                        <h3>Загрузка...</h3>
+                    </div>
+
+                    <div class="result-container" id="result-containerID2" style="display: none;">
                         <h3>Оценка</h3>
                         <div class="result-list">
                             <ol>
@@ -319,7 +323,7 @@
                     mealsContainer.innerHTML = '';
                     const today = new Date().toISOString().split('T')[0];
                     meals.forEach(meal => {
-                        //if (today === meal.date) {
+                        //if (today == meal.date) {
                             const mealDiv = document.createElement('div');
                             mealDiv.classList.add('meal-entry');
                             mealDiv.innerHTML = `
@@ -403,6 +407,12 @@
             fetchUserMeals();
 
             document.getElementById('resultsBtn2').addEventListener('click', async function() {
+                openModal2();
+                function openModal2() {
+                    const modal = document.getElementById('result-containerID');
+                    modal.style.display = 'block'; 
+                }
+
                 const mealType = document.querySelector('input[name="singleSelect"]:checked').value;
                 const mealTime = document.getElementById('time').value;
                 const foodName = document.getElementById('name_of_food').value;
@@ -488,16 +498,22 @@
                                 mark: foodDescription2
                             })
                         });
-                        if (foodResponse.ok) {
-                            alert('Приём пищи и продукты успешно добавлены');
-                        } else {
+                        if (!foodResponse.ok) {
                             alert('Ошибка при добавлении продуктов');
-                        }
+                        } 
                     } else {
                         alert('Ошибка при добавлении приёма пищи');
                     }
                 } catch (error) {
                     console.error('Error:', error);
+                }
+
+                openModal3();
+                function openModal3() {
+                    const modal = document.getElementById('result-containerID');
+                    modal.style.display = 'none'; 
+                    const modal2 = document.getElementById('result-containerID2');
+                    modal2.style.display = 'block'; 
                 }
             });
         });
@@ -692,22 +708,7 @@ stop--->
             window.location.href = '/login/';
             return;
         }
-
-        fetch('/api/load_meals/', {
-            headers: {
-                'Authorization': 'Bearer ' + token
-            }
-        }).then(response => response.json())
-          .then(data => {
-              if (data.length > 0) {
-                  document.getElementById('meal_type').textContent = data.meal_type;
-                  document.getElementById('time').textContent = data.time;
-              } else {
-                  document.getElementById('meal_type').textContent = 'No meals found';
-                  document.getElementById('time').textContent = '';
-              }
-          });
-
+ 
         document.getElementById('logout_btn').addEventListener('click', function() {
             const refreshToken = localStorage.getItem('refresh');
 

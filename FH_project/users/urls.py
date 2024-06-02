@@ -22,6 +22,6 @@ urlpatterns = [
 
     path('user-meals/', UserMealsView.as_view(), name='user_meals'),
     path('meal/<int:pk>/delete/', MealDeleteView.as_view(), name='meal_delete'),
-    path('food2/', FoodListView.as_view(), name='food_list'),  # добавьте этот путь
+    path('food2/', FoodListView.as_view(), name='food_list'), 
 
 ]
