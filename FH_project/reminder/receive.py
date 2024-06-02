@@ -6,6 +6,7 @@ import ssl
 import smtplib
 from email.message import EmailMessage
 from dotenv import load_dotenv
+
 def get_elems():
     load_dotenv()
 
@@ -14,6 +15,7 @@ def get_elems():
     email_subject = "Не забудьте правильно питаться!"
     email_text = 'http://127.0.0.1:8000/'
     context = ssl.create_default_context()
+
     def send_email(email_receiver):
         em = EmailMessage()
         em['From'] = email_sender
@@ -27,15 +29,13 @@ def get_elems():
         print(f"Email sent successfully to {email_receiver}")
 
     def callback(ch, method, properties, body):
-        email_receiver = body.decode()  # Извлечение адреса получателя из тела сообщения
+        email_receiver = body.decode()
         send_email(email_receiver)
 
     conn_params = pika.ConnectionParameters('localhost', 5672)
     connection = pika.BlockingConnection(conn_params)
     channel = connection.channel()
-
     channel.queue_declare(queue='first-queue')
-
     channel.basic_consume(queue='first-queue', on_message_callback=callback, auto_ack=True)
 
     try:

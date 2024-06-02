@@ -1,20 +1,8 @@
 from django.apps import AppConfig
-
-
-class MainConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'main'
-
-
-from django.apps import AppConfig
-from threading import Thread
-
-class MainConfig(AppConfig):
-    name = 'main'
-
 from threading import Lock
 
 class MainConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
     name = 'main'
 
     def __init__(self, *args, **kwargs):
@@ -28,5 +16,3 @@ class MainConfig(AppConfig):
                 self.scheduler_started = True
                 from reminder.reminder import start_scheduler
                 start_scheduler()
-                from reminder.reminder import get_elements_from_q
-                get_elements_from_q()
