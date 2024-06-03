@@ -11,10 +11,7 @@
     <style>
         .result-container {
             margin-top: 30px;
-        }
-        div {
-            margin-bottom: 20px;
-        }
+        } 
         input[type="text"], input[type="number"] {
             border: 2px solid #344000; 
             border-radius: 10px; 
@@ -184,16 +181,16 @@
                         <div id="productsContainer" class="type-of-food-block">
                             <div class="type-of-food-block">
                                 <div class="product-entry" style="display: block; text-align: left;">
-                                    <span>–––––––––––––––––––––––––––––––––––––––––––</span> 
-                                    <div style="display: block; text-align: left;">
+                                    <span style="display: block; margin-bottom: 20px;">–––––––––––––––––––––––––––––––––––––––––––</span> 
+                                    <div style="display: block; text-align: left; margin-bottom: 20px;">
                                         <span>Продукт:</span>
                                         <input type="text" class="name_of_food" placeholder="Введите слово">
                                     </div>
-                                    <div style="display: block; text-align: left;">
+                                    <div style="display: block; text-align: left; margin-bottom: 20px;">
                                         <span>Количество:</span>
                                         <input type="number" class="quantity" name="quantity" placeholder="Введите число">
                                     </div>
-                                    <div style="display: block; text-align: left;">
+                                    <div style="display: block; text-align: left; margin-bottom: 20px;">
                                         <span>Единица измерения:</span>
                                         <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
                                     </div>
@@ -368,16 +365,16 @@
                 productEntry.style.display = 'block';
                 productEntry.style.textAlign = 'left';
                 productEntry.innerHTML = `
-                    <span>–––––––––––––––––––––––––––––––––––––––––––</span> 
-                    <div style="display: block; text-align: left;">
+                    <span style="display: block; margin-bottom: 20px;">–––––––––––––––––––––––––––––––––––––––––––</span> 
+                    <div style="display: block; text-align: left; margin-bottom: 20px;">
                         <span>Продукт:</span>
                         <input type="text" class="name_of_food" placeholder="Введите слово">
                     </div>
-                    <div style="display: block; text-align: left;">
+                    <div style="display: block; text-align: left; margin-bottom: 20px;">
                         <span>Количество:</span>
                         <input type="number" class="quantity" name="quantity" placeholder="Введите число">
                     </div>
-                    <div style="display: block; text-align: left;">
+                    <div style="display: block; text-align: left; margin-bottom: 20px;">
                         <span>Единица измерения:</span>
                         <input type="text" class="food_type" name="quantity" placeholder="Введите слово">
                     </div>
