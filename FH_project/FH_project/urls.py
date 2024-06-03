@@ -6,6 +6,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('users.urls')),
     path('', include('main.urls', namespace='main')),
-    #path('askgpt/', include('askgpt.urls')), 
-    #path('profile/', include('userProfile.urls', namespace='userProfile')),
 ]

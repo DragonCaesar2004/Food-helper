@@ -7,7 +7,6 @@ document.getElementById("js-close-my-modal").addEventListener("click",function()
 })
 
 document.getElementById("js-register-btn").addEventListener("click",function(){
-   // document.getElementById("js-my-modal").classList.add("open");
     document.getElementById("js-my-modal-login").classList.remove("open");
     document.getElementById("js-my-modal-login").classList.add("close");
     document.getElementById("js-my-modal-register").classList.add("open");
@@ -110,7 +109,6 @@ container.addEventListener("click", function(event) {
   }
 });
 
-// Добавляем обработчик события click для кнопки "добавить продукт / группу продуктов"
 const showInputButton = document.getElementById("showInputButton");
 showInputButton.addEventListener("click", showInput);
 

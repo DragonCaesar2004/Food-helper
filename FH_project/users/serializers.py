@@ -1,10 +1,6 @@
 from rest_framework import serializers
 from .models import CustomUser, Meal, Food
 
-
-from rest_framework import serializers
-from .models import CustomUser, Meal, Food
-
 class FoodSerializer(serializers.ModelSerializer):
     class Meta:
         model = Food
@@ -46,5 +42,3 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class PasswordResetSerializer(serializers.Serializer):
     mail_for_recovery = serializers.EmailField()
-
-
