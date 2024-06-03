@@ -121,28 +121,7 @@ class UpdateProfileView(APIView):
         serializer = UserSerializer(user)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-
-
-
-
-
-
-
-# from rest_framework.views import APIView
-# from rest_framework.response import Response
-# from rest_framework.permissions import IsAuthenticated
-# from .serializers import UserSerializer  # Создайте сериализатор для пользователя
-
-# class LoadMeals(APIView):
-#     permission_classes = [IsAuthenticated]
-
-#     def get(self, request, *args, **kwargs):
-#         user = request.user
-#         serializer = MealSerializer(user)
-#         return Response(serializer.data)
-
-
-# views.py
+#########################################################
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -189,7 +168,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Aichatos
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
 import json
 
 @csrf_exempt
@@ -203,7 +182,7 @@ def generate_description(request):
         food_type = data.get('food_type')
         prompt = data.get('prompt')
 
-        client = Client(provider=RetryProvider([Aichatos], shuffle=False))
+        client = Client(provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False))
 
         try:
             response = client.chat.completions.create(
@@ -224,7 +203,7 @@ from django.views.decorators.csrf import csrf_exempt
  
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Aichatos
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
 import json
 
 @csrf_exempt
@@ -238,7 +217,7 @@ def generate_description2(request):
         food_type = data.get('food_type')
         prompt = data.get('prompt')
 
-        client = Client(provider=RetryProvider([Aichatos], shuffle=False))
+        client = Client(provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False))
 
         try:
             response = client.chat.completions.create(
@@ -308,3 +287,32 @@ class FoodListView(generics.ListCreateAPIView):
     def perform_create(self, serializer):
         serializer.save()
  
+
+
+
+ # views.py
+
+# views.py
+from rest_framework import generics, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .models import Meal
+from .serializers import MealSerializer
+
+class MealUpdateView(generics.UpdateAPIView):
+    queryset = Meal.objects.all()
+    serializer_class = MealSerializer
+    permission_classes = [IsAuthenticated]
+
+    def patch(self, request, *args, **kwargs):
+        meal_id = kwargs.get('pk')
+        meal = self.get_queryset().filter(id=meal_id, user=request.user).first()
+        if not meal:
+            return Response({'error': 'Meal not found or not authorized'}, status=status.HTTP_404_NOT_FOUND)
+
+        mark = request.data.get('mark')
+        if mark:
+            meal.mark = mark
+            meal.save()
+            return Response({'message': 'Meal type updated successfully'}, status=status.HTTP_200_OK)
+        return Response({'error': 'Meal type not provided'}, status=status.HTTP_400_BAD_REQUEST)

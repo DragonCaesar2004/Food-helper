@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 version: '3.9'
 services:
   django:
@@ -11,6 +12,17 @@ services:
     environment:
       - RABBITMQ_HOST=rabbitmq
 
+=======
+version: '3'
+services:
+  app:
+    build: .
+    depends_on:
+      - rabbitmq
+    environment:
+      RABBITMQ_HOST: rabbitmq
+      RABBITMQ_PORT: 5672
+>>>>>>> 3d9afaae40ea69aa86b1a03ace49516a7a6abbaa
   rabbitmq:
     image: rabbitmq:3-management
     ports:
@@ -18,5 +30,9 @@ services:
       - "15672:15672"
     environment:
       RABBITMQ_DEFAULT_USER: guest
+<<<<<<< HEAD
       RABBITMQ_DEFAULT_PASS: guest
     command: rabbitmq-plugins enable rabbitmq_management
+=======
+      RABBITMQ_DEFAULT_PASS: guest
+>>>>>>> 3d9afaae40ea69aa86b1a03ace49516a7a6abbaa

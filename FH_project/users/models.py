@@ -16,7 +16,7 @@ class Meal(models.Model):
     meal_type = models.CharField(max_length=50)
     time = models.TimeField()
     date = models.DateField(auto_now_add=True)
-    mark = models.TextField()
+    mark = models.CharField(max_length=50)
 
 class Food(models.Model):
     meal = models.ForeignKey(Meal, on_delete=models.CASCADE)

@@ -9,12 +9,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Aichatos, Cnote, DuckDuckGo, Ecosia, Feedough
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
+
 
 
 def profile(request):
     client = Client(
-        provider=RetryProvider([Aichatos, Cnote, DuckDuckGo, Ecosia, Feedough], shuffle=False)
+        provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False)
     )
     try:
         # if the session does not have a messages key, create one
@@ -76,26 +77,3 @@ def new_chat(request):
 def error_handler(request):
     return render(request, '404.html')
 
-def foo():
-    client = Client(
-        provider=RetryProvider([Aichatos], shuffle=False)
-    )
-    messages = []
-    while True:
-        user_input = input("You: ")
-
-        if user_input.lower() == "exit":
-            print("Exiting chat...")
-            break  # Exit the loop to end the conversation
-        messages.append({"role": "user", "content": user_input})
-
-        try:
-            response = client.chat.completions.create(
-                model="gpt-3.5-turbo",
-                messages=[{"role": "user", "content": "Hello"}],
-            )
-            gpt_response = response.choices[0].message.content
-            print(f"Bot: {gpt_response}")
-            messages.append({"role": "assistant", "content": gpt_response})
-        except Exception as e:
-            print(f"An error occurred: {e}")
