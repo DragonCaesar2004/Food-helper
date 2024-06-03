@@ -9,13 +9,13 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Yqcloud, AiAsk, ChatgptX
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
 
 
 
 def profile(request):
     client = Client(
-        provider=RetryProvider([Yqcloud, AiAsk, ChatgptX], shuffle=False)
+        provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False)
     )
     try:
         # if the session does not have a messages key, create one

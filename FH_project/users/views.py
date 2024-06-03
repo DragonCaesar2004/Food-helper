@@ -168,7 +168,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Yqcloud, AiAsk, ChatgptX
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
 import json
 
 @csrf_exempt
@@ -182,7 +182,7 @@ def generate_description(request):
         food_type = data.get('food_type')
         prompt = data.get('prompt')
 
-        client = Client(provider=RetryProvider([Yqcloud, AiAsk, ChatgptX], shuffle=False))
+        client = Client(provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False))
 
         try:
             response = client.chat.completions.create(
@@ -203,7 +203,7 @@ from django.views.decorators.csrf import csrf_exempt
  
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Yqcloud, AiAsk, ChatgptX
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
 import json
 
 @csrf_exempt
@@ -217,7 +217,7 @@ def generate_description2(request):
         food_type = data.get('food_type')
         prompt = data.get('prompt')
 
-        client = Client(provider=RetryProvider([Yqcloud, AiAsk, ChatgptX], shuffle=False))
+        client = Client(provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False))
 
         try:
             response = client.chat.completions.create(
