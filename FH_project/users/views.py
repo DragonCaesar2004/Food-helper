@@ -13,7 +13,7 @@ from .models import CustomUser, Meal, Food
 from .serializers import  RegisterSerializer, UserSerializer, PasswordResetSerializer, MealSerializer, FoodSerializer
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots, Blackbox
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots, Blackbox, Liaobots
 import random
 import string  
 import json
@@ -132,14 +132,14 @@ def generate_description(request):
         mealType = data.get('mealType')
         food_type = data.get('food_type')
         prompt = data.get('prompt')
-        client = Client(provider=RetryProvider([Blackbox], shuffle=False))
+        client = Client(provider=RetryProvider([Liaobots], shuffle=False))
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
                 messages=[{"role": "user", "content": f"{prompt}. Сегодня на {mealType} я поел {food_name}. Количество: {quantity} {food_type}. Исходя из этих данных кратко скажи расскажи про мой прием: сколько калории, что я получил, как это вляет на мой организм, и полезно ли для моих данных. Не используй жирный и курсивный шрифты и формулы!"}],
             )
             description = response.choices[0].message.content
-            return JsonResponse({'description': description[13:]}, status=200)
+            return JsonResponse({'description': description}, status=200)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     else:
@@ -154,7 +154,7 @@ def generate_description2(request):
         mealType = data.get('mealType')
         food_type = data.get('food_type')
         prompt = data.get('prompt')
-        client = Client(provider=RetryProvider([Blackbox], shuffle=False))
+        client = Client(provider=RetryProvider([Liaobots], shuffle=False))
         try:
             response = client.chat.completions.create(
                 model="gpt-3.5-turbo",
@@ -162,7 +162,7 @@ def generate_description2(request):
             )
             description = response.choices[0].message.content
             description += "/10"
-            return JsonResponse({'description': description[13:]}, status=200)
+            return JsonResponse({'description': description}, status=200)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
     else:
