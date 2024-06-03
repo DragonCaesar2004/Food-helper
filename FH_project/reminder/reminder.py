@@ -10,7 +10,7 @@ def start_scheduler():
     # Добавляем первую задачу
     scheduler.add_job(
         send_to_rabbitmq,
-        trigger=CronTrigger(hour=13, minute=40),   
+        trigger=CronTrigger(hour=22, minute=42),   
         id='daily_reminder',
         name='Daily Reminder Email',
         replace_existing=True,
@@ -19,7 +19,7 @@ def start_scheduler():
     # Добавляем вторую задачу
     scheduler.add_job(
         get_elems,
-        trigger=CronTrigger(hour=13, minute=42),   
+        trigger=CronTrigger(hour=22, minute=42),   
         id='get_elements',
         name='Get Elements from Q',
         replace_existing=True,
