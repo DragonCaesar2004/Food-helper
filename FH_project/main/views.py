@@ -2,14 +2,14 @@ from django.shortcuts import render
 from django.shortcuts import render, redirect
 import g4f
 from g4f.client import Client
-from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots
+from g4f.Provider import RetryProvider, Phind, FreeChatgpt, Liaobots,Cnote, DuckDuckGo, Ecosia, Blackbox
 
 def index(request):
     return render(request, 'index.html')
 
 def profile(request):
     client = Client(
-        provider=RetryProvider([Phind, FreeChatgpt, Liaobots], shuffle=False)
+        provider=RetryProvider([Blackbox], shuffle=False)
     )
     try:
         if 'messages' not in request.session:
@@ -29,7 +29,7 @@ def profile(request):
                 messages=[{"role": "user", "content": full_prompt}],
             )
             formatted_response = response.choices[0].message.content
-            request.session['messages'].append({"role": "assistant", "content": formatted_response})
+            request.session['messages'].append({"role": "assistant", "content": formatted_response[13:]})
             request.session.modified = True
             context = {
                 'messages': request.session['messages'],
