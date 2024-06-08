@@ -47,12 +47,18 @@ https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 
 прописать построчно в SQL Shell (psql)
 
-```CREATE DATABASE fh_db;```
+```CREATE DATABASE fh_db; ```
+
 ```CREATE ROLE django_admin with password '141414';```
+
 ```ALTER ROLE "django_admin" WITH LOGIN;```
+
 ```GRANT ALL PRIVILEGES ON DATABASE "fh_db" to django_admin;```
+
 ```ALTER USER django_admin CREATEDB;```
+
 ```\c fh_db```
+
 ```GRANT ALL ON schema public TO django_admin;```
 
 ## Установка RabbitMQ:
