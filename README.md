@@ -22,7 +22,7 @@ PASSWORD='Ваш пароль от PostgreSQL'
 ``` pip install -r requirements.txt ```
 
 
-Миграции:
+Миграции :
 
 Удалить все файлы кроме __init__.py в папке users/migratitons.py
 
