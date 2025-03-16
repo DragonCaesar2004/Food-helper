@@ -23,6 +23,7 @@ PASSWORD='Ваш пароль от PostgreSQL'
 
 
 Миграции:
+
 Удалить все файлы кроме __init__.py в папке users/migratitons.py
 
 ```python manage.py makemigrations```
