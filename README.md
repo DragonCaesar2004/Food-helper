@@ -76,4 +76,4 @@ https://www.enterprisedb.com/downloads/postgres-postgresql-downloads
 
 логин: guest
 пароль: guest
-заходить необязательно, главное, чтобы загрузилась страница
+заходить необязательно, главное, чтобы загрузилась страница.
